@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "ACIM Cloud Success Portal"
+version = "1.0.0"
+id = "artifacts/acim-portal"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18419
+
+[services.development]
+run = "pnpm --filter @workspace/acim-portal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/acim-portal", "run", "build" ]
+publicDir = "artifacts/acim-portal/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18419"
+BASE_PATH = "/"

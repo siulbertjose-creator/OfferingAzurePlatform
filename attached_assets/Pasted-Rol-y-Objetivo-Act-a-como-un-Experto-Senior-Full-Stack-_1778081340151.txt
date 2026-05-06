@@ -1,0 +1,40 @@
+Rol y Objetivo:
+Actúa como un Experto Senior Full-Stack Developer y DevOps Engineer. Diseña y crea una aplicación web usando Next.js 14, Tailwind CSS, y SQLite (para prototipado). La app es un Portal de Casos de Éxito de Arquitectura Cloud. Aplica un diseño UI/UX "Premium Glassmorphism" de alta gama (modo oscuro, acentos en azul Azure, tarjetas con backdrop-blur y bordes semitransparentes).
+
+Fase 1: Estructura y Base de Datos
+Crea el esquema de base de datos para una tabla success_cases que soporte el programa ACIM. Incluye los siguientes campos:
+
+title, client_name, executive_summary (Texto).
+
+azure_analyzer_kpis (JSON para métricas de gobernanza y Well-Architected Framework).
+
+azure_auditor_findings (JSON o texto enriquecido para los hallazgos técnicos y optimización de costos).
+
+discovery_map_url (Texto/URL para los diagramas de topología y dependencias).
+
+Fase 2: Diseño de la Interfaz Pública (Dashboard)
+
+Crea una Landing Page profesional que liste los casos de éxito en formato grid usando las tarjetas glassmorphism.
+
+Implementa animaciones suaves de entrada usando framer-motion.
+
+Utiliza lucide-react para toda la iconografía técnica.
+
+En la vista de detalle de cada caso, los mapas de descubrimiento (discovery_map_url) deben visualizarse con una función de "Image Zoom" o Lightbox para apreciar el detalle de las arquitecturas de red complejas.
+
+Fase 3: Panel de Administración Web
+
+Genera una ruta /admin (con un mock de autenticación simple).
+
+Implementa un formulario de carga dinámico utilizando componentes inspirados en shadcn/ui.
+
+El formulario debe tener secciones claramente divididas para cargar la información de los 3 pilares del ACIM: Azure Analyzer Export, los reportes completos de Azure Auditor, y la subida de los Discovery Maps.
+
+Fase 4: Control de Versiones y Despliegue en Vercel
+Como experto, debes gestionar el despliegue completo:
+
+Git Push: Inicializa el repositorio, conecta con GitHub y haz un push automático del código inicial usando buenas prácticas y commits semánticos.
+
+Despliegue en Vercel: Configura el entorno y cualquier adaptador necesario (next.config.js o scripts de build) para garantizar que el proyecto se despliegue de forma nativa y sin errores en Vercel.
+
+Entrega: Confirma cuando el pipeline esté listo y el código esté compilado en la URL pública de producción.

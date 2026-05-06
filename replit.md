@@ -1,45 +1,66 @@
-# [Project name]
+# ACIM Cloud Architecture Success Cases Portal
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A premium glassmorphism enterprise portal for Azure cloud consultants to showcase ACIM success stories — dark mode, Azure blue accents, KPI scorecards, and admin management.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
+- `pnpm --filter @workspace/acim-portal run dev` — run the frontend (port assigned by workflow)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - Required env: `DATABASE_URL` — Postgres connection string
 
+**Admin credentials:** username=`admin`, password=`acim2024`
+
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
+- Frontend: React + Vite, Tailwind CSS v4, framer-motion, lucide-react, wouter
+- API: Express 5, PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Build: esbuild (CJS bundle for server), Vite (frontend)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — OpenAPI contract (source of truth)
+- `lib/db/src/schema/successCases.ts` — DB schema for success_cases table
+- `artifacts/api-server/src/routes/successCases.ts` — CRUD + stats routes
+- `artifacts/api-server/src/routes/admin.ts` — Mock admin auth routes
+- `artifacts/acim-portal/src/pages/` — Frontend pages (home, case-detail, admin/*)
+- `artifacts/acim-portal/src/index.css` — Dark mode theme (Azure blue primary)
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Contract-first: OpenAPI spec gates codegen which gates frontend hooks
+- Orval zod config uses `mode: "single"` (not split) to avoid barrel export conflicts
+- `lib/api-spec/package.json` codegen script overwrites `lib/api-zod/src/index.ts` after orval to remove generated barrel conflicts
+- Dark mode enforced via `class="dark"` on `<html>` in `index.html`
+- Admin auth is mock-only (hardcoded credentials + localStorage token) — intended for prototyping ACIM program
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- **Public dashboard** (`/`): Hero with KPI stats, searchable glassmorphism grid of success cases with framer-motion animations
+- **Case detail** (`/cases/:id`): Executive summary, Azure Analyzer KPI gauges, Azure Auditor findings, discovery map lightbox
+- **Admin login** (`/admin`): Secure-looking auth form (mock)
+- **Admin dashboard** (`/admin/dashboard`): Manage all cases (create/edit/delete)
+- **Case form** (`/admin/cases/new`, `/admin/cases/:id/edit`): Three-section form (Basic Info, Azure Analyzer Export, Azure Auditor Report + Discovery Map)
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Premium glassmorphism UI: dark mode default, Azure blue accents, backdrop-blur cards
+- Spanish content for case descriptions
+- Enterprise / Fortune 500 aesthetic
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- `@apply dark` is invalid in Tailwind v4 — use `class="dark"` on `<html>` in index.html
+- Orval in split mode generates conflicting barrel — codegen script rewrites `lib/api-zod/src/index.ts`
+- API server routes: `/success-cases/stats` must be defined BEFORE `/:id` route to avoid param capture
 
 ## Pointers
 
 - See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+- See `lib/api-spec/openapi.yaml` for the full API contract

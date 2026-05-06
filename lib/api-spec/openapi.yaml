@@ -3,13 +3,18 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: ACIM Cloud Architecture Success Cases Portal API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: success-cases
+    description: Cloud architecture success cases
+  - name: admin
+    description: Admin authentication and management
+
 paths:
   /healthz:
     get:
@@ -24,6 +29,171 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /success-cases:
+    get:
+      operationId: listSuccessCases
+      tags: [success-cases]
+      summary: List all success cases
+      parameters:
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of success cases
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cases:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SuccessCase"
+                  total:
+                    type: integer
+                required:
+                  - cases
+                  - total
+    post:
+      operationId: createSuccessCase
+      tags: [success-cases]
+      summary: Create a new success case
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSuccessCaseBody"
+      responses:
+        "201":
+          description: Created success case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessCase"
+
+  /success-cases/stats:
+    get:
+      operationId: getSuccessCasesStats
+      tags: [success-cases]
+      summary: Get dashboard statistics for success cases
+      responses:
+        "200":
+          description: Dashboard statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessCasesStats"
+
+  /success-cases/{id}:
+    get:
+      operationId: getSuccessCase
+      tags: [success-cases]
+      summary: Get a success case by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Success case detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessCase"
+        "404":
+          description: Not found
+    put:
+      operationId: updateSuccessCase
+      tags: [success-cases]
+      summary: Update a success case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSuccessCaseBody"
+      responses:
+        "200":
+          description: Updated success case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessCase"
+    delete:
+      operationId: deleteSuccessCase
+      tags: [success-cases]
+      summary: Delete a success case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted successfully
+
+  /admin/login:
+    post:
+      operationId: adminLogin
+      tags: [admin]
+      summary: Admin mock login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLoginBody"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminLoginResponse"
+        "401":
+          description: Invalid credentials
+
+  /admin/me:
+    get:
+      operationId: getAdminMe
+      tags: [admin]
+      summary: Get current admin session
+      responses:
+        "200":
+          description: Admin session info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSession"
+        "401":
+          description: Not authenticated
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +204,231 @@ components:
       required:
         - status
 
+    AzureAnalyzerKpis:
+      type: object
+      properties:
+        governanceScore:
+          type: number
+        wellArchitectedScore:
+          type: number
+        reliabilityScore:
+          type: number
+        securityScore:
+          type: number
+        costOptimizationScore:
+          type: number
+        operationalExcellenceScore:
+          type: number
+        performanceScore:
+          type: number
+        totalResources:
+          type: integer
+        managedResources:
+          type: integer
+        findings:
+          type: integer
+      required:
+        - governanceScore
+        - wellArchitectedScore
+        - reliabilityScore
+        - securityScore
+        - costOptimizationScore
+        - operationalExcellenceScore
+        - performanceScore
+        - totalResources
+        - managedResources
+        - findings
+
+    AzureAuditorFindings:
+      type: object
+      properties:
+        summary:
+          type: string
+        criticalIssues:
+          type: array
+          items:
+            type: string
+        recommendations:
+          type: array
+          items:
+            type: string
+        costSavingsEstimate:
+          type: number
+        costSavingsCurrency:
+          type: string
+        complianceStatus:
+          type: string
+        auditDate:
+          type: string
+      required:
+        - summary
+        - criticalIssues
+        - recommendations
+        - costSavingsEstimate
+        - costSavingsCurrency
+        - complianceStatus
+        - auditDate
+
+    SuccessCase:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        clientName:
+          type: string
+        executiveSummary:
+          type: string
+        azureAnalyzerKpis:
+          $ref: "#/components/schemas/AzureAnalyzerKpis"
+        azureAuditorFindings:
+          $ref: "#/components/schemas/AzureAuditorFindings"
+        discoveryMapUrl:
+          type: string
+          nullable: true
+        industry:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - title
+        - clientName
+        - executiveSummary
+        - azureAnalyzerKpis
+        - azureAuditorFindings
+        - discoveryMapUrl
+        - industry
+        - publishedAt
+        - createdAt
+        - updatedAt
+
+    CreateSuccessCaseBody:
+      type: object
+      properties:
+        title:
+          type: string
+        clientName:
+          type: string
+        executiveSummary:
+          type: string
+        azureAnalyzerKpis:
+          $ref: "#/components/schemas/AzureAnalyzerKpis"
+        azureAuditorFindings:
+          $ref: "#/components/schemas/AzureAuditorFindings"
+        discoveryMapUrl:
+          type: string
+          nullable: true
+        industry:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          nullable: true
+      required:
+        - title
+        - clientName
+        - executiveSummary
+        - azureAnalyzerKpis
+        - azureAuditorFindings
+
+    UpdateSuccessCaseBody:
+      type: object
+      properties:
+        title:
+          type: string
+        clientName:
+          type: string
+        executiveSummary:
+          type: string
+        azureAnalyzerKpis:
+          $ref: "#/components/schemas/AzureAnalyzerKpis"
+        azureAuditorFindings:
+          $ref: "#/components/schemas/AzureAuditorFindings"
+        discoveryMapUrl:
+          type: string
+          nullable: true
+        industry:
+          type: string
+          nullable: true
+        publishedAt:
+          type: string
+          nullable: true
+
+    SuccessCasesStats:
+      type: object
+      properties:
+        totalCases:
+          type: integer
+        totalClients:
+          type: integer
+        avgGovernanceScore:
+          type: number
+        avgWellArchitectedScore:
+          type: number
+        totalCostSavings:
+          type: number
+        topIndustries:
+          type: array
+          items:
+            type: object
+            properties:
+              industry:
+                type: string
+              count:
+                type: integer
+            required:
+              - industry
+              - count
+        recentCases:
+          type: array
+          items:
+            $ref: "#/components/schemas/SuccessCase"
+      required:
+        - totalCases
+        - totalClients
+        - avgGovernanceScore
+        - avgWellArchitectedScore
+        - totalCostSavings
+        - topIndustries
+        - recentCases
+
+    AdminLoginBody:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+
+    AdminLoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        username:
+          type: string
+      required:
+        - token
+        - username
+
+    AdminSession:
+      type: object
+      properties:
+        username:
+          type: string
+        authenticated:
+          type: boolean
+      required:
+        - username
+        - authenticated
