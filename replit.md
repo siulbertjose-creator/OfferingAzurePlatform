@@ -1,6 +1,6 @@
-# ACIM Cloud Architecture Success Cases Portal
+# Readymind Cloud Portfolio Hub
 
-A premium glassmorphism enterprise portal for Azure cloud consultants to showcase ACIM success stories — dark mode, Azure blue accents, KPI scorecards, and admin management.
+A premium glassmorphism enterprise portal showcasing Readymind's 6 Azure cloud service offerings with real use cases per offering — dark mode, Readymind green (#6DC030) accents, and admin CRUD management.
 
 ## Run & Operate
 
@@ -10,6 +10,7 @@ A premium glassmorphism enterprise portal for Azure cloud consultants to showcas
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
+- `pnpm --filter @workspace/scripts run seed-offerings` — seed 6 offerings + sample use cases
 - Required env: `DATABASE_URL` — Postgres connection string
 
 **Admin credentials:** username=`admin`, password=`acim2024`
@@ -26,11 +27,13 @@ A premium glassmorphism enterprise portal for Azure cloud consultants to showcas
 ## Where things live
 
 - `lib/api-spec/openapi.yaml` — OpenAPI contract (source of truth)
-- `lib/db/src/schema/successCases.ts` — DB schema for success_cases table
-- `artifacts/api-server/src/routes/successCases.ts` — CRUD + stats routes
-- `artifacts/api-server/src/routes/admin.ts` — Mock admin auth routes
-- `artifacts/acim-portal/src/pages/` — Frontend pages (home, case-detail, admin/*)
-- `artifacts/acim-portal/src/index.css` — Dark mode theme (Azure blue primary)
+- `lib/db/src/schema/offerings.ts` — Offerings table schema
+- `lib/db/src/schema/useCases.ts` — Use cases table schema (FK → offerings)
+- `lib/db/src/schema/successCases.ts` — Legacy success_cases table
+- `artifacts/api-server/src/routes/offerings.ts` — Offerings + use cases CRUD routes
+- `artifacts/api-server/src/routes/successCases.ts` — Legacy success cases routes
+- `artifacts/acim-portal/src/pages/` — Frontend pages (home, offering-detail, admin/*)
+- `artifacts/acim-portal/src/index.css` — Dark mode theme (Readymind green primary)
 
 ## Architecture decisions
 
@@ -38,20 +41,22 @@ A premium glassmorphism enterprise portal for Azure cloud consultants to showcas
 - Orval zod config uses `mode: "single"` (not split) to avoid barrel export conflicts
 - `lib/api-spec/package.json` codegen script overwrites `lib/api-zod/src/index.ts` after orval to remove generated barrel conflicts
 - Dark mode enforced via `class="dark"` on `<html>` in `index.html`
-- Admin auth is mock-only (hardcoded credentials + localStorage token) — intended for prototyping ACIM program
+- Admin auth is mock-only (hardcoded credentials + localStorage token)
+- Offerings router registered BEFORE successCases router in `routes/index.ts`
 
 ## Product
 
-- **Public dashboard** (`/`): Hero with KPI stats, searchable glassmorphism grid of success cases with framer-motion animations
-- **Case detail** (`/cases/:id`): Executive summary, Azure Analyzer KPI gauges, Azure Auditor findings, discovery map lightbox
-- **Admin login** (`/admin`): Secure-looking auth form (mock)
-- **Admin dashboard** (`/admin/dashboard`): Manage all cases (create/edit/delete)
-- **Case form** (`/admin/cases/new`, `/admin/cases/:id/edit`): Three-section form (Basic Info, Azure Analyzer Export, Azure Auditor Report + Discovery Map)
+- **Home** (`/`): Hero + animated 3×2 grid of 6 Readymind service offerings with pillar badges, duration, and benefit summaries
+- **Offering Detail** (`/offerings/:id`): Header with pillar + duration, "¿Qué es?" / "¿Qué resuelve?" cards, searchable use cases sub-panel with industry filter and Before/After cards
+- **Admin login** (`/admin`): Mock auth form (admin / acim2024)
+- **Admin dashboard** (`/admin/dashboard`): Stats, offerings grid (edit/delete/view), use cases list (edit/delete)
+- **Offering form** (`/admin/offerings/new`, `/admin/offerings/:id/edit`): Full CRUD form for offerings
+- **Use case form** (`/admin/use-cases/new`, `/admin/use-cases/:id/edit`): Full CRUD form for use cases with offering selector, industry selector, Before/After textareas
 
 ## User preferences
 
-- Premium glassmorphism UI: dark mode default, Azure blue accents, backdrop-blur cards
-- Spanish content for case descriptions
+- Premium glassmorphism UI: dark mode default, Readymind green (#6DC030) accents, backdrop-blur cards
+- Spanish content for all descriptions and UI labels
 - Enterprise / Fortune 500 aesthetic
 
 ## Gotchas
@@ -59,6 +64,8 @@ A premium glassmorphism enterprise portal for Azure cloud consultants to showcas
 - `@apply dark` is invalid in Tailwind v4 — use `class="dark"` on `<html>` in index.html
 - Orval in split mode generates conflicting barrel — codegen script rewrites `lib/api-zod/src/index.ts`
 - API server routes: `/success-cases/stats` must be defined BEFORE `/:id` route to avoid param capture
+- `useRoute` is broken in child route components — always use `useParams` instead
+- Offerings router must be registered before successCasesRouter in `routes/index.ts`
 
 ## Pointers
 

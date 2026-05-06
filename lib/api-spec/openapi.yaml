@@ -10,8 +10,12 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: offerings
+    description: Readymind service offerings
+  - name: use-cases
+    description: Use cases linked to offerings
   - name: success-cases
-    description: Cloud architecture success cases
+    description: Cloud architecture success cases (ACIM)
   - name: admin
     description: Admin authentication and management
 
@@ -29,6 +33,210 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /offerings:
+    get:
+      operationId: listOfferings
+      tags: [offerings]
+      summary: List all offerings
+      responses:
+        "200":
+          description: List of offerings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  offerings:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Offering"
+                required:
+                  - offerings
+    post:
+      operationId: createOffering
+      tags: [offerings]
+      summary: Create a new offering
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOfferingBody"
+      responses:
+        "201":
+          description: Created offering
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offering"
+
+  /offerings/{id}:
+    get:
+      operationId: getOffering
+      tags: [offerings]
+      summary: Get an offering by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Offering detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offering"
+        "404":
+          description: Not found
+    put:
+      operationId: updateOffering
+      tags: [offerings]
+      summary: Update an offering
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOfferingBody"
+      responses:
+        "200":
+          description: Updated offering
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Offering"
+    delete:
+      operationId: deleteOffering
+      tags: [offerings]
+      summary: Delete an offering
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted successfully
+
+  /use-cases:
+    get:
+      operationId: listUseCases
+      tags: [use-cases]
+      summary: List use cases, optionally filtered by offeringId or industryType
+      parameters:
+        - name: offeringId
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: industryType
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of use cases
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  useCases:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UseCase"
+                required:
+                  - useCases
+    post:
+      operationId: createUseCase
+      tags: [use-cases]
+      summary: Create a new use case
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUseCaseBody"
+      responses:
+        "201":
+          description: Created use case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UseCase"
+
+  /use-cases/{id}:
+    get:
+      operationId: getUseCase
+      tags: [use-cases]
+      summary: Get a use case by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Use case detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UseCase"
+        "404":
+          description: Not found
+    put:
+      operationId: updateUseCase
+      tags: [use-cases]
+      summary: Update a use case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUseCaseBody"
+      responses:
+        "200":
+          description: Updated use case
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UseCase"
+    delete:
+      operationId: deleteUseCase
+      tags: [use-cases]
+      summary: Delete a use case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted successfully
 
   /success-cases:
     get:
@@ -203,6 +411,158 @@ components:
           type: string
       required:
         - status
+
+    Offering:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        durationHours:
+          type: string
+        techPillar:
+          type: string
+        businessBenefit:
+          type: string
+        whatIsIt:
+          type: string
+        whatDoesItSolve:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - name
+        - durationHours
+        - techPillar
+        - businessBenefit
+        - whatIsIt
+        - whatDoesItSolve
+        - createdAt
+        - updatedAt
+
+    CreateOfferingBody:
+      type: object
+      properties:
+        name:
+          type: string
+        durationHours:
+          type: string
+        techPillar:
+          type: string
+        businessBenefit:
+          type: string
+        whatIsIt:
+          type: string
+        whatDoesItSolve:
+          type: string
+      required:
+        - name
+        - durationHours
+        - techPillar
+        - businessBenefit
+        - whatIsIt
+        - whatDoesItSolve
+
+    UpdateOfferingBody:
+      type: object
+      properties:
+        name:
+          type: string
+        durationHours:
+          type: string
+        techPillar:
+          type: string
+        businessBenefit:
+          type: string
+        whatIsIt:
+          type: string
+        whatDoesItSolve:
+          type: string
+
+    UseCase:
+      type: object
+      properties:
+        id:
+          type: integer
+        offeringId:
+          type: integer
+        companyIconUrl:
+          type: string
+          nullable: true
+        projectName:
+          type: string
+        industryType:
+          type: string
+        description:
+          type: string
+        previousState:
+          type: string
+        newState:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+      required:
+        - id
+        - offeringId
+        - companyIconUrl
+        - projectName
+        - industryType
+        - description
+        - previousState
+        - newState
+        - createdAt
+        - updatedAt
+
+    CreateUseCaseBody:
+      type: object
+      properties:
+        offeringId:
+          type: integer
+        companyIconUrl:
+          type: string
+          nullable: true
+        projectName:
+          type: string
+        industryType:
+          type: string
+        description:
+          type: string
+        previousState:
+          type: string
+        newState:
+          type: string
+      required:
+        - offeringId
+        - projectName
+        - industryType
+        - description
+        - previousState
+        - newState
+
+    UpdateUseCaseBody:
+      type: object
+      properties:
+        offeringId:
+          type: integer
+        companyIconUrl:
+          type: string
+          nullable: true
+        projectName:
+          type: string
+        industryType:
+          type: string
+        description:
+          type: string
+        previousState:
+          type: string
+        newState:
+          type: string
 
     AzureAnalyzerKpis:
       type: object

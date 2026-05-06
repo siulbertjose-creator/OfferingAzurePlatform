@@ -9,6 +9,69 @@ export interface HealthStatus {
   status: string;
 }
 
+export interface Offering {
+  id: number;
+  name: string;
+  durationHours: string;
+  techPillar: string;
+  businessBenefit: string;
+  whatIsIt: string;
+  whatDoesItSolve: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateOfferingBody {
+  name: string;
+  durationHours: string;
+  techPillar: string;
+  businessBenefit: string;
+  whatIsIt: string;
+  whatDoesItSolve: string;
+}
+
+export interface UpdateOfferingBody {
+  name?: string;
+  durationHours?: string;
+  techPillar?: string;
+  businessBenefit?: string;
+  whatIsIt?: string;
+  whatDoesItSolve?: string;
+}
+
+export interface UseCase {
+  id: number;
+  offeringId: number;
+  companyIconUrl: string | null;
+  projectName: string;
+  industryType: string;
+  description: string;
+  previousState: string;
+  newState: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateUseCaseBody {
+  offeringId: number;
+  companyIconUrl?: string | null;
+  projectName: string;
+  industryType: string;
+  description: string;
+  previousState: string;
+  newState: string;
+}
+
+export interface UpdateUseCaseBody {
+  offeringId?: number;
+  companyIconUrl?: string | null;
+  projectName?: string;
+  industryType?: string;
+  description?: string;
+  previousState?: string;
+  newState?: string;
+}
+
 export interface AzureAnalyzerKpis {
   governanceScore: number;
   wellArchitectedScore: number;
@@ -97,6 +160,20 @@ export interface AdminSession {
   username: string;
   authenticated: boolean;
 }
+
+export type ListOfferings200 = {
+  offerings: Offering[];
+};
+
+export type ListUseCasesParams = {
+  offeringId?: number;
+  industryType?: string;
+  search?: string;
+};
+
+export type ListUseCases200 = {
+  useCases: UseCase[];
+};
 
 export type ListSuccessCasesParams = {
   search?: string;

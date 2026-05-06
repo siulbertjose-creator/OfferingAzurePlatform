@@ -1,0 +1,46 @@
+¡Tienes toda la razón, error mío! Si no le pasamos el texto literal en el prompt, el Agente de Replit va a generar texto de relleno (Lorem Ipsum) y te tocará cargar todo a mano después.
+
+Además, he añadido el campo de Industria tanto a la base de datos como a los filtros de la interfaz, tal como pediste.
+
+Aquí tienes el prompt completo, con toda tu información incrustada para que el Agente de Replit genere el script de base de datos (seed.js o seed.ts) con tus textos reales desde el primer segundo:
+
+Prompt para Replit Agent / Builder
+Rol y Objetivo:
+Actúa como un Experto Senior Full-Stack Developer y DevOps Engineer. Diseña y crea una aplicación web dinámica usando Next.js 14, Tailwind CSS y SQLite (preparado para escalar a Supabase). La plataforma es un "Cloud Portfolio & Management Hub" corporativo. Aplica un diseño UI/UX "Premium Glassmorphism" (modo oscuro, acentos en azul Azure, tarjetas con backdrop-blur y bordes semitransparentes).
+
+Fase 1: Arquitectura Relacional y Base de Datos (Con Script de Población)
+Crea un esquema de base de datos relacional con dos tablas principales:
+
+Tabla offerings: id, name, duration_hours, tech_pillar, business_benefit, what_is_it, what_does_it_solve.
+
+Tabla use_cases: id, offering_id (Foreign Key), company_icon_url, project_name, industry_type (Categoría de Industria), description, previous_state, new_state.
+
+CRÍTICO - Script de Seed Inicial: Crea un script de seed para la base de datos que inserte exactamente estos 6 Offerings al inicializar el proyecto:
+
+Offering 1: name: "Journey to FinOps", duration_hours: "50 horas", tech_pillar: "IaC + Serverless", business_benefit: "Control total del gasto sin esfuerzo manual.", what_is_it: "Un marco de optimización financiera desplegado 100% mediante IaC y CI/CD. Utiliza una Azure Function para el descubrimiento automático de todas las suscripciones del Tenant Root.", what_does_it_solve: "Centraliza la visibilidad de costos en un dashboard de Power BI autogestionado. Elimina la necesidad de intervención técnica manual y proporciona una 'única fuente de verdad' para el control presupuestario inmediato."
+
+Offering 2: name: "Azure Cloud Infrastructure Management (ACIM)", duration_hours: "40 horas", tech_pillar: "Azure Auditor / SCA", business_benefit: "Salud de plataforma constante y proactiva.", what_is_it: "Gestión avanzada de infraestructura potenciada por vuestro ecosistema de herramientas: Azure Auditor, SCA y Discovery Maps.", what_does_it_solve: "La falta de gobierno y visibilidad técnica. Gracias al análisis cognitivo y mapeo automático, permite mantener una infraestructura optimizada, segura y alineada con los estándares de Microsoft de forma proactiva."
+
+Offering 3: name: "Accelerator Azure Virtual Desktop (AVD)", duration_hours: "60 horas", tech_pillar: "VDI Escalable", business_benefit: "Movilidad total con seguridad de grado empresarial.", what_is_it: "Despliegue acelerado de escritorios virtuales y aplicaciones en la nube con un enfoque en rendimiento y seguridad.", what_does_it_solve: "La complejidad de la administración del puesto de trabajo remoto. Reduce costos operativos mediante la multisesión de Windows y asegura que los datos corporativos nunca salgan del entorno controlado de Azure."
+
+Offering 4: name: "Landing Zone Design: Hub & Spoke", duration_hours: "TBD", tech_pillar: "Hub & Spoke", business_benefit: "Escalabilidad infinita y control de red.", what_is_it: "Diseño e implementación de la arquitectura base de red en Azure, siguiendo un modelo de topología centralizada (Hub) y redes de carga (Spokes).", what_does_it_solve: "El caos en el crecimiento de la red. Centraliza servicios compartidos (Firewall, DNS, VPN) y garantiza el aislamiento de cargas de trabajo, permitiendo un escalado ordenado y seguro."
+
+Offering 5: name: "Road to Cloud with Azure Migrate (CAF)", duration_hours: "60 Horas", tech_pillar: "Metodología CAF", business_benefit: "Migración segura y sin sorpresas técnicas.", what_is_it: "Consultoría y ejecución de migraciones hacia Azure utilizando el Cloud Adoption Framework de Microsoft como hoja de ruta.", what_does_it_solve: "Mitiga el riesgo de interrupción del servicio durante la transición a la nube. Asegura que el paso de on-premises a Azure sea eficiente, evaluando dependencias y eligiendo la estrategia de migración adecuada."
+
+Offering 6: name: "Infraestructura Híbrida con Azure Arc", duration_hours: "TBD", tech_pillar: "Gobernanza Híbrida", business_benefit: "Control unificado de toda la IT (multicloud).", what_is_it: "Extensión del plano de control de Azure hacia entornos locales, otras nubes (AWS/GCP) o el Edge.", what_does_it_solve: "La fragmentación operativa. Permite aplicar políticas de cumplimiento, seguridad y gestión de inventario de forma unificada, tratando cualquier servidor externo como si fuera un recurso nativo de Azure."
+
+Fase 2: Interfaz Pública (Dashboard y Navegación)
+
+Home: Landing Page que muestre los Offerings en un grid interactivo. Muestra título, horas, pilar técnico y beneficio.
+
+Detalle del Offering: Al hacer clic, muestra el texto de "Qué es" y "Qué soluciona".
+
+Sub-panel de Casos de Uso (Búsqueda y Filtros): Debajo del detalle, crea un grid de los casos de éxito asociados. Implementa un buscador de texto (por nombre o descripción) y un filtro Dropdown por Tipo de Industria (industry_type). Cada tarjeta de caso debe contrastar visualmente el previous_state vs new_state.
+
+Fase 3: Panel de Administración Web (Admin Module)
+
+Ruta protegida /admin.
+
+Offerings CRUD: Poder editar los textos de los 6 offerings base o agregar nuevos.
+
+Use Cases Uploader: Formulario donde seleccione un Offering, escriba el nombre del proyecto, seleccione la Industria de un dropdown, suba el logo y describa el estado previo y actual.

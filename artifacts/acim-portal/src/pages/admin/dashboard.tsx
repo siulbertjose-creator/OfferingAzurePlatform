@@ -1,18 +1,20 @@
-import { useState } from "react";
 import { Link } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
-import { 
-  useListSuccessCases, 
-  getListSuccessCasesQueryKey,
-  useDeleteSuccessCase
+import {
+  useListOfferings,
+  getListOfferingsQueryKey,
+  useDeleteOffering,
+  useListUseCases,
+  getListUseCasesQueryKey,
+  useDeleteUseCase,
 } from "@workspace/api-client-react";
 import { AdminLayout } from "@/components/layout/Navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Search, Edit, Trash2, ExternalLink } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { Plus, Edit, Trash2, ExternalLink, Layers, Building2, Clock } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,135 +28,219 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function AdminDashboard() {
-  const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data, isLoading } = useListSuccessCases(
-    { search: searchTerm || undefined },
-    { query: { queryKey: getListSuccessCasesQueryKey({ search: searchTerm || undefined }) } }
+  const { data: offeringsData, isLoading: offeringsLoading } = useListOfferings({
+    query: { queryKey: getListOfferingsQueryKey() },
+  });
+
+  const { data: useCasesData, isLoading: useCasesLoading } = useListUseCases(
+    {},
+    { query: { queryKey: getListUseCasesQueryKey() } },
   );
 
-  const deleteMutation = useDeleteSuccessCase({
+  const deleteOffering = useDeleteOffering({
     mutation: {
       onSuccess: () => {
-        toast({ title: "Case deleted successfully" });
-        queryClient.invalidateQueries({ queryKey: getListSuccessCasesQueryKey() });
+        toast({ title: "Servicio eliminado" });
+        queryClient.invalidateQueries({ queryKey: getListOfferingsQueryKey() });
       },
-      onError: () => {
-        toast({ title: "Failed to delete case", variant: "destructive" });
-      }
-    }
+      onError: () => toast({ title: "Error al eliminar", variant: "destructive" }),
+    },
   });
+
+  const deleteUseCase = useDeleteUseCase({
+    mutation: {
+      onSuccess: () => {
+        toast({ title: "Caso eliminado" });
+        queryClient.invalidateQueries({ queryKey: getListUseCasesQueryKey() });
+      },
+      onError: () => toast({ title: "Error al eliminar", variant: "destructive" }),
+    },
+  });
+
+  const offerings = offeringsData?.offerings ?? [];
+  const useCases = useCasesData?.useCases ?? [];
 
   return (
     <AdminLayout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Success Cases</h1>
-            <p className="text-muted-foreground mt-1">Manage your portfolio of Azure transformations</p>
-          </div>
-          
-          <div className="flex w-full md:w-auto items-center gap-4">
-            <div className="relative w-full md:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input 
-                placeholder="Search cases..." 
-                className="pl-10 bg-white/5 border-white/10"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+      <div className="container mx-auto px-4 py-10">
+        {/* Stats row */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          {[
+            { label: "Servicios", value: offerings.length, icon: Layers },
+            { label: "Casos de Uso", value: useCases.length, icon: Building2 },
+            { label: "Industrias", value: new Set(useCases.map(u => u.industryType)).size, icon: Building2 },
+            { label: "Horas Totales", value: offerings.filter(o => o.durationHours !== "TBD").reduce((s, o) => s + parseInt(o.durationHours), 0) + "h", icon: Clock },
+          ].map(({ label, value, icon: Icon }) => (
+            <Card key={label} className="bg-white/5 border-white/10">
+              <CardContent className="p-5">
+                <Icon className="w-5 h-5 text-primary mb-3" />
+                <div className="text-2xl font-bold mb-1">{value}</div>
+                <div className="text-sm text-muted-foreground">{label}</div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Offerings section */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold">Servicios (Offerings)</h2>
+              <p className="text-muted-foreground text-sm mt-1">Gestiona los 6 servicios de Readymind</p>
             </div>
-            <Link href="/admin/cases/new">
-              <Button className="shrink-0">
-                <Plus className="w-4 h-4 mr-2" />
-                New Case
+            <Link href="/admin/offerings/new">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                <Plus className="w-4 h-4 mr-2" /> Nuevo Servicio
               </Button>
             </Link>
           </div>
-        </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm">
-          <Table>
-            <TableHeader className="bg-white/5">
-              <TableRow className="border-white/10 hover:bg-transparent">
-                <TableHead className="w-[300px]">Case Title</TableHead>
-                <TableHead>Client</TableHead>
-                <TableHead>Industry</TableHead>
-                <TableHead className="text-right">Governance Score</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {isLoading ? (
-                Array(5).fill(0).map((_, i) => (
-                  <TableRow key={i} className="border-white/10">
-                    <TableCell><Skeleton className="h-4 w-48 bg-white/5" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24 bg-white/5" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24 bg-white/5" /></TableCell>
-                    <TableCell className="text-right"><Skeleton className="h-4 w-12 ml-auto bg-white/5" /></TableCell>
-                    <TableCell><Skeleton className="h-8 w-24 ml-auto bg-white/5" /></TableCell>
-                  </TableRow>
-                ))
-              ) : data?.cases.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
-                    No cases found.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                data?.cases.map((c) => (
-                  <TableRow key={c.id} className="border-white/10 hover:bg-white/5 transition-colors">
-                    <TableCell className="font-medium">{c.title}</TableCell>
-                    <TableCell>{c.clientName}</TableCell>
-                    <TableCell>{c.industry || "-"}</TableCell>
-                    <TableCell className="text-right font-mono text-primary">
-                      {c.azureAnalyzerKpis.governanceScore}%
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Link href={`/cases/${c.id}`}>
-                          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
-                            <ExternalLink className="w-4 h-4" />
+          {offeringsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {Array(6).fill(0).map((_, i) => <Skeleton key={i} className="h-36 bg-white/5 rounded-xl" />)}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {offerings.map(offering => (
+                <Card key={offering.id} className="bg-white/5 border-white/10 hover:border-primary/30 transition-colors">
+                  <CardContent className="p-5">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1 min-w-0 mr-3">
+                        <h3 className="font-semibold truncate">{offering.name}</h3>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge variant="outline" className="text-xs border-primary/30 text-primary">
+                            {offering.techPillar}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Clock className="w-3 h-3" /> {offering.durationHours}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <Link href={`/offerings/${offering.id}`}>
+                          <Button variant="ghost" size="icon" className="w-8 h-8">
+                            <ExternalLink className="w-3.5 h-3.5" />
                           </Button>
                         </Link>
-                        <Link href={`/admin/cases/${c.id}/edit`}>
-                          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-                            <Edit className="w-4 h-4" />
+                        <Link href={`/admin/offerings/${offering.id}/edit`}>
+                          <Button variant="ghost" size="icon" className="w-8 h-8">
+                            <Edit className="w-3.5 h-3.5" />
                           </Button>
                         </Link>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
-                              <Trash2 className="w-4 h-4" />
+                            <Button variant="ghost" size="icon" className="w-8 h-8 text-destructive hover:text-destructive">
+                              <Trash2 className="w-3.5 h-3.5" />
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent className="bg-background border-white/10">
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogTitle>Eliminar servicio</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This will permanently delete the case "{c.title}" from the database. This action cannot be undone.
+                                Esta acción eliminará el servicio y todos sus casos de uso asociados.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel className="bg-white/5 border-white/10 hover:bg-white/10 hover:text-foreground">Cancel</AlertDialogCancel>
-                              <AlertDialogAction 
-                                onClick={() => deleteMutation.mutate({ id: c.id })}
-                                className="bg-destructive hover:bg-destructive/90"
+                              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                              <AlertDialogAction
+                                className="bg-destructive text-white"
+                                onClick={() => deleteOffering.mutate({ id: offering.id })}
                               >
-                                Delete
+                                Eliminar
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
                       </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+                    </div>
+                    <p className="text-xs text-muted-foreground line-clamp-2">{offering.businessBenefit}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Use Cases section */}
+        <div>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold">Casos de Uso</h2>
+              <p className="text-muted-foreground text-sm mt-1">Casos de éxito vinculados a cada servicio</p>
+            </div>
+            <Link href="/admin/use-cases/new">
+              <Button variant="outline" className="border-primary/40 hover:bg-primary/10">
+                <Plus className="w-4 h-4 mr-2" /> Nuevo Caso
+              </Button>
+            </Link>
+          </div>
+
+          {useCasesLoading ? (
+            <div className="space-y-3">
+              {Array(4).fill(0).map((_, i) => <Skeleton key={i} className="h-20 bg-white/5 rounded-xl" />)}
+            </div>
+          ) : useCases.length === 0 ? (
+            <div className="text-center py-16 bg-white/5 rounded-xl border border-white/10">
+              <Building2 className="w-10 h-10 text-muted-foreground mx-auto mb-3 opacity-40" />
+              <p className="text-muted-foreground">No hay casos de uso todavía</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {useCases.map(uc => {
+                const offeringName = offerings.find(o => o.id === uc.offeringId)?.name ?? `Servicio #${uc.offeringId}`;
+                return (
+                  <Card key={uc.id} className="bg-white/5 border-white/10 hover:border-white/20 transition-colors">
+                    <CardContent className="p-4 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-4 flex-1 min-w-0">
+                        <div className="w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center shrink-0">
+                          <Building2 className="w-5 h-5 text-primary" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-medium truncate">{uc.projectName}</div>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-xs text-muted-foreground truncate">{offeringName}</span>
+                            <Badge variant="secondary" className="text-xs bg-white/10 shrink-0">{uc.industryType}</Badge>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <Link href={`/admin/use-cases/${uc.id}/edit`}>
+                          <Button variant="ghost" size="icon" className="w-8 h-8">
+                            <Edit className="w-3.5 h-3.5" />
+                          </Button>
+                        </Link>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="w-8 h-8 text-destructive hover:text-destructive">
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent className="bg-background border-white/10">
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Eliminar caso de uso</AlertDialogTitle>
+                              <AlertDialogDescription>Esta acción no se puede deshacer.</AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                              <AlertDialogAction
+                                className="bg-destructive text-white"
+                                onClick={() => deleteUseCase.mutate({ id: uc.id })}
+                              >
+                                Eliminar
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </AdminLayout>

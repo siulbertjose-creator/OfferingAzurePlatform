@@ -16,6 +16,187 @@ export const HealthCheckResponse = zod.object({
 });
 
 /**
+ * @summary List all offerings
+ */
+export const ListOfferingsResponse = zod.object({
+  offerings: zod.array(
+    zod.object({
+      id: zod.number(),
+      name: zod.string(),
+      durationHours: zod.string(),
+      techPillar: zod.string(),
+      businessBenefit: zod.string(),
+      whatIsIt: zod.string(),
+      whatDoesItSolve: zod.string(),
+      createdAt: zod.string(),
+      updatedAt: zod.string(),
+    }),
+  ),
+});
+
+/**
+ * @summary Create a new offering
+ */
+export const CreateOfferingBody = zod.object({
+  name: zod.string(),
+  durationHours: zod.string(),
+  techPillar: zod.string(),
+  businessBenefit: zod.string(),
+  whatIsIt: zod.string(),
+  whatDoesItSolve: zod.string(),
+});
+
+/**
+ * @summary Get an offering by ID
+ */
+export const GetOfferingParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetOfferingResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  durationHours: zod.string(),
+  techPillar: zod.string(),
+  businessBenefit: zod.string(),
+  whatIsIt: zod.string(),
+  whatDoesItSolve: zod.string(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+
+/**
+ * @summary Update an offering
+ */
+export const UpdateOfferingParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateOfferingBody = zod.object({
+  name: zod.string().optional(),
+  durationHours: zod.string().optional(),
+  techPillar: zod.string().optional(),
+  businessBenefit: zod.string().optional(),
+  whatIsIt: zod.string().optional(),
+  whatDoesItSolve: zod.string().optional(),
+});
+
+export const UpdateOfferingResponse = zod.object({
+  id: zod.number(),
+  name: zod.string(),
+  durationHours: zod.string(),
+  techPillar: zod.string(),
+  businessBenefit: zod.string(),
+  whatIsIt: zod.string(),
+  whatDoesItSolve: zod.string(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+
+/**
+ * @summary Delete an offering
+ */
+export const DeleteOfferingParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
+ * @summary List use cases, optionally filtered by offeringId or industryType
+ */
+export const ListUseCasesQueryParams = zod.object({
+  offeringId: zod.coerce.number().optional(),
+  industryType: zod.coerce.string().optional(),
+  search: zod.coerce.string().optional(),
+});
+
+export const ListUseCasesResponse = zod.object({
+  useCases: zod.array(
+    zod.object({
+      id: zod.number(),
+      offeringId: zod.number(),
+      companyIconUrl: zod.string().nullable(),
+      projectName: zod.string(),
+      industryType: zod.string(),
+      description: zod.string(),
+      previousState: zod.string(),
+      newState: zod.string(),
+      createdAt: zod.string(),
+      updatedAt: zod.string(),
+    }),
+  ),
+});
+
+/**
+ * @summary Create a new use case
+ */
+export const CreateUseCaseBody = zod.object({
+  offeringId: zod.number(),
+  companyIconUrl: zod.string().nullish(),
+  projectName: zod.string(),
+  industryType: zod.string(),
+  description: zod.string(),
+  previousState: zod.string(),
+  newState: zod.string(),
+});
+
+/**
+ * @summary Get a use case by ID
+ */
+export const GetUseCaseParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const GetUseCaseResponse = zod.object({
+  id: zod.number(),
+  offeringId: zod.number(),
+  companyIconUrl: zod.string().nullable(),
+  projectName: zod.string(),
+  industryType: zod.string(),
+  description: zod.string(),
+  previousState: zod.string(),
+  newState: zod.string(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+
+/**
+ * @summary Update a use case
+ */
+export const UpdateUseCaseParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const UpdateUseCaseBody = zod.object({
+  offeringId: zod.number().optional(),
+  companyIconUrl: zod.string().nullish(),
+  projectName: zod.string().optional(),
+  industryType: zod.string().optional(),
+  description: zod.string().optional(),
+  previousState: zod.string().optional(),
+  newState: zod.string().optional(),
+});
+
+export const UpdateUseCaseResponse = zod.object({
+  id: zod.number(),
+  offeringId: zod.number(),
+  companyIconUrl: zod.string().nullable(),
+  projectName: zod.string(),
+  industryType: zod.string(),
+  description: zod.string(),
+  previousState: zod.string(),
+  newState: zod.string(),
+  createdAt: zod.string(),
+  updatedAt: zod.string(),
+});
+
+/**
+ * @summary Delete a use case
+ */
+export const DeleteUseCaseParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+/**
  * @summary List all success cases
  */
 export const listSuccessCasesQueryLimitDefault = 20;

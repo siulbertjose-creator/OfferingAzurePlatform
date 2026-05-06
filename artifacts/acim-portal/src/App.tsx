@@ -5,10 +5,13 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
 import Home from "@/pages/home";
+import OfferingDetail from "@/pages/offering-detail";
 import CaseDetail from "@/pages/case-detail";
 import AdminLogin from "@/pages/admin/login";
 import AdminDashboard from "@/pages/admin/dashboard";
-import CaseForm from "@/pages/admin/case-form";
+import AdminOfferings from "@/pages/admin/offerings";
+import AdminOfferingForm from "@/pages/admin/offering-form";
+import AdminUseCaseForm from "@/pages/admin/use-case-form";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,13 +26,17 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/offerings/:id" component={OfferingDetail} />
       <Route path="/cases/:id" component={CaseDetail} />
-      
+
       <Route path="/admin" component={AdminLogin} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
-      <Route path="/admin/cases/new" component={CaseForm} />
-      <Route path="/admin/cases/:id/edit" component={CaseForm} />
-      
+      <Route path="/admin/offerings" component={AdminOfferings} />
+      <Route path="/admin/offerings/new" component={AdminOfferingForm} />
+      <Route path="/admin/offerings/:id/edit" component={AdminOfferingForm} />
+      <Route path="/admin/use-cases/new" component={AdminUseCaseForm} />
+      <Route path="/admin/use-cases/:id/edit" component={AdminUseCaseForm} />
+
       <Route component={NotFound} />
     </Switch>
   );
