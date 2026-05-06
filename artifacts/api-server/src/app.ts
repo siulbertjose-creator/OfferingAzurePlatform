@@ -1,6 +1,8 @@
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
+import path from "path";
+import { fileURLToPath } from "url";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
@@ -29,6 +31,20 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// API routes
 app.use("/api", router);
+
+// Serve React frontend static files in production
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const publicPath = path.resolve(__dirname, "..", "public");
+
+  app.use(express.static(publicPath));
+
+  // All non-API routes serve the React SPA
+  app.get("/{*splat}", (_req, res) => {
+    res.sendFile(path.join(publicPath, "index.html"));
+  });
+}
 
 export default app;
