@@ -12,8 +12,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Search, Building2, TrendingUp, ShieldCheck, Activity, Award } from "lucide-react";
+import { Search, Building2, TrendingUp, ShieldCheck, Activity, Award, ArrowRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+
+function ScoreChip({ label, value }: { label: string; value: number }) {
+  const color =
+    value >= 90
+      ? "bg-primary/20 text-primary border-primary/30"
+      : value >= 75
+      ? "bg-yellow-500/15 text-yellow-400 border-yellow-500/30"
+      : "bg-red-500/15 text-red-400 border-red-500/30";
+  return (
+    <div className={`flex flex-col items-center px-3 py-2 rounded-lg border ${color}`}>
+      <span className="font-mono font-bold text-sm leading-none">{value}</span>
+      <span className="text-[10px] mt-1 uppercase tracking-wider opacity-70">{label}</span>
+    </div>
+  );
+}
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -165,21 +180,17 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground line-clamp-3 mb-6">
                         {c.executiveSummary}
                       </p>
-                      
-                      <div className="space-y-3 mt-auto">
-                        <div>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="text-muted-foreground">Governance</span>
-                            <span className="font-mono text-primary">{c.azureAnalyzerKpis.governanceScore}%</span>
-                          </div>
-                          <Progress value={c.azureAnalyzerKpis.governanceScore} className="h-1 bg-white/10" />
+
+                      <div className="mt-auto">
+                        <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2">Azure Analyzer Scores</div>
+                        <div className="grid grid-cols-4 gap-1.5">
+                          <ScoreChip label="Gov" value={c.azureAnalyzerKpis.governanceScore} />
+                          <ScoreChip label="Sec" value={c.azureAnalyzerKpis.securityScore} />
+                          <ScoreChip label="Rel" value={c.azureAnalyzerKpis.reliabilityScore} />
+                          <ScoreChip label="Perf" value={c.azureAnalyzerKpis.performanceScore} />
                         </div>
-                        <div>
-                          <div className="flex justify-between text-xs mb-1">
-                            <span className="text-muted-foreground">Security</span>
-                            <span className="font-mono text-primary">{c.azureAnalyzerKpis.securityScore}%</span>
-                          </div>
-                          <Progress value={c.azureAnalyzerKpis.securityScore} className="h-1 bg-white/10" />
+                        <div className="flex items-center justify-end mt-3 text-xs text-primary/60 group-hover:text-primary transition-colors">
+                          Ver caso completo <ArrowRight className="w-3 h-3 ml-1" />
                         </div>
                       </div>
                     </CardContent>

@@ -1,4 +1,4 @@
-import { useRoute } from "wouter";
+import { useParams } from "wouter";
 import { 
   useGetSuccessCase, 
   getGetSuccessCaseQueryKey 
@@ -6,6 +6,7 @@ import {
 import { Navbar } from "@/components/layout/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { 
   ShieldCheck, 
@@ -74,7 +75,7 @@ function ScoreGauge({ score, label, icon: Icon }: { score: number, label: string
 }
 
 export default function CaseDetail() {
-  const [, params] = useRoute("/cases/:id");
+  const params = useParams<{ id: string }>();
   const id = params?.id ? parseInt(params.id) : 0;
 
   const { data: caseData, isLoading } = useGetSuccessCase(id, {
