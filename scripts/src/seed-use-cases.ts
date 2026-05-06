@@ -1,5 +1,4 @@
 import { db, useCasesTable, offeringsTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
 
 async function seed() {
   // Get current offering IDs by name

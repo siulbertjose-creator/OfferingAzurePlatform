@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { eq, ilike, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db, offeringsTable, useCasesTable } from "@workspace/db";
 import {
   CreateOfferingBody,
@@ -9,6 +9,7 @@ import {
   DeleteOfferingParams,
   ListUseCasesQueryParams,
   CreateUseCaseBody,
+  UpdateUseCaseBody,
   GetUseCaseParams,
   UpdateUseCaseParams,
   DeleteUseCaseParams,
