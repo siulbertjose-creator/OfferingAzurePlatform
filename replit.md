@@ -12,6 +12,7 @@ A premium glassmorphism enterprise portal showcasing Readymind's 6 Azure cloud s
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - `pnpm --filter @workspace/scripts run seed-offerings` — seed 6 offerings + sample use cases
 - Required env: `DATABASE_URL` — Postgres connection string
+- **Dev and Prod use separate PostgreSQL databases** — seeding must be done independently for each environment (use the live API via POST requests to seed production)
 
 **Admin credentials:** username=`admin`, password=`acim2024`
 
