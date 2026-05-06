@@ -57,14 +57,14 @@ export default function Home() {
             className="max-w-3xl"
           >
             <Badge variant="outline" className="mb-6 border-primary/50 text-primary bg-primary/10 backdrop-blur-sm px-3 py-1">
-              Azure Architecture Center of Excellence
+              CEQ Azure Platform · Readymind
             </Badge>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-foreground">
               Cloud excellence, <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">quantified.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">quantified.</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed">
-              Explore our portfolio of elite Azure transformations. We turn complex architectural challenges into measurable business advantages.
+              Explore our portfolio of elite Azure transformations by Readymind. We turn complex architectural challenges into measurable business advantages.
             </p>
           </motion.div>
 
