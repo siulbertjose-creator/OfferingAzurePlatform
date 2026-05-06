@@ -25,8 +25,8 @@ export default function AdminLogin() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      username: "admin",
+      password: "acim2024",
     },
   });
 
