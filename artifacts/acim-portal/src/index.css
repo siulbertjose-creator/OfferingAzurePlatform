@@ -76,9 +76,9 @@
   --popover-foreground: 210 40% 98%;
   --popover-border: 217 32% 17%;
 
-  /* Azure Blue #0078D4 -> 206 100% 42% */
-  --primary: 206 100% 42%;
-  --primary-foreground: 210 40% 98%;
+  /* Readymind Green #6DC030 -> HSL 95 62% 47% */
+  --primary: 95 62% 47%;
+  --primary-foreground: 0 0% 5%;
 
   --secondary: 217 32% 17%;
   --secondary-foreground: 210 40% 98%;
@@ -93,9 +93,9 @@
   --destructive-foreground: 210 40% 98%;
 
   --input: 217 32% 17%;
-  --ring: 206 100% 42%;
+  --ring: 95 62% 47%;
   
-  --chart-1: 206 100% 42%;
+  --chart-1: 95 62% 47%;
   --chart-2: 175 100% 38%;
   --chart-3: 262 80% 65%;
   --chart-4: 43 100% 61%;
@@ -117,8 +117,8 @@
   --popover: 222 47% 9%;
   --popover-foreground: 210 40% 98%;
   --popover-border: 217 32% 17%;
-  --primary: 206 100% 42%;
-  --primary-foreground: 210 40% 98%;
+  --primary: 95 62% 47%;
+  --primary-foreground: 0 0% 5%;
   --secondary: 217 32% 17%;
   --secondary-foreground: 210 40% 98%;
   --muted: 217 32% 17%;
@@ -128,7 +128,7 @@
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
   --input: 217 32% 17%;
-  --ring: 206 100% 42%;
+  --ring: 95 62% 47%;
 }
 
 @layer base {
