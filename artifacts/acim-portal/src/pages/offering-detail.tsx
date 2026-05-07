@@ -80,61 +80,98 @@ const ACIM_ONBOARDING = [
 ];
 
 /* ─── FinOps Capabilities ─── */
-const FINOPS_CAPABILITIES = [
+const FINOPS_PILLARS = [
   {
+    num: "01",
+    title: "Informar",
+    subtitle: "Visibilidad 360° del gasto",
+    desc: "Dashboard dinámico en Power BI con datos históricos y proyectados. Evolución de costo vs presupuesto, distribución por tipo de recurso y conteo de recursos huérfanos en una sola vista.",
     icon: BarChart3,
-    title: "Dashboard Power BI",
-    desc: "Evolución de costo vs presupuesto, desglose por suscripción, grupo de recursos y tipo de recurso en tiempo real.",
-    metric: "100%",
-    metricLabel: "visibilidad del gasto",
-    color: "text-[#0078D4] bg-blue-50 border-blue-100",
+    color: "text-[#0078D4]",
+    bg: "bg-blue-50 border-blue-100",
+    accent: "#0078D4",
   },
   {
-    icon: Globe,
-    title: "Distribución Geográfica",
-    desc: "Mapa interactivo con la ubicación física de todos los activos cloud: regiones, suscripciones y grupos de recursos.",
-    metric: "Multi-región",
-    metricLabel: "cobertura total",
-    color: "text-indigo-600 bg-indigo-50 border-indigo-100",
-  },
-  {
-    icon: Bell,
-    title: "Alertas Advisor",
-    desc: "Integración nativa con Azure Advisor para detectar recursos con alertas de alta disponibilidad y optimización de costos.",
-    metric: "101+",
-    metricLabel: "alertas gestionadas",
-    color: "text-amber-600 bg-amber-50 border-amber-100",
-  },
-  {
+    num: "02",
+    title: "Optimizar",
+    subtitle: "Quick Wins y reducción activa",
+    desc: "Identificación inmediata de Quick Wins por Azure Advisor, Right Sizing de VMs y DBs según utilización real, eliminación de recursos huérfanos (IPs, discos, planes sin uso). ~30% de reducción en los primeros 30 días.",
     icon: TrendingDown,
-    title: "Política de Apagado",
-    desc: "Automatización de apagado de entornos dev/staging fuera del horario laboral para eliminar gasto innecesario.",
-    metric: "65%",
-    metricLabel: "ahorro en no-prod",
-    color: "text-emerald-600 bg-emerald-50 border-emerald-100",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50 border-emerald-100",
+    accent: "#059669",
   },
   {
+    num: "03",
+    title: "Operar",
+    subtitle: "Gobernanza continua",
+    desc: "Transferencia de habilidades para una cultura de responsabilidad financiera. Roadmap de remediación priorizado, optimización de licencias y compromisos (RI/Savings Plans) y skill transfer final.",
     icon: Users,
-    title: "Chargeback por Equipo",
-    desc: "Imputación automática de costos por departamento, proyecto y entorno para accountability financiero real.",
-    metric: "Por equipo",
-    metricLabel: "chargeback automatizado",
-    color: "text-purple-600 bg-purple-50 border-purple-100",
-  },
-  {
-    icon: FileText,
-    title: "Reportes de ROI",
-    desc: "Análisis periódico de retorno de inversión con comparativa mes anterior, proyección mensual y tracking de presupuesto.",
-    metric: "30%+",
-    metricLabel: "ahorro en 60 días",
-    color: "text-rose-600 bg-rose-50 border-rose-100",
+    color: "text-purple-600",
+    bg: "bg-purple-50 border-purple-100",
+    accent: "#7C3AED",
   },
 ];
 
 const FINOPS_PHASES = [
-  { title: "Preparación", desc: "Relevamiento del entorno, definición de suscripciones scope y configuración de identidad de acceso." },
-  { title: "Implementación", desc: "Despliegue del pipeline IaC, dashboards Power BI y políticas de apagado automatizado." },
-  { title: "Optimización", desc: "Activación de alertas Advisor, chargeback por departamento y plan de remediación priorizado." },
+  {
+    week: "Semana 1",
+    title: "Despliegue de Base",
+    subtitle: "Automatización de la ingesta de datos",
+    items: [
+      "Infraestructura como Código (Terraform)",
+      "Azure Functions para recolección de Advisor",
+      "Cost Exports con histórico de 6 meses",
+      "Resolución de issues y documentación técnica",
+    ],
+    deliverable: "Pipeline de ingesta operativo y documentación técnica.",
+    color: "text-[#0078D4]",
+    bg: "bg-blue-50 border-blue-100",
+    accent: "#0078D4",
+  },
+  {
+    week: "Semanas 2–3",
+    title: "Relevamiento y Remediación",
+    subtitle: "Optimización activa · maximizando el ROI",
+    items: [
+      "Quick Wins & Advisor: ahorros inmediatos detectados por Azure",
+      "Right Sizing (VM & DB): ajuste según utilización real",
+      "Recursos Huérfanos: IPs, discos y planes sin uso",
+      "Análisis de RI / Savings Plans",
+    ],
+    deliverable: "~30% reducción potencial de desperdicio en 30 días.",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50 border-emerald-100",
+    accent: "#059669",
+  },
+  {
+    week: "Semana 4",
+    title: "Roadmap y Skill Transfer",
+    subtitle: "Gobernanza continua y capacitación",
+    items: [
+      "Roadmap de remediación priorizado",
+      "Optimización de licencias y compromisos (RI/SP)",
+      "Sesiones de transferencia de conocimiento (Skill Transfer)",
+      "Entrega del Dashboard FinOps en producción",
+    ],
+    deliverable: "Equipo capacitado y plataforma FinOps autónoma.",
+    color: "text-purple-600",
+    bg: "bg-purple-50 border-purple-100",
+    accent: "#7C3AED",
+  },
+];
+
+const FINOPS_ARCH = [
+  { icon: Globe, label: "Fuente de Datos", value: "Azure Portal", sub: "Cost Management + Resource Graph", color: "text-[#0078D4] bg-blue-50 border-blue-200" },
+  { icon: Database, label: "Almacenamiento", value: "Storage Parquet", sub: "Exports particionados y estructurados", color: "text-amber-600 bg-amber-50 border-amber-200" },
+  { icon: BarChart3, label: "Visualización", value: "Power BI", sub: "Queries M Parametrizadas (FinOps view)", color: "text-emerald-600 bg-emerald-50 border-emerald-200" },
+];
+
+const FINOPS_DASHBOARD = [
+  "Evolución de Costo vs. Presupuesto (Mensual)",
+  "Distribución de gasto por Tipo de Recurso",
+  "Conteo y costo de Recursos Huérfanos",
+  "Recomendaciones de ahorro priorizadas",
 ];
 
 /* ─── AVD Journey ─── */
@@ -465,57 +502,122 @@ export default function OfferingDetail() {
             {/* Header */}
             <div className="text-center mb-10">
               <p className="text-xs font-bold uppercase tracking-widest text-[#605E5C] mb-2">Journey to FinOps</p>
-              <h2 className="text-3xl font-bold text-[#1A1A1A] tracking-tight">Capacidades del Framework</h2>
+              <h2 className="text-3xl font-bold text-[#1A1A1A] tracking-tight">Transformando Datos en Inteligencia Financiera</h2>
               <p className="text-[#605E5C] mt-2 max-w-xl mx-auto text-sm">
-                Un ecosistema completo de herramientas FinOps desplegado 100% mediante IaC, con visibilidad inmediata desde el día uno.
+                De la factura sorpresa al control total. Pipeline IaC 100% automatizado en 4 semanas: ingesta, visibilidad y optimización continua.
               </p>
             </div>
 
-            {/* Capability cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
-              {FINOPS_CAPABILITIES.map((cap, i) => (
+            {/* 3 Pillars: Informar / Optimizar / Operar */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+              {FINOPS_PILLARS.map((p, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + i * 0.07 }}
-                  className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 hover:shadow-md hover:border-[#0078D4]/20 transition-all"
+                  transition={{ delay: 0.3 + i * 0.08 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 hover:shadow-md hover:border-[#0078D4]/20 transition-all"
                 >
-                  <div className={`w-10 h-10 rounded-xl border flex items-center justify-center mb-4 ${cap.color}`}>
-                    <cap.icon className="w-5 h-5" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${p.bg}`}>
+                      <p.icon className={`w-5 h-5 ${p.color}`} />
+                    </div>
+                    <span className="text-3xl font-black text-gray-100">{p.num}</span>
                   </div>
-                  <div className="flex items-end gap-2 mb-1">
-                    <span className="text-2xl font-extrabold text-[#1A1A1A]">{cap.metric}</span>
-                    <span className="text-xs text-[#605E5C] mb-0.5 font-medium">{cap.metricLabel}</span>
-                  </div>
-                  <h3 className="font-bold text-[#1A1A1A] text-sm mb-2">{cap.title}</h3>
-                  <p className="text-xs text-[#605E5C] leading-relaxed">{cap.desc}</p>
+                  <h3 className={`text-xl font-extrabold mb-0.5 ${p.color}`}>{p.title}</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#605E5C] mb-3">{p.subtitle}</p>
+                  <p className="text-xs text-[#605E5C] leading-relaxed">{p.desc}</p>
                 </motion.div>
               ))}
             </div>
 
-            {/* Implementation phases */}
-            <div className="bg-gradient-to-r from-[#0078D4] to-[#005A9E] rounded-2xl p-8 text-white">
+            {/* Architecture pipeline */}
+            <div className="bg-[#1A1A2E] rounded-2xl p-7 mb-6">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
-                  <Zap className="w-5 h-5 text-white" />
+                <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center border border-white/10">
+                  <Layers className="w-4 h-4 text-blue-300" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold">Fases de Implementación</h3>
-                  <p className="text-xs text-blue-200">Desde la preparación hasta la optimización continua</p>
+                  <h3 className="text-base font-bold text-white">Arquitectura de Visibilidad</h3>
+                  <p className="text-[10px] text-blue-300">Pipeline end-to-end · Azure Functions en PowerShell 7.4</p>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {FINOPS_PHASES.map((ph, i) => (
-                  <div key={i} className="bg-white/10 border border-white/15 rounded-xl p-5 relative">
-                    <div className="text-[10px] font-bold uppercase tracking-widest text-blue-200 mb-2">Fase {i + 1}</div>
-                    <div className="font-bold text-base mb-2">{ph.title}</div>
-                    <p className="text-xs text-blue-100 leading-relaxed">{ph.desc}</p>
-                    {i < 2 && (
-                      <div className="hidden md:flex absolute top-1/2 -right-2 z-10 -translate-y-1/2">
-                        <ArrowRight className="w-4 h-4 text-blue-300" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                {FINOPS_ARCH.map((node, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className={`flex-1 border rounded-xl p-4 ${node.color}`}>
+                      <div className="flex items-center gap-2 mb-2">
+                        <node.icon className="w-4 h-4" />
+                        <span className="text-[9px] font-bold uppercase tracking-widest">{node.label}</span>
                       </div>
-                    )}
+                      <p className="font-bold text-sm text-[#1A1A1A]">{node.value}</p>
+                      <p className="text-[10px] text-[#605E5C] mt-0.5 leading-snug">{node.sub}</p>
+                    </div>
+                    {i < 2 && <ArrowRight className="w-4 h-4 text-blue-300 shrink-0 hidden md:block" />}
+                  </div>
+                ))}
+              </div>
+              <p className="text-[10px] text-blue-300 text-center">
+                Azure Functions (PowerShell 7.4) automatizan la ingesta de recomendaciones de Advisor y alertas de Defender hacia el Storage Account
+              </p>
+            </div>
+
+            {/* 3 Phases timeline */}
+            <div className="space-y-4 mb-6">
+              {FINOPS_PHASES.map((ph, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.35 + i * 0.08 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md hover:border-[#0078D4]/20 transition-all"
+                >
+                  <div className="flex items-stretch">
+                    <div className="w-2 shrink-0" style={{ background: ph.accent }} />
+                    <div className="flex-1 p-5">
+                      <div className="flex flex-col md:flex-row md:items-start gap-4">
+                        <div className="md:w-52 shrink-0">
+                          <span className={`text-[10px] font-bold uppercase tracking-widest ${ph.color}`}>{ph.week}</span>
+                          <p className="font-bold text-[#1A1A1A] text-sm leading-tight mt-0.5">{ph.title}</p>
+                          <p className="text-[10px] text-[#605E5C] mt-0.5">{ph.subtitle}</p>
+                        </div>
+                        <div className="flex-1 flex flex-col md:flex-row gap-4">
+                          <ul className="flex-1 space-y-1.5">
+                            {ph.items.map((item, j) => (
+                              <li key={j} className="flex items-start gap-2 text-xs text-[#605E5C]">
+                                <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${ph.color}`} />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                          <div className={`shrink-0 md:w-52 rounded-xl border p-3 ${ph.bg}`}>
+                            <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
+                            <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Dashboard FinOps insights */}
+            <div className="bg-gradient-to-r from-[#0078D4] to-[#005A9E] rounded-2xl p-7 text-white">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+                  <BarChart3 className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold">Dashboard FinOps en Acción</h3>
+                  <p className="text-[10px] text-blue-200">Del Dato al Insight · Control Presupuestario Centralizado</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {FINOPS_DASHBOARD.map((insight, i) => (
+                  <div key={i} className="flex items-center gap-3 bg-white/10 border border-white/15 rounded-xl px-4 py-3">
+                    <CheckCircle2 className="w-4 h-4 text-blue-200 shrink-0" />
+                    <span className="text-sm text-white font-medium">{insight}</span>
                   </div>
                 ))}
               </div>
