@@ -284,10 +284,10 @@ export default function CaseForm() {
               </CardContent>
             </Card>
 
-            {/* 3. Azure Auditor Report */}
+            {/* 3. ACIM · Smart Cloud Audit Report */}
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardHeader className="border-b border-white/5 pb-4">
-                <CardTitle className="text-xl">3. Azure Auditor Report</CardTitle>
+                <CardTitle className="text-xl">3. ACIM · Smart Cloud Audit Report</CardTitle>
               </CardHeader>
               <CardContent className="pt-6 space-y-6">
                 <FormField control={form.control} name="azureAuditorFindings.summary" render={({ field }) => (

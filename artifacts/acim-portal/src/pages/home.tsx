@@ -61,7 +61,7 @@ const IMPACT_CASES = [
   {
     title: "Assessment Industrial",
     description:
-      "Mapeo automático de infraestructura y pilotos a gran escala con Azure Auditor. Inventario de 2.400 recursos catalogados en 72 horas.",
+      "Mapeo automático de infraestructura y pilotos a gran escala con ACIM (Smart Cloud Audit). Inventario de 2.400 recursos catalogados en 72 horas.",
     offering: "ACIM (SCA & Discovery)",
     industry: "Industria",
     metric: "2.400 recursos",
@@ -94,6 +94,7 @@ const IMPACT_CASES = [
 
 const pillarIcons: Record<string, React.ElementType> = {
   "IaC + Serverless": Cpu,
+  "ACIM / Smart Cloud Audit": Shield,
   "Azure Auditor / SCA": Shield,
   "VDI Escalable": Layers,
   "Hub & Spoke": Network,
