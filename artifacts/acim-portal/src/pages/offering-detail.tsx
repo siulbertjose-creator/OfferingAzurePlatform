@@ -402,6 +402,75 @@ const CAF_VALUE_PROPS = [
   { icon: Network, title: "Híbrido por diseño", desc: "El journey contempla coexistencia on-premises y Azure durante y después de la migración. Sin big bang — se migra con control, validación y rollback posible en cada paso." },
 ];
 
+/* ─── Hub & Spoke Landing Zone Journey ─── */
+const HUB_PHASES = [
+  {
+    phase: "Fase 1",
+    weeks: "Semana 1",
+    title: "Discovery & Requirements",
+    subtitle: "Requisitos técnicos y decisiones de diseño",
+    color: "text-[#0078D4]",
+    bg: "bg-blue-50 border-blue-100",
+    accent: "#0078D4",
+    desc: "Relevamos el entorno actual y los requisitos de negocio: conectividad híbrida existente o requerida (ExpressRoute, VPN), rangos de IP disponibles, requisitos de segmentación por entorno (producción, dev, testing), modelo de identidad con Microsoft Entra ID y restricciones de cumplimiento normativo. Esta fase define las decisiones de diseño que condicionan todo lo que viene.",
+    deliverable: "Matriz de requisitos técnicos y de negocio, decisiones de diseño documentadas y plan de trabajo validado.",
+    icon: ScanSearch,
+  },
+  {
+    phase: "Fase 2",
+    weeks: "Semanas 2–3",
+    title: "Architecture & Design",
+    subtitle: "Diseño completo HLD/LLD de la plataforma",
+    color: "text-indigo-600",
+    bg: "bg-indigo-50 border-indigo-100",
+    accent: "#4F46E5",
+    desc: "Diseñamos la arquitectura completa: jerarquía de Management Groups y suscripciones (CAF), modelo Hub & Spoke con VNets — Hub central con servicios compartidos y Spokes por entorno o unidad de negocio —, esquema de direccionamiento IP, peering, estrategia de conectividad híbrida, modelo de identidad con Entra ID, RBAC, tagging y plan de Azure Policy.",
+    deliverable: "Documento HLD/LLD, diagrama Hub & Spoke, modelo de identidad y gobierno, esquema de direccionamiento IP.",
+    icon: Network,
+  },
+  {
+    phase: "Fase 3",
+    weeks: "Semanas 4–5",
+    title: "Platform Build",
+    subtitle: "Despliegue 100% como Infraestructura como Código",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50 border-emerald-100",
+    accent: "#059669",
+    desc: "Desplegamos la Landing Zone con Terraform: Management Groups, suscripciones, VNets Hub y Spoke con peerings, Azure Firewall o NVA en el Hub para inspección centralizada de tráfico, subnets segmentadas por función, NSG, UDR y conectividad híbrida si aplica. Configuramos Entra ID, grupos de RBAC y políticas de Azure Policy enforcement.",
+    deliverable: "Landing Zone desplegada como IaC, red Hub & Spoke operativa, identidad y RBAC configurados, políticas de gobierno activas.",
+    icon: Layers,
+  },
+  {
+    phase: "Fase 4",
+    weeks: "Semana 6",
+    title: "Validación, Go-Live & Enablement",
+    subtitle: "Validación end-to-end y autonomía del equipo",
+    color: "text-amber-600",
+    bg: "bg-amber-50 border-amber-100",
+    accent: "#D97706",
+    desc: "Validamos la conectividad end-to-end, el flujo de tráfico entre Spokes a través del Hub, las reglas de firewall y las políticas de gobierno. Incorporamos el primer workload real para verificar que la Landing Zone está lista. Handover con runbooks operativos, guía de incorporación de nuevos Spokes y sesiones de capacitación.",
+    deliverable: "Landing Zone validada en producción, documentación operativa completa y equipo IT habilitado para incorporar nuevos workloads.",
+    icon: Rocket,
+  },
+];
+
+const HUB_STACK = [
+  { icon: Network, label: "Red y Conectividad", value: "Azure Virtual Network · VNet Peering · Azure Firewall · NSG · UDR" },
+  { icon: Globe, label: "Conectividad Híbrida", value: "Azure VPN Gateway · ExpressRoute" },
+  { icon: Key, label: "Identidad y Acceso", value: "Microsoft Entra ID · Azure RBAC" },
+  { icon: Shield, label: "Gobierno y Cumplimiento", value: "Azure Policy · Management Groups" },
+  { icon: Zap, label: "Automatización e IaC", value: "Terraform · Azure CLI" },
+  { icon: Eye, label: "Observabilidad Base", value: "Azure Monitor · Log Analytics" },
+];
+
+const HUB_VALUE_PROPS = [
+  { icon: Layers, title: "Cimiento correcto desde el día uno", desc: "Una Landing Zone bien diseñada evita la deuda técnica de quien improvisa la red y el gobierno workload a workload. Se hace una vez y escala para siempre." },
+  { icon: Network, title: "Hub & Spoke probado en empresas", desc: "Servicios compartidos centralizados en el Hub, segmentación por entorno o unidad de negocio en los Spokes, inspección de tráfico con Azure Firewall." },
+  { icon: FileText, title: "100% como código", desc: "Todo el despliegue se entrega en Terraform — reproducible, versionable y auditable. El cliente recibe el código, no solo la infraestructura." },
+  { icon: Shield, title: "Alineado al CAF", desc: "Jerarquía de Management Groups, modelo de suscripciones y políticas de gobierno siguiendo la metodología oficial de Microsoft para adopciones empresariales." },
+  { icon: CheckCircle2, title: "Lista para recibir workloads", desc: "Al cierre del journey, la plataforma está validada con un workload real. El equipo sabe cómo incorporar nuevos Spokes y el proceso está documentado paso a paso." },
+];
+
 export default function OfferingDetail() {
   const params = useParams<{ id: string }>();
   const id = params?.id ? parseInt(params.id) : 0;
@@ -438,6 +507,7 @@ export default function OfferingDetail() {
   const isAVD = offering?.techPillar === "VDI Escalable";
   const isArc = offering?.techPillar === "Gobernanza Híbrida";
   const isCAF = offering?.techPillar === "Metodología CAF";
+  const isHub = offering?.techPillar === "Hub & Spoke";
   const totalCases = useCasesData?.useCases.length ?? 0;
 
   if (offeringLoading) {
@@ -1113,6 +1183,117 @@ export default function OfferingDetail() {
                 </div>
                 <div className="space-y-3">
                   {CAF_VALUE_PROPS.map((vp, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center shrink-0 border border-white/20 mt-0.5">
+                        <vp.icon className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-white">{vp.title}</p>
+                        <p className="text-[10px] text-blue-100 leading-relaxed mt-0.5">{vp.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ══════════════════════════════════════════════════
+            Hub & Spoke — Landing Zone 4-Phase Journey
+        ══════════════════════════════════════════════════ */}
+        {isHub && (
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="mb-16">
+
+            {/* Header */}
+            <div className="text-center mb-10">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#605E5C] mb-2">Accelerator Landing Zone Design Hub & Spoke</p>
+              <h2 className="text-3xl font-bold text-[#1A1A1A] tracking-tight">Journey de 4 Fases · 6 Semanas</h2>
+              <p className="text-[#605E5C] mt-2 max-w-xl mx-auto text-sm">
+                El cimiento correcto desde el día uno — red, identidad y gobierno listos para escalar, desplegados 100% como código con Terraform.
+              </p>
+            </div>
+
+            {/* Phase cards */}
+            <div className="space-y-4 mb-10">
+              {HUB_PHASES.map((ph, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.07 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md hover:border-[#0078D4]/20 transition-all"
+                >
+                  <div className="flex items-stretch">
+                    <div className="w-2 shrink-0" style={{ background: ph.accent }} />
+                    <div className="flex-1 p-5">
+                      <div className="flex flex-col md:flex-row md:items-start gap-4">
+                        <div className="flex items-center gap-4 md:w-64 shrink-0">
+                          <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${ph.bg}`}>
+                            <ph.icon className={`w-5 h-5 ${ph.color}`} />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className={`text-[10px] font-bold uppercase tracking-widest ${ph.color}`}>{ph.phase}</span>
+                              <span className="text-[10px] text-[#605E5C] bg-gray-100 px-1.5 py-0.5 rounded-full">{ph.weeks}</span>
+                            </div>
+                            <p className="font-bold text-[#1A1A1A] text-sm leading-tight">{ph.title}</p>
+                            <p className="text-[10px] text-[#605E5C] mt-0.5">{ph.subtitle}</p>
+                          </div>
+                        </div>
+                        <div className="flex-1 flex flex-col md:flex-row gap-4">
+                          <p className="text-sm text-[#605E5C] leading-relaxed flex-1">{ph.desc}</p>
+                          <div className={`shrink-0 md:w-56 rounded-xl border p-3 ${ph.bg}`}>
+                            <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
+                            <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Stack + Value Props */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-[#1A1A2E] rounded-2xl p-7">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center border border-white/10">
+                    <Network className="w-4 h-4 text-blue-300" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">Stack Tecnológico</h3>
+                    <p className="text-[10px] text-blue-300">Servicios nativos Azure para red, identidad y gobierno</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {HUB_STACK.map((s, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                      <div className="w-7 h-7 bg-[#0078D4]/20 rounded-lg flex items-center justify-center shrink-0 border border-[#0078D4]/20">
+                        <s.icon className="w-3.5 h-3.5 text-blue-300" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-blue-300 font-semibold uppercase tracking-wider">{s.label}</p>
+                        <p className="text-xs text-white font-medium truncate">{s.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-br from-[#0078D4] to-[#005A9E] rounded-2xl p-7 text-white">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+                    <Star className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold">Valor Diferencial</h3>
+                    <p className="text-[10px] text-blue-200">¿Por qué Readymind Hub & Spoke?</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {HUB_VALUE_PROPS.map((vp, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center shrink-0 border border-white/20 mt-0.5">
                         <vp.icon className="w-3.5 h-3.5 text-white" />
