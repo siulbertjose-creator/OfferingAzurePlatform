@@ -69,7 +69,7 @@ const VALUE_PROPS = [
 /* ─── Impact cases ─── */
 const IMPACT_CASES = [
   { title: "Spinoff Corporativo", description: "Migración de tenants y arquitectura Hub & Spoke para empresa multinacional con operaciones en 12 países. Reducción del 40% en costos de conectividad.", offering: "Landing Zone Hub & Spoke", industry: "Manufactura", metric: "40% ahorro" },
-  { title: "Assessment Industrial", description: "Mapeo automático con los 3 módulos ACIM: Azure Export Analyzer, Smart Cloud Audit y Discovery Maps. Inventario de 2.400 recursos catalogados en 72 horas.", offering: "ACIM (SCA & Discovery)", industry: "Industria", metric: "2.400 recursos" },
+  { title: "Assessment Industrial", description: "Mapeo automático con los 3 módulos ACIM: Azure Export Analyzer, Smart Cloud Audit y Discovery Maps. Inventario de 2.400 recursos catalogados en 72 horas.", offering: "ACIM", industry: "Industria", metric: "2.400 recursos" },
   { title: "Control FinOps", description: "Recolección de costos vía Azure Functions y dashboard de Power BI autogestionado. Visibilidad del 100% del gasto cloud en tiempo real.", offering: "Journey to FinOps", industry: "Retail", metric: "100% visibilidad" },
   { title: "Modernización VDI", description: "Despliegue de Azure Virtual Desktop para 800 usuarios remotos con golden image automatizada y autoscaling por horario laboral.", offering: "AVD Accelerator", industry: "Servicios Financieros", metric: "800 usuarios" },
   { title: "Adopción Cloud CAF", description: "Hoja de ruta de migración cloud-first con metodología CAF para empresa con más de 150 aplicaciones legacy on-premise.", offering: "Road to Cloud (CAF)", industry: "Telecomunicaciones", metric: "150 apps" },
@@ -77,7 +77,7 @@ const IMPACT_CASES = [
 
 const pillarIcons: Record<string, React.ElementType> = {
   "IaC + Serverless": Cpu,
-  "ACIM / Smart Cloud Audit": Shield,
+  "ACIM": Shield,
   "VDI Escalable": Layers,
   "Hub & Spoke": Network,
   "Metodología CAF": BarChart3,
@@ -86,7 +86,7 @@ const pillarIcons: Record<string, React.ElementType> = {
 
 const pillarColors: Record<string, string> = {
   "IaC + Serverless": "text-[#0078D4] bg-blue-50 border-blue-100",
-  "ACIM / Smart Cloud Audit": "text-indigo-600 bg-indigo-50 border-indigo-100",
+  "ACIM": "text-indigo-600 bg-indigo-50 border-indigo-100",
   "VDI Escalable": "text-cyan-600 bg-cyan-50 border-cyan-100",
   "Hub & Spoke": "text-purple-600 bg-purple-50 border-purple-100",
   "Metodología CAF": "text-amber-600 bg-amber-50 border-amber-100",
