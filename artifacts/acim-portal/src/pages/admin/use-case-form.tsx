@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams, useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,13 +13,14 @@ import {
   getGetUseCaseQueryKey,
   getListOfferingsQueryKey,
 } from "@workspace/api-client-react";
+import { useUpload } from "@workspace/object-storage-web";
 import { AdminLayout } from "@/components/layout/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowLeft, Save, ChevronDown } from "lucide-react";
+import { ArrowLeft, Save, ChevronDown, Upload, X, Building2, ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -55,6 +56,20 @@ export default function AdminUseCaseForm() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+
+  const { uploadFile, isUploading } = useUpload({
+    onSuccess: (response) => {
+      const servingUrl = `/api/storage${response.objectPath}`;
+      form.setValue("companyIconUrl", servingUrl);
+      setLogoPreview(servingUrl);
+      toast({ title: "Logo cargado correctamente" });
+    },
+    onError: () => {
+      toast({ title: "Error al cargar el logo", variant: "destructive" });
+    },
+  });
 
   const { data: offeringsData } = useListOfferings({
     query: { queryKey: getListOfferingsQueryKey() },
@@ -88,8 +103,27 @@ export default function AdminUseCaseForm() {
         previousState: existing.previousState,
         newState: existing.newState,
       });
+      if (existing.companyIconUrl) {
+        setLogoPreview(existing.companyIconUrl);
+      }
     }
   }, [existing, form]);
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const objectURL = URL.createObjectURL(file);
+    setLogoPreview(objectURL);
+
+    await uploadFile(file);
+  };
+
+  const handleRemoveLogo = () => {
+    form.setValue("companyIconUrl", "");
+    setLogoPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const createMutation = useCreateUseCase({
     mutation: {
@@ -213,11 +247,64 @@ export default function AdminUseCaseForm() {
                   </FormItem>
                 )} />
 
-                <FormField control={form.control} name="companyIconUrl" render={({ field }) => (
+                {/* Logo Upload */}
+                <FormField control={form.control} name="companyIconUrl" render={() => (
                   <FormItem>
-                    <FormLabel>URL del Logo de la Empresa (opcional)</FormLabel>
+                    <FormLabel className="flex items-center gap-2">
+                      <ImageIcon className="w-4 h-4" />
+                      Logo de la Empresa (opcional)
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="https://..." className="bg-background/50 border-white/10" {...field} value={field.value ?? ""} />
+                      <div className="flex items-center gap-4">
+                        {/* Preview */}
+                        <div className="relative flex-shrink-0">
+                          {logoPreview ? (
+                            <div className="relative w-16 h-16 rounded-xl border border-white/20 bg-white/10 overflow-hidden">
+                              <img
+                                src={logoPreview}
+                                alt="Logo preview"
+                                className="w-full h-full object-contain p-1.5"
+                              />
+                              <button
+                                type="button"
+                                onClick={handleRemoveLogo}
+                                className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors"
+                              >
+                                <X className="w-3 h-3 text-white" />
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="w-16 h-16 rounded-xl border-2 border-dashed border-white/20 bg-white/5 flex items-center justify-center">
+                              <Building2 className="w-6 h-6 text-muted-foreground" />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Upload button */}
+                        <div className="flex-1">
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleFileChange}
+                          />
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            disabled={isUploading}
+                            onClick={() => fileInputRef.current?.click()}
+                            className="border-white/20 hover:border-primary/50 hover:bg-primary/10 text-sm"
+                          >
+                            <Upload className="w-4 h-4 mr-2" />
+                            {isUploading ? "Subiendo..." : logoPreview ? "Cambiar logo" : "Subir logo"}
+                          </Button>
+                          <p className="text-xs text-muted-foreground mt-1.5">
+                            PNG, JPG o SVG — máx. 2 MB
+                          </p>
+                        </div>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -256,7 +343,7 @@ export default function AdminUseCaseForm() {
                 </div>
 
                 <div className="flex justify-end pt-2">
-                  <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <Button type="submit" disabled={isPending || isUploading} className="bg-primary hover:bg-primary/90 text-primary-foreground">
                     <Save className="w-4 h-4 mr-2" />
                     {isPending ? "Guardando..." : isEditing ? "Actualizar" : "Crear Caso"}
                   </Button>
