@@ -15,26 +15,13 @@ import {
 } from "@workspace/api-client-react";
 import { useUpload } from "@workspace/object-storage-web";
 import { AdminLayout } from "@/components/layout/Navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ArrowLeft, Save, ChevronDown, Upload, X, Building2, ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const INDUSTRY_OPTIONS = [
-  "Servicios Financieros",
-  "Manufactura",
-  "Retail",
-  "Salud",
-  "Tecnología",
-  "Gobierno",
-  "Educación",
-  "Energía",
-  "Telecomunicaciones",
-  "Otro",
+  "Servicios Financieros", "Manufactura", "Retail", "Salud",
+  "Tecnología", "Gobierno", "Educación", "Energía", "Telecomunicaciones", "Otro",
 ];
 
 const schema = z.object({
@@ -48,6 +35,9 @@ const schema = z.object({
 });
 
 type FormValues = z.infer<typeof schema>;
+
+const inputClass = "w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-[#323130] text-sm focus:outline-none focus:ring-2 focus:ring-[#0078D4]/30 focus:border-[#0078D4] transition-colors";
+const labelClass = "text-sm font-medium text-[#323130]";
 
 export default function AdminUseCaseForm() {
   const params = useParams<{ id: string }>();
@@ -66,15 +56,10 @@ export default function AdminUseCaseForm() {
       setLogoPreview(servingUrl);
       toast({ title: "Logo cargado correctamente" });
     },
-    onError: () => {
-      toast({ title: "Error al cargar el logo", variant: "destructive" });
-    },
+    onError: () => toast({ title: "Error al cargar el logo", variant: "destructive" }),
   });
 
-  const { data: offeringsData } = useListOfferings({
-    query: { queryKey: getListOfferingsQueryKey() },
-  });
-
+  const { data: offeringsData } = useListOfferings({ query: { queryKey: getListOfferingsQueryKey() } });
   const { data: existing, isLoading } = useGetUseCase(id!, {
     query: { enabled: isEditing, queryKey: getGetUseCaseQueryKey(id!) },
   });
@@ -82,13 +67,8 @@ export default function AdminUseCaseForm() {
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      offeringId: 0,
-      projectName: "",
-      industryType: "Servicios Financieros",
-      companyIconUrl: "",
-      description: "",
-      previousState: "",
-      newState: "",
+      offeringId: 0, projectName: "", industryType: "Servicios Financieros",
+      companyIconUrl: "", description: "", previousState: "", newState: "",
     },
   });
 
@@ -103,19 +83,14 @@ export default function AdminUseCaseForm() {
         previousState: existing.previousState,
         newState: existing.newState,
       });
-      if (existing.companyIconUrl) {
-        setLogoPreview(existing.companyIconUrl);
-      }
+      if (existing.companyIconUrl) setLogoPreview(existing.companyIconUrl);
     }
   }, [existing, form]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
-    const objectURL = URL.createObjectURL(file);
-    setLogoPreview(objectURL);
-
+    setLogoPreview(URL.createObjectURL(file));
     await uploadFile(file);
   };
 
@@ -148,66 +123,64 @@ export default function AdminUseCaseForm() {
   });
 
   const onSubmit = (data: FormValues) => {
-    const payload = {
-      ...data,
-      companyIconUrl: data.companyIconUrl || null,
-    };
-    if (isEditing) {
-      updateMutation.mutate({ id: id!, data: payload });
-    } else {
-      createMutation.mutate({ data: payload });
-    }
+    const payload = { ...data, companyIconUrl: data.companyIconUrl || null };
+    if (isEditing) updateMutation.mutate({ id: id!, data: payload });
+    else createMutation.mutate({ data: payload });
   };
 
   const isPending = createMutation.isPending || updateMutation.isPending;
+  const offerings = offeringsData?.offerings ?? [];
 
   if (isEditing && isLoading) {
     return (
       <AdminLayout>
-        <div className="container mx-auto px-4 py-10">
-          <Skeleton className="h-8 w-48 mb-8 bg-white/5" />
-          <Skeleton className="h-96 bg-white/5 rounded-xl" />
+        <div className="container mx-auto px-6 py-10 max-w-3xl">
+          <div className="h-8 w-48 bg-gray-100 rounded-lg mb-8 animate-pulse" />
+          <div className="h-96 bg-gray-100 rounded-2xl animate-pulse" />
         </div>
       </AdminLayout>
     );
   }
 
-  const offerings = offeringsData?.offerings ?? [];
-
   return (
     <AdminLayout>
-      <div className="container mx-auto px-4 py-10 max-w-3xl">
-        <Link href="/admin/dashboard" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-          <ArrowLeft className="w-4 h-4 mr-2" />
+      <div className="container mx-auto px-6 py-10 max-w-3xl">
+        <Link href="/admin/dashboard" className="inline-flex items-center gap-2 text-sm text-[#605E5C] hover:text-[#0078D4] transition-colors mb-8">
+          <ArrowLeft className="w-4 h-4" />
           Volver al dashboard
         </Link>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-md">
-          <CardHeader className="border-b border-white/10">
-            <CardTitle className="text-xl">
+        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-[#0078D4]/5 to-transparent">
+            <div className="h-1 w-10 bg-[#0078D4] rounded-full mb-3" />
+            <h1 className="text-xl font-bold text-[#1A1A1A]">
               {isEditing ? "Editar Caso de Uso" : "Nuevo Caso de Uso"}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
+            </h1>
+            <p className="text-sm text-[#605E5C] mt-0.5">
+              {isEditing ? "Modifica los datos del caso" : "Añade un nuevo caso de éxito al portal"}
+            </p>
+          </div>
+
+          <div className="p-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+
                 {/* Offering & Industry */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <FormField control={form.control} name="offeringId" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Servicio Asociado</FormLabel>
+                      <FormLabel className={labelClass}>Servicio Asociado</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#605E5C] pointer-events-none" />
                           <select
-                            className="w-full appearance-none bg-background/50 border border-white/10 text-foreground text-sm rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary"
+                            className={`${inputClass} appearance-none pr-10`}
                             value={field.value}
                             onChange={e => field.onChange(parseInt(e.target.value))}
                           >
-                            <option value={0} className="bg-background">Seleccionar...</option>
-                            {offerings.map(o => (
-                              <option key={o.id} value={o.id} className="bg-background">{o.name}</option>
-                            ))}
+                            <option value={0}>Seleccionar...</option>
+                            {offerings.map(o => <option key={o.id} value={o.id}>{o.name}</option>)}
                           </select>
                         </div>
                       </FormControl>
@@ -217,18 +190,16 @@ export default function AdminUseCaseForm() {
 
                   <FormField control={form.control} name="industryType" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Industria</FormLabel>
+                      <FormLabel className={labelClass}>Industria</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#605E5C] pointer-events-none" />
                           <select
-                            className="w-full appearance-none bg-background/50 border border-white/10 text-foreground text-sm rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-primary"
+                            className={`${inputClass} appearance-none pr-10`}
                             value={field.value}
                             onChange={e => field.onChange(e.target.value)}
                           >
-                            {INDUSTRY_OPTIONS.map(ind => (
-                              <option key={ind} value={ind} className="bg-background">{ind}</option>
-                            ))}
+                            {INDUSTRY_OPTIONS.map(ind => <option key={ind} value={ind}>{ind}</option>)}
                           </select>
                         </div>
                       </FormControl>
@@ -239,9 +210,9 @@ export default function AdminUseCaseForm() {
 
                 <FormField control={form.control} name="projectName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nombre del Proyecto / Cliente</FormLabel>
+                    <FormLabel className={labelClass}>Nombre del Proyecto / Cliente</FormLabel>
                     <FormControl>
-                      <Input placeholder="ej. Migración Bancaria Grupo Financiero XYZ" className="bg-background/50 border-white/10" {...field} />
+                      <input placeholder="ej. Migración Bancaria Grupo Financiero XYZ" className={inputClass} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -250,21 +221,16 @@ export default function AdminUseCaseForm() {
                 {/* Logo Upload */}
                 <FormField control={form.control} name="companyIconUrl" render={() => (
                   <FormItem>
-                    <FormLabel className="flex items-center gap-2">
-                      <ImageIcon className="w-4 h-4" />
+                    <FormLabel className={`${labelClass} flex items-center gap-2`}>
+                      <ImageIcon className="w-4 h-4 text-[#605E5C]" />
                       Logo de la Empresa (opcional)
                     </FormLabel>
                     <FormControl>
-                      <div className="flex items-center gap-4">
-                        {/* Preview */}
-                        <div className="relative flex-shrink-0">
+                      <div className="flex items-center gap-4 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                        <div className="relative shrink-0">
                           {logoPreview ? (
-                            <div className="relative w-16 h-16 rounded-xl border border-white/20 bg-white/10 overflow-hidden">
-                              <img
-                                src={logoPreview}
-                                alt="Logo preview"
-                                className="w-full h-full object-contain p-1.5"
-                              />
+                            <div className="relative w-16 h-16 rounded-xl border border-gray-200 bg-white overflow-hidden">
+                              <img src={logoPreview} alt="Logo" className="w-full h-full object-contain p-1.5" />
                               <button
                                 type="button"
                                 onClick={handleRemoveLogo}
@@ -274,35 +240,23 @@ export default function AdminUseCaseForm() {
                               </button>
                             </div>
                           ) : (
-                            <div className="w-16 h-16 rounded-xl border-2 border-dashed border-white/20 bg-white/5 flex items-center justify-center">
-                              <Building2 className="w-6 h-6 text-muted-foreground" />
+                            <div className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-300 bg-white flex items-center justify-center">
+                              <Building2 className="w-6 h-6 text-gray-400" />
                             </div>
                           )}
                         </div>
-
-                        {/* Upload button */}
                         <div className="flex-1">
-                          <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={handleFileChange}
-                          />
-                          <Button
+                          <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+                          <button
                             type="button"
-                            variant="outline"
-                            size="sm"
                             disabled={isUploading}
                             onClick={() => fileInputRef.current?.click()}
-                            className="border-white/20 hover:border-primary/50 hover:bg-primary/10 text-sm"
+                            className="inline-flex items-center gap-2 border border-[#0078D4] text-[#0078D4] hover:bg-[#0078D4]/5 disabled:opacity-60 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
                           >
-                            <Upload className="w-4 h-4 mr-2" />
+                            <Upload className="w-4 h-4" />
                             {isUploading ? "Subiendo..." : logoPreview ? "Cambiar logo" : "Subir logo"}
-                          </Button>
-                          <p className="text-xs text-muted-foreground mt-1.5">
-                            PNG, JPG o SVG — máx. 2 MB
-                          </p>
+                          </button>
+                          <p className="text-xs text-[#605E5C] mt-1.5">PNG, JPG o SVG — máx. 2 MB</p>
                         </div>
                       </div>
                     </FormControl>
@@ -312,9 +266,9 @@ export default function AdminUseCaseForm() {
 
                 <FormField control={form.control} name="description" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Descripción del Proyecto</FormLabel>
+                    <FormLabel className={labelClass}>Descripción del Proyecto</FormLabel>
                     <FormControl>
-                      <Textarea rows={3} placeholder="Descripción general del caso de uso..." className="bg-background/50 border-white/10 resize-none" {...field} />
+                      <textarea rows={3} placeholder="Descripción general del caso de uso..." className={`${inputClass} resize-none`} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -323,9 +277,14 @@ export default function AdminUseCaseForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <FormField control={form.control} name="previousState" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-red-400">Estado Anterior (Antes)</FormLabel>
+                      <FormLabel className="text-sm font-medium text-red-500">Estado Anterior (Antes)</FormLabel>
                       <FormControl>
-                        <Textarea rows={5} placeholder="Describe la situación problemática del cliente antes de la implementación..." className="bg-red-500/5 border-red-500/20 resize-none focus-visible:ring-red-500/50" {...field} />
+                        <textarea
+                          rows={5}
+                          placeholder="Situación problemática del cliente antes de la implementación..."
+                          className="w-full px-3 py-2 rounded-lg border border-red-200 bg-red-50/30 text-[#323130] text-sm focus:outline-none focus:ring-2 focus:ring-red-300 focus:border-red-400 transition-colors resize-none"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -333,25 +292,39 @@ export default function AdminUseCaseForm() {
 
                   <FormField control={form.control} name="newState" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-primary">Estado Nuevo (Después)</FormLabel>
+                      <FormLabel className="text-sm font-medium text-[#0078D4]">Estado Nuevo (Después)</FormLabel>
                       <FormControl>
-                        <Textarea rows={5} placeholder="Describe los resultados y mejoras obtenidas después de implementar el servicio..." className="bg-primary/5 border-primary/20 resize-none focus-visible:ring-primary/50" {...field} />
+                        <textarea
+                          rows={5}
+                          placeholder="Resultados y mejoras obtenidas después de implementar el servicio..."
+                          className="w-full px-3 py-2 rounded-lg border border-[#0078D4]/20 bg-[#0078D4]/5 text-[#323130] text-sm focus:outline-none focus:ring-2 focus:ring-[#0078D4]/30 focus:border-[#0078D4] transition-colors resize-none"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                 </div>
 
-                <div className="flex justify-end pt-2">
-                  <Button type="submit" disabled={isPending || isUploading} className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    <Save className="w-4 h-4 mr-2" />
+                <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
+                  <Link href="/admin/dashboard">
+                    <button type="button" className="px-4 py-2 text-sm text-[#605E5C] hover:text-[#323130] rounded-lg hover:bg-gray-100 transition-colors">
+                      Cancelar
+                    </button>
+                  </Link>
+                  <button
+                    type="submit"
+                    disabled={isPending || isUploading}
+                    className="inline-flex items-center gap-2 bg-[#0078D4] hover:bg-[#006CBE] disabled:opacity-60 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors"
+                  >
+                    <Save className="w-4 h-4" />
                     {isPending ? "Guardando..." : isEditing ? "Actualizar" : "Crear Caso"}
-                  </Button>
+                  </button>
                 </div>
               </form>
             </Form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </AdminLayout>
   );

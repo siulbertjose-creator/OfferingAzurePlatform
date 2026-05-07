@@ -168,21 +168,21 @@ export default function CaseForm() {
   const isSubmitting = createMutation.isPending || updateMutation.isPending;
 
   if (isEditMode && isLoading) {
-    return <AdminLayout><div className="container mx-auto p-8">Loading...</div></AdminLayout>;
+    return <AdminLayout><div className="container mx-auto p-8 text-[#605E5C]">Cargando...</div></AdminLayout>;
   }
 
   return (
     <AdminLayout>
-      <div className="container mx-auto px-4 py-8 max-w-5xl">
+      <div className="container mx-auto px-6 py-8 max-w-5xl">
         <div className="flex items-center gap-4 mb-8">
           <Link href="/admin/dashboard">
-            <Button variant="ghost" size="icon" className="shrink-0 rounded-full border border-white/10 bg-white/5 hover:bg-white/10">
+            <button className="w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 text-[#605E5C] shadow-sm transition-colors">
               <ArrowLeft className="w-4 h-4" />
-            </Button>
+            </button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">{isEditMode ? "Edit Success Case" : "New Success Case"}</h1>
-            <p className="text-muted-foreground mt-1">Fill out the details below to publish a new architecture case.</p>
+            <h1 className="text-2xl font-bold text-[#1A1A1A] tracking-tight">{isEditMode ? "Editar Success Case" : "Nuevo Success Case"}</h1>
+            <p className="text-[#605E5C] text-sm mt-0.5">Completa los módulos ACIM para publicar el caso.</p>
           </div>
         </div>
 

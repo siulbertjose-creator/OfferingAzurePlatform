@@ -12,14 +12,9 @@ import {
   getGetOfferingQueryKey,
 } from "@workspace/api-client-react";
 import { AdminLayout } from "@/components/layout/Navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ArrowLeft, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const schema = z.object({
   name: z.string().min(1, "Nombre requerido"),
@@ -31,6 +26,10 @@ const schema = z.object({
 });
 
 type FormValues = z.infer<typeof schema>;
+
+const inputClass = "w-full px-3 py-2 rounded-lg border border-gray-200 bg-gray-50 text-[#323130] text-sm focus:outline-none focus:ring-2 focus:ring-[#0078D4]/30 focus:border-[#0078D4] transition-colors";
+const textareaClass = `${inputClass} resize-none`;
+const labelClass = "text-sm font-medium text-[#323130]";
 
 export default function AdminOfferingForm() {
   const params = useParams<{ id: string }>();
@@ -46,14 +45,7 @@ export default function AdminOfferingForm() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      name: "",
-      durationHours: "",
-      techPillar: "",
-      businessBenefit: "",
-      whatIsIt: "",
-      whatDoesItSolve: "",
-    },
+    defaultValues: { name: "", durationHours: "", techPillar: "", businessBenefit: "", whatIsIt: "", whatDoesItSolve: "" },
   });
 
   useEffect(() => {
@@ -93,11 +85,8 @@ export default function AdminOfferingForm() {
   });
 
   const onSubmit = (data: FormValues) => {
-    if (isEditing) {
-      updateMutation.mutate({ id: id!, data });
-    } else {
-      createMutation.mutate({ data });
-    }
+    if (isEditing) updateMutation.mutate({ id: id!, data });
+    else createMutation.mutate({ data });
   };
 
   const isPending = createMutation.isPending || updateMutation.isPending;
@@ -105,9 +94,9 @@ export default function AdminOfferingForm() {
   if (isEditing && isLoading) {
     return (
       <AdminLayout>
-        <div className="container mx-auto px-4 py-10">
-          <Skeleton className="h-8 w-48 mb-8 bg-white/5" />
-          <Skeleton className="h-96 bg-white/5 rounded-xl" />
+        <div className="container mx-auto px-6 py-10 max-w-3xl">
+          <div className="h-8 w-48 bg-gray-100 rounded-lg mb-8 animate-pulse" />
+          <div className="h-96 bg-gray-100 rounded-2xl animate-pulse" />
         </div>
       </AdminLayout>
     );
@@ -115,27 +104,33 @@ export default function AdminOfferingForm() {
 
   return (
     <AdminLayout>
-      <div className="container mx-auto px-4 py-10 max-w-3xl">
-        <Link href="/admin/dashboard" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors mb-8">
-          <ArrowLeft className="w-4 h-4 mr-2" />
+      <div className="container mx-auto px-6 py-10 max-w-3xl">
+        <Link href="/admin/dashboard" className="inline-flex items-center gap-2 text-sm text-[#605E5C] hover:text-[#0078D4] transition-colors mb-8">
+          <ArrowLeft className="w-4 h-4" />
           Volver al dashboard
         </Link>
 
-        <Card className="bg-white/5 border-white/10 backdrop-blur-md">
-          <CardHeader className="border-b border-white/10">
-            <CardTitle className="text-xl">
+        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
+          {/* Header */}
+          <div className="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-[#0078D4]/5 to-transparent">
+            <div className="h-1 w-10 bg-[#0078D4] rounded-full mb-3" />
+            <h1 className="text-xl font-bold text-[#1A1A1A]">
               {isEditing ? "Editar Servicio" : "Nuevo Servicio"}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-6">
+            </h1>
+            <p className="text-sm text-[#605E5C] mt-0.5">
+              {isEditing ? "Actualiza los datos del servicio" : "Completa los datos del nuevo servicio"}
+            </p>
+          </div>
+
+          <div className="p-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <FormField control={form.control} name="name" render={({ field }) => (
                     <FormItem className="md:col-span-2">
-                      <FormLabel>Nombre del Servicio</FormLabel>
+                      <FormLabel className={labelClass}>Nombre del Servicio</FormLabel>
                       <FormControl>
-                        <Input placeholder="ej. Journey to FinOps" className="bg-background/50 border-white/10" {...field} />
+                        <input placeholder="ej. Journey to FinOps" className={inputClass} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -143,9 +138,9 @@ export default function AdminOfferingForm() {
 
                   <FormField control={form.control} name="durationHours" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Duración</FormLabel>
+                      <FormLabel className={labelClass}>Duración</FormLabel>
                       <FormControl>
-                        <Input placeholder="ej. 40 horas / TBD" className="bg-background/50 border-white/10" {...field} />
+                        <input placeholder="ej. 40 horas / TBD" className={inputClass} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -153,9 +148,9 @@ export default function AdminOfferingForm() {
 
                   <FormField control={form.control} name="techPillar" render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Pilar Técnico</FormLabel>
+                      <FormLabel className={labelClass}>Pilar Técnico</FormLabel>
                       <FormControl>
-                        <Input placeholder="ej. IaC + Serverless" className="bg-background/50 border-white/10" {...field} />
+                        <input placeholder="ej. IaC + Serverless" className={inputClass} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -164,9 +159,9 @@ export default function AdminOfferingForm() {
 
                 <FormField control={form.control} name="businessBenefit" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Beneficio de Negocio</FormLabel>
+                    <FormLabel className={labelClass}>Beneficio de Negocio</FormLabel>
                     <FormControl>
-                      <Input placeholder="ej. Control total del gasto sin esfuerzo manual." className="bg-background/50 border-white/10" {...field} />
+                      <input placeholder="ej. Control total del gasto sin esfuerzo manual." className={inputClass} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -174,9 +169,9 @@ export default function AdminOfferingForm() {
 
                 <FormField control={form.control} name="whatIsIt" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>¿Qué es?</FormLabel>
+                    <FormLabel className={labelClass}>¿Qué es?</FormLabel>
                     <FormControl>
-                      <Textarea rows={4} placeholder="Descripción del servicio..." className="bg-background/50 border-white/10 resize-none" {...field} />
+                      <textarea rows={4} placeholder="Descripción del servicio..." className={textareaClass} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -184,24 +179,33 @@ export default function AdminOfferingForm() {
 
                 <FormField control={form.control} name="whatDoesItSolve" render={({ field }) => (
                   <FormItem>
-                    <FormLabel>¿Qué resuelve?</FormLabel>
+                    <FormLabel className={labelClass}>¿Qué resuelve?</FormLabel>
                     <FormControl>
-                      <Textarea rows={4} placeholder="Problemas que soluciona..." className="bg-background/50 border-white/10 resize-none" {...field} />
+                      <textarea rows={4} placeholder="Problemas que soluciona..." className={textareaClass} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
 
-                <div className="flex justify-end pt-2">
-                  <Button type="submit" disabled={isPending} className="bg-primary hover:bg-primary/90 text-primary-foreground">
-                    <Save className="w-4 h-4 mr-2" />
+                <div className="flex items-center justify-end gap-3 pt-2 border-t border-gray-100">
+                  <Link href="/admin/dashboard">
+                    <button type="button" className="px-4 py-2 text-sm text-[#605E5C] hover:text-[#323130] transition-colors rounded-lg hover:bg-gray-100">
+                      Cancelar
+                    </button>
+                  </Link>
+                  <button
+                    type="submit"
+                    disabled={isPending}
+                    className="inline-flex items-center gap-2 bg-[#0078D4] hover:bg-[#006CBE] disabled:opacity-60 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors"
+                  >
+                    <Save className="w-4 h-4" />
                     {isPending ? "Guardando..." : isEditing ? "Actualizar" : "Crear Servicio"}
-                  </Button>
+                  </button>
                 </div>
               </form>
             </Form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </AdminLayout>
   );
