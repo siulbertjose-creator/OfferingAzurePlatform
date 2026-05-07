@@ -232,20 +232,13 @@ export default function CaseForm() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <FormField control={form.control} name="discoveryMapUrl" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Discovery Map Image URL (Optional)</FormLabel>
-                    <FormControl><Input placeholder="https://..." className="bg-background/50 border-white/10" {...field} value={field.value || ''} /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
               </CardContent>
             </Card>
 
-            {/* 2. Azure Analyzer Export */}
+            {/* 2. Azure Export Analyzer */}
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardHeader className="border-b border-white/5 pb-4">
-                <CardTitle className="text-xl">2. Azure Analyzer KPI Export</CardTitle>
+                <CardTitle className="text-xl">2. Azure Export Analyzer</CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -284,10 +277,10 @@ export default function CaseForm() {
               </CardContent>
             </Card>
 
-            {/* 3. ACIM · Smart Cloud Audit Report */}
+            {/* 3. Smart Cloud Audit */}
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardHeader className="border-b border-white/5 pb-4">
-                <CardTitle className="text-xl">3. ACIM · Smart Cloud Audit Report</CardTitle>
+                <CardTitle className="text-xl">3. Smart Cloud Audit</CardTitle>
               </CardHeader>
               <CardContent className="pt-6 space-y-6">
                 <FormField control={form.control} name="azureAuditorFindings.summary" render={({ field }) => (
@@ -385,6 +378,22 @@ export default function CaseForm() {
                   )}
                 </div>
 
+              </CardContent>
+            </Card>
+
+            {/* 4. Discovery Maps */}
+            <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+              <CardHeader className="border-b border-white/5 pb-4">
+                <CardTitle className="text-xl">4. Discovery Maps</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <FormField control={form.control} name="discoveryMapUrl" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Discovery Map Image URL (Opcional)</FormLabel>
+                    <FormControl><Input placeholder="https://..." className="bg-background/50 border-white/10" {...field} value={field.value || ''} /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
               </CardContent>
             </Card>
 

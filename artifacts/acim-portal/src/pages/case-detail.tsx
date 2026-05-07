@@ -176,7 +176,7 @@ export default function CaseDetail() {
             <section className="pt-8">
               <h2 className="text-2xl font-bold mb-6 flex items-center">
                 <AlertTriangle className="w-6 h-6 mr-2 text-primary" />
-                ACIM · Smart Cloud Audit Findings
+                ACIM · Módulo Smart Cloud Audit
               </h2>
               
               <div className="bg-white/5 border border-white/10 rounded-xl p-6 backdrop-blur-md mb-6">

@@ -61,7 +61,7 @@ const IMPACT_CASES = [
   {
     title: "Assessment Industrial",
     description:
-      "Mapeo automático de infraestructura y pilotos a gran escala con ACIM (Smart Cloud Audit). Inventario de 2.400 recursos catalogados en 72 horas.",
+      "Mapeo automático con los 3 módulos ACIM: Azure Export Analyzer, Smart Cloud Audit y Discovery Maps. Inventario de 2.400 recursos catalogados en 72 horas.",
     offering: "ACIM (SCA & Discovery)",
     industry: "Industria",
     metric: "2.400 recursos",
