@@ -251,8 +251,8 @@ export default function OfferingDetail() {
                   key={uc.id}
                   variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}
                 >
-                  <Card className="h-full bg-white/5 border-white/10 hover:border-primary/40 hover:bg-white/8 transition-all duration-300 backdrop-blur-md flex flex-col overflow-hidden">
-                    <CardContent className="p-6 flex flex-col h-full">
+                  <Card className="bg-white/5 border-white/10 hover:border-primary/40 hover:bg-white/8 transition-all duration-300 backdrop-blur-md flex flex-col overflow-hidden">
+                    <CardContent className="p-6 flex flex-col">
                       {/* Header row */}
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-3">
@@ -276,17 +276,17 @@ export default function OfferingDetail() {
                         </div>
                       </div>
 
-                      <p className="text-sm text-muted-foreground mb-5 line-clamp-2 leading-relaxed">
+                      <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
                         {uc.description}
                       </p>
 
                       {/* Before / After */}
-                      <div className="grid grid-cols-2 gap-3 mt-auto">
+                      <div className="grid grid-cols-2 gap-3 mt-2">
                         <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
                           <div className="text-[10px] uppercase tracking-widest text-red-400 font-semibold mb-1.5">
                             Antes
                           </div>
-                          <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+                          <p className="text-xs text-muted-foreground leading-relaxed">
                             {uc.previousState}
                           </p>
                         </div>
@@ -294,7 +294,7 @@ export default function OfferingDetail() {
                           <div className="text-[10px] uppercase tracking-widest text-primary font-semibold mb-1.5">
                             Después
                           </div>
-                          <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+                          <p className="text-xs text-muted-foreground leading-relaxed">
                             {uc.newState}
                           </p>
                         </div>
