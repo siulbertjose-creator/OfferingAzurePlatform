@@ -1,0 +1,48 @@
+Landing Zone Design Hub & Spoke
+El cimiento correcto para su adopción de Azure — una plataforma de red, identidad y gobierno lista para escalar desde el primer workload.
+Una Landing Zone mal diseñada es el origen de la mayoría de los problemas en adopciones de nube: redes planas sin segmentación, identidades sin gobierno, políticas inconsistentes y costos difíciles de rastrear. Nuestra oferta Accelerator Landing Zone Design Hub & Spoke entrega una plataforma Azure lista para producción, diseñada bajo los principios del Cloud Adoption Framework de Microsoft y la topología Hub & Spoke — la arquitectura de red de referencia para entornos empresariales que necesitan conectividad híbrida, segmentación de workloads y gobierno centralizado. Journey de 6 semanas con entregables concretos en cada fase.
+🧩 Metodología – el journey en 4 fases
+🔹 FASE 1 · Semana 1
+Discovery & Requirements
+Relevamos el entorno actual y los requisitos de negocio que debe satisfacer la Landing Zone. Analizamos la conectividad híbrida existente o requerida (ExpressRoute, VPN), los rangos de direccionamiento IP disponibles, los requisitos de segmentación por entorno (producción, desarrollo, testing), el modelo de identidad con Microsoft Entra ID y las restricciones de cumplimiento normativo. Esta fase define las decisiones de diseño que condicionan todo lo que viene.
+Entregable
+Matriz de requisitos técnicos y de negocio, decisiones de diseño documentadas y plan de trabajo validado.
+🔹 FASE 2 · Semanas 2 y 3
+Architecture & Design
+Diseñamos la arquitectura completa de la Landing Zone. Definimos la jerarquía de Management Groups y suscripciones siguiendo el CAF, el modelo de red Hub & Spoke con sus VNets (Hub central con servicios compartidos y Spokes por entorno o unidad de negocio), el esquema de direccionamiento IP, el modelo de peering y la estrategia de conectividad híbrida. Diseñamos también el modelo de identidad con Microsoft Entra ID, la estructura de RBAC, la estrategia de tagging y el plan de gobierno con Azure Policy.
+Entregable
+Documento de Arquitectura (HLD/LLD), diagrama de red Hub & Spoke, modelo de identidad y gobierno, y esquema de direccionamiento IP.
+🔹 FASE 3 · Semanas 4 y 5
+Platform Build
+Desplegamos la Landing Zone como Infraestructura como Código con Terraform. Aprovisionamos la jerarquía de Management Groups y suscripciones, las VNets Hub y Spoke con sus peerings, Azure Firewall o Network Virtual Appliance en el Hub para inspección centralizada de tráfico, las subnets segmentadas por función, los Network Security Groups, las rutas definidas por UDR y la conectividad híbrida si aplica. Configuramos Microsoft Entra ID, los grupos de RBAC y desplegamos las Azure Policies de gobierno base sobre toda la jerarquía.
+Entregable
+Landing Zone desplegada como IaC, red Hub & Spoke operativa, identidad y RBAC configurados, políticas de gobierno activas.
+🔹 FASE 4 · Semana 6
+Validación, Go-Live & Enablement
+Validamos la conectividad end-to-end, el flujo de tráfico entre Spokes a través del Hub, las reglas de firewall y las políticas de gobierno. Incorporamos el primer workload de prueba para verificar que la Landing Zone está lista para recibir cargas de trabajo reales. Realizamos el handover con documentación completa — runbooks operativos, guía de incorporación de nuevos Spokes y sesiones de capacitación — para que el equipo técnico pueda operar y expandir la plataforma de forma autónoma.
+Entregable
+Landing Zone validada en producción, documentación operativa completa y equipo IT habilitado para incorporar nuevos workloads.
+🛠️ Stack tecnológico y servicios asociados
+Red y conectividad
+Azure Virtual Network, VNet Peering, Azure Firewall, NSG, UDR
+Conectividad híbrida
+Azure VPN Gateway, ExpressRoute
+Identidad y acceso
+Microsoft Entra ID, Azure RBAC
+Gobierno y cumplimiento
+Azure Policy, Management Groups
+Automatización e IaC
+Terraform, Azure CLI
+Observabilidad base
+Azure Monitor, Log Analytics
+💎 Nuestro valor diferencial
+✔️
+Cimiento correcto desde el día uno: Una Landing Zone bien diseñada evita la deuda técnica que acumula quien improvisa la red y el gobierno al ritmo de cada workload. Se hace una vez y escala para siempre.
+✔️
+Hub & Spoke probado en empresas: Topología de red de referencia para entornos corporativos — servicios compartidos centralizados en el Hub, segmentación por entorno o unidad de negocio en los Spokes, inspección de tráfico con Azure Firewall.
+✔️
+100% como código: Todo el despliegue se entrega en Terraform — reproducible, versionable y auditable. El cliente recibe el código, no solo la infraestructura.
+✔️
+Alineado al CAF: Jerarquía de Management Groups, modelo de suscripciones y políticas de gobierno siguiendo la metodología oficial de Microsoft para adopciones empresariales.
+✔️
+Lista para recibir workloads: Al cierre del journey, la plataforma está validada con un workload real. El equipo sabe cómo incorporar nuevos Spokes y el proceso está documentado paso a paso.

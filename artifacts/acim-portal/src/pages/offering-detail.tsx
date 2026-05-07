@@ -324,6 +324,84 @@ const ARC_VALUE_PROPS = [
   { icon: Layers, title: "Stepping stone a la modernización", desc: "Arc es la base para futuras iniciativas: Azure Migrate, SQL modernization o adopción de Kubernetes — sin rehacer el trabajo." },
 ];
 
+/* ─── CAF Road to Cloud Journey ─── */
+const CAF_PHASES = [
+  {
+    phase: "Fase 1",
+    weeks: "Semanas 1–2",
+    title: "Assessment & Strategy",
+    subtitle: "Descubrimiento y clasificación de workloads",
+    color: "text-[#0078D4]",
+    bg: "bg-blue-50 border-blue-100",
+    accent: "#0078D4",
+    desc: "Descubrimos y analizamos el entorno actual con Azure Migrate: servidores, bases de datos, aplicaciones y dependencias. Clasificamos los workloads según las 6R (Rehost, Replatform, Refactor, Rearchitect, Retire, Retain) y definimos junto al cliente qué se mueve, en qué orden y con qué estrategia.",
+    deliverable: "Inventario de workloads, clasificación 6R, business case con proyección de costos y roadmap priorizado.",
+    icon: ScanSearch,
+    tracks: [],
+  },
+  {
+    phase: "Fase 2",
+    weeks: "Semanas 3–4",
+    title: "Landing Zone Design",
+    subtitle: "Cimiento seguro y escalable en Azure",
+    color: "text-indigo-600",
+    bg: "bg-indigo-50 border-indigo-100",
+    accent: "#4F46E5",
+    desc: "Diseñamos y desplegamos la Landing Zone siguiendo el CAF: jerarquía de Management Groups, suscripciones, Resource Groups, modelo de red (hub & spoke o flat), identidad con Microsoft Entra ID, RBAC y políticas de gobierno base con Azure Policy. El destino está preparado antes de mover el primer workload.",
+    deliverable: "Landing Zone desplegada, modelo de red configurado, RBAC y políticas base activas.",
+    icon: Layers,
+    tracks: [],
+  },
+  {
+    phase: "Fase 3",
+    weeks: "Semanas 5–7",
+    title: "Migration & Modernization",
+    subtitle: "4 tracks modulares según prioridades del cliente",
+    color: "text-cyan-600",
+    bg: "bg-cyan-50 border-cyan-100",
+    accent: "#0891B2",
+    desc: "Ejecutamos la migración de workloads seleccionados en el Assessment. El alcance es modular — el cliente elige el track según sus prioridades:",
+    deliverable: "Workloads seleccionados migrados y operativos en Azure, validados con pruebas UAT.",
+    icon: Rocket,
+    tracks: [
+      { label: "IaaS", detail: "Lift & shift de VMs a Azure Virtual Machines con Azure Migrate. Mínimo cambio, máxima velocidad." },
+      { label: "Contenedores · AKS", detail: "Containerización y despliegue en Azure Kubernetes Service para workloads con potencial de escala." },
+      { label: "PaaS", detail: "Migración a Azure SQL, App Service y Azure Functions — sin infraestructura que gestionar." },
+      { label: "Analítica e IA", detail: "Azure Synapse, Azure OpenAI Service y Azure Machine Learning para cargas analíticas e inteligentes." },
+    ],
+  },
+  {
+    phase: "Fase 4",
+    weeks: "Semana 8",
+    title: "Go-Live & Enablement",
+    subtitle: "Producción, monitoreo y autonomía del equipo",
+    color: "text-amber-600",
+    bg: "bg-amber-50 border-amber-100",
+    accent: "#D97706",
+    desc: "Validamos el entorno migrado en producción, cerramos dependencias on-premises y estabilizamos la operación. Habilitamos Azure Monitor para visibilidad continua y entregamos documentación operativa con runbooks. El handover garantiza que el equipo opere, escale y evolucione el entorno de forma autónoma en el Día 2.",
+    deliverable: "Entorno en producción, monitoreo activo, documentación operativa y equipo IT habilitado para el Día 2.",
+    icon: Star,
+    tracks: [],
+  },
+];
+
+const CAF_STACK = [
+  { icon: ScanSearch, label: "Discovery y Migración", value: "Azure Migrate · Azure Site Recovery" },
+  { icon: Cpu, label: "Cómputo e Infraestructura", value: "Azure Virtual Machines · AKS" },
+  { icon: Database, label: "Servicios Administrados", value: "Azure SQL · App Service · Azure Functions" },
+  { icon: BarChart3, label: "Analítica e IA", value: "Azure Synapse · Azure OpenAI · Azure ML" },
+  { icon: Key, label: "Identidad y Gobierno", value: "Microsoft Entra ID · Azure Policy · RBAC" },
+  { icon: Eye, label: "Observabilidad", value: "Azure Monitor · Log Analytics" },
+];
+
+const CAF_VALUE_PROPS = [
+  { icon: Layers, title: "Alcance modular", desc: "El cliente elige qué migrar — IaaS, AKS, PaaS, analítica o IA. No es un paquete cerrado, es un camino diseñado según las prioridades reales del negocio." },
+  { icon: FileText, title: "CAF como guía", desc: "Todo el journey está alineado al Cloud Adoption Framework de Microsoft — la metodología de referencia para adopciones empresariales seguras, escalables y bien gobernadas." },
+  { icon: Shield, title: "Landing Zone primero", desc: "Antes de mover un solo workload, el destino está preparado. Gobierno, red e identidad configurados desde el inicio para que cada migración llegue a un entorno sólido." },
+  { icon: BarChart3, title: "Business case incluido", desc: "El Assessment no es solo técnico — incluye proyección de costos en Azure y comparativa contra el entorno actual para respaldar la decisión con datos concretos." },
+  { icon: Network, title: "Híbrido por diseño", desc: "El journey contempla coexistencia on-premises y Azure durante y después de la migración. Sin big bang — se migra con control, validación y rollback posible en cada paso." },
+];
+
 export default function OfferingDetail() {
   const params = useParams<{ id: string }>();
   const id = params?.id ? parseInt(params.id) : 0;
@@ -359,6 +437,7 @@ export default function OfferingDetail() {
   const isFinOps = offering?.techPillar === "IaC + Serverless";
   const isAVD = offering?.techPillar === "VDI Escalable";
   const isArc = offering?.techPillar === "Gobernanza Híbrida";
+  const isCAF = offering?.techPillar === "Metodología CAF";
   const totalCases = useCasesData?.useCases.length ?? 0;
 
   if (offeringLoading) {
@@ -908,6 +987,132 @@ export default function OfferingDetail() {
                 </div>
                 <div className="space-y-3">
                   {ARC_VALUE_PROPS.map((vp, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center shrink-0 border border-white/20 mt-0.5">
+                        <vp.icon className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-white">{vp.title}</p>
+                        <p className="text-[10px] text-blue-100 leading-relaxed mt-0.5">{vp.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ══════════════════════════════════════════════════
+            CAF — Road to Cloud 4-Phase Journey
+        ══════════════════════════════════════════════════ */}
+        {isCAF && (
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="mb-16">
+
+            {/* Header */}
+            <div className="text-center mb-10">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#605E5C] mb-2">Road to Cloud · Azure Migrate & CAF</p>
+              <h2 className="text-3xl font-bold text-[#1A1A1A] tracking-tight">Journey de 4 Fases · 8 Semanas</h2>
+              <p className="text-[#605E5C] mt-2 max-w-xl mx-auto text-sm">
+                Del inventario on-premises a Azure — con el ritmo y alcance que su organización necesita. Modular, con business case incluido y Landing Zone primero.
+              </p>
+            </div>
+
+            {/* Phase cards */}
+            <div className="space-y-4 mb-10">
+              {CAF_PHASES.map((ph, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.07 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md hover:border-[#0078D4]/20 transition-all"
+                >
+                  <div className="flex items-stretch">
+                    <div className="w-2 shrink-0" style={{ background: ph.accent }} />
+                    <div className="flex-1 p-5">
+                      <div className="flex flex-col md:flex-row md:items-start gap-4">
+                        {/* Icon + label */}
+                        <div className="flex items-center gap-4 md:w-64 shrink-0">
+                          <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${ph.bg}`}>
+                            <ph.icon className={`w-5 h-5 ${ph.color}`} />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className={`text-[10px] font-bold uppercase tracking-widest ${ph.color}`}>{ph.phase}</span>
+                              <span className="text-[10px] text-[#605E5C] bg-gray-100 px-1.5 py-0.5 rounded-full">{ph.weeks}</span>
+                            </div>
+                            <p className="font-bold text-[#1A1A1A] text-sm leading-tight">{ph.title}</p>
+                            <p className="text-[10px] text-[#605E5C] mt-0.5">{ph.subtitle}</p>
+                          </div>
+                        </div>
+                        {/* Content */}
+                        <div className="flex-1 flex flex-col gap-3">
+                          <p className="text-sm text-[#605E5C] leading-relaxed">{ph.desc}</p>
+                          {/* Migration tracks for phase 3 */}
+                          {ph.tracks.length > 0 && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                              {ph.tracks.map((t, j) => (
+                                <div key={j} className={`rounded-xl border px-3 py-2.5 ${ph.bg}`}>
+                                  <p className={`text-[10px] font-bold uppercase tracking-widest mb-0.5 ${ph.color}`}>{t.label}</p>
+                                  <p className="text-[11px] text-[#605E5C] leading-relaxed">{t.detail}</p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                          <div className={`rounded-xl border p-3 ${ph.bg}`}>
+                            <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
+                            <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Stack + Value Props */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tech Stack */}
+              <div className="bg-[#1A1A2E] rounded-2xl p-7">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center border border-white/10">
+                    <Cpu className="w-4 h-4 text-blue-300" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">Stack Tecnológico</h3>
+                    <p className="text-[10px] text-blue-300">Servicios nativos Azure para cada track de migración</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {CAF_STACK.map((s, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                      <div className="w-7 h-7 bg-[#0078D4]/20 rounded-lg flex items-center justify-center shrink-0 border border-[#0078D4]/20">
+                        <s.icon className="w-3.5 h-3.5 text-blue-300" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-blue-300 font-semibold uppercase tracking-wider">{s.label}</p>
+                        <p className="text-xs text-white font-medium truncate">{s.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Value Props */}
+              <div className="bg-gradient-to-br from-[#0078D4] to-[#005A9E] rounded-2xl p-7 text-white">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+                    <Star className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold">Valor Diferencial</h3>
+                    <p className="text-[10px] text-blue-200">¿Por qué Readymind Road to Cloud?</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {CAF_VALUE_PROPS.map((vp, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center shrink-0 border border-white/20 mt-0.5">
                         <vp.icon className="w-3.5 h-3.5 text-white" />

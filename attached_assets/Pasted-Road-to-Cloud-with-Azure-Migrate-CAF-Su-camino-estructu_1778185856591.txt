@@ -1,0 +1,56 @@
+Road to Cloud with Azure Migrate & CAF
+Su camino estructurado hacia Azure — desde el inventario on-premises hasta la nube, con el ritmo y el alcance que su organización necesita.
+Migrar a la nube no es un evento único — es un journey estratégico. Nuestra oferta Road to Cloud with Azure Migrate & CAF guía a su organización desde el assessment de la infraestructura actual hasta la operación en Azure, alineada a los principios del Cloud Adoption Framework de Microsoft. El journey tiene una estructura de 8 semanas con fases definidas, entregables concretos y un alcance de workloads adaptable a las prioridades de su negocio: IaaS, contenedores con AKS, servicios PaaS, analítica e inteligencia artificial.
+🧩 Metodología – el journey en 4 fases
+🔹 FASE 1 · Semanas 1 y 2
+Assessment & Strategy
+Descubrimos y analizamos el entorno actual con Azure Migrate. Relevamos servidores, bases de datos, aplicaciones y dependencias. Categorizamos los workloads candidatos a migración según las 6R (Rehost, Replatform, Refactor, Rearchitect, Retire, Retain) y definimos junto al cliente el alcance del journey: qué se mueve, en qué orden y con qué estrategia. El resultado es un business case con estimación de costos en Azure y un roadmap de migración priorizado.
+Entregable
+Inventario de workloads, clasificación por estrategia de migración, business case y roadmap priorizado.
+🔹 FASE 2 · Semanas 3 y 4
+Landing Zone Design
+Diseñamos y desplegamos la Landing Zone en Azure siguiendo el CAF. Definimos la jerarquía de Management Groups, suscripciones, Resource Groups, modelo de red (hub & spoke o flat según el alcance), identidad con Microsoft Entra ID, RBAC y las políticas de gobierno base con Azure Policy. La Landing Zone es el cimiento que garantiza que todo lo que llegue a Azure lo haga de forma segura, ordenada y escalable desde el primer workload.
+Entregable
+Landing Zone desplegada, modelo de red configurado, RBAC y políticas base activas.
+🔹 FASE 3 · Semanas 5, 6 y 7
+Migration & Modernization
+Ejecutamos la migración de los workloads seleccionados en el Assessment. El alcance de esta fase es modular y se define junto al cliente según sus prioridades. Cada track tiene su propia metodología y herramientas:
+IaaS
+Lift & shift de VMs on-premises a Azure Virtual Machines con Azure Migrate. Mínimo cambio, máxima velocidad.
+Contenedores · AKS
+Containerización de aplicaciones y despliegue en Azure Kubernetes Service. Para workloads con potencial de escala y modernización.
+PaaS
+Migración de bases de datos y apps a servicios administrados: Azure SQL, App Service, Azure Functions. Sin infraestructura que gestionar.
+Analítica e IA
+Habilitación de cargas analíticas y de inteligencia artificial en Azure: Azure Synapse, Azure OpenAI Service, Azure Machine Learning.
+Entregable
+Workloads seleccionados migrados y operativos en Azure, validados con pruebas de aceptación (UAT).
+🔹 FASE 4 · Semana 8
+Go-Live & Enablement
+Validamos el entorno migrado en producción, cerramos las dependencias on-premises que correspondan y estabilizamos la operación. Habilitamos Azure Monitor para visibilidad continua y entregamos la documentación operativa con runbooks para el equipo del cliente. El handover garantiza que el equipo técnico pueda operar, escalar y evolucionar el entorno de forma autónoma.
+Entregable
+Entorno en producción, monitoreo activo, documentación operativa y equipo IT habilitado para el Día 2.
+🛠️ Stack tecnológico y servicios asociados
+Discovery y migración
+Azure Migrate, Azure Site Recovery
+Cómputo e infraestructura
+Azure Virtual Machines, AKS
+Servicios administrados
+Azure SQL, App Service, Azure Functions
+Analítica e IA
+Azure Synapse, Azure OpenAI, Azure ML
+Identidad y gobierno
+Microsoft Entra ID, Azure Policy, RBAC
+Observabilidad
+Azure Monitor, Log Analytics
+💎 Nuestro valor diferencial
+✔️
+Alcance modular: El cliente elige qué migrar — IaaS, AKS, PaaS, analítica o IA — y el journey se adapta. No es un paquete cerrado, es un camino diseñado según las prioridades reales del negocio.
+✔️
+CAF como guía: Todo el journey está alineado al Cloud Adoption Framework de Microsoft — la metodología de referencia para adopciones empresariales seguras, escalables y bien gobernadas.
+✔️
+Landing Zone primero: Antes de mover un solo workload, el destino está preparado. Gobierno, red e identidad configurados desde el inicio para que cada migración llegue a un entorno sólido.
+✔️
+Business case incluido: El Assessment no es solo técnico — incluye proyección de costos en Azure y comparativa contra el entorno actual para respaldar la decisión de migración con datos concretos.
+✔️
+Híbrido por diseño: El journey contempla coexistencia on-premises y Azure durante y después de la migración. No se fuerza un big bang — se migra con control, validación y rollback posible en cada paso.
