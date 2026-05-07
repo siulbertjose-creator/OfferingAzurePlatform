@@ -12,8 +12,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   ArrowLeft, Clock, Lightbulb, Wrench, Search, Filter, Building2,
   ChevronDown, CheckCircle2, XCircle, Tag, Database, ScanSearch,
-  Map, Shield, Lock, Key, AlertTriangle, TrendingDown, BarChart3,
+  Map, Shield, Lock, Key, TrendingDown, BarChart3,
   Layers, Globe, Bell, Zap, ArrowRight, Users, FileText,
+  Monitor, Cpu, Network, HardDrive, Eye, Star, Target, Rocket,
 } from "lucide-react";
 
 /* ─── ACIM Modules ─── */
@@ -136,6 +137,87 @@ const FINOPS_PHASES = [
   { title: "Optimización", desc: "Activación de alertas Advisor, chargeback por departamento y plan de remediación priorizado." },
 ];
 
+/* ─── AVD Journey ─── */
+const AVD_PHASES = [
+  {
+    phase: "Fase 1",
+    weeks: "Semana 1",
+    title: "Strategy & Discovery",
+    subtitle: "Alineación de negocio y evaluación de viabilidad",
+    color: "text-[#0078D4]",
+    bg: "bg-blue-50 border-blue-100",
+    accent: "#0078D4",
+    desc: "Analizamos el ecosistema actual, categorizamos perfiles de usuario y mapeamos dependencias operativas para diseñar una estrategia de adopción que responda a los objetivos críticos.",
+    deliverable: "Matriz de casos de uso, alcance del entorno y estrategia de adopción recomendada.",
+    icon: Target,
+  },
+  {
+    phase: "Fase 2",
+    weeks: "Semanas 2–3",
+    title: "Architecture & Design",
+    subtitle: "Diseño de plataforma escalable y resiliente",
+    color: "text-indigo-600",
+    bg: "bg-indigo-50 border-indigo-100",
+    accent: "#4F46E5",
+    desc: "Arquitectamos la solución AVD Enterprise-Ready: topologías de red, esquemas de identidad, gestión dinámica de perfiles, políticas de seguridad y proyecciones de consumo (FinOps).",
+    deliverable: "Documento HLD/LLD, modelo estimado de costos y lineamientos de gobierno.",
+    icon: Layers,
+  },
+  {
+    phase: "Fase 3",
+    weeks: "Semanas 4–5",
+    title: "Platform Build & Configuration",
+    subtitle: "Despliegue ágil, estandarizado y automatizado",
+    color: "text-cyan-600",
+    bg: "bg-cyan-50 border-cyan-100",
+    accent: "#0891B2",
+    desc: "IaC con Terraform y PowerShell: infraestructura base modular, Host Pools, Golden Images automatizadas, FSLogix para perfiles y mecanismos de entrega de aplicaciones.",
+    deliverable: "Entorno AVD aprovisionado, operativo y listo para pruebas controladas (UAT).",
+    icon: Cpu,
+  },
+  {
+    phase: "Fase 4",
+    weeks: "Semanas 6–7",
+    title: "Optimization, Security & Governance",
+    subtitle: "Aseguramiento y eficiencia operativa",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50 border-emerald-100",
+    accent: "#059669",
+    desc: "Auto-escalado para optimización de costos, acceso condicional MFA/Zero Trust y telemetría centralizada para observabilidad y cumplimiento normativo continuo.",
+    deliverable: "Plataforma optimizada, asegurada y financieramente eficiente.",
+    icon: Shield,
+  },
+  {
+    phase: "Fase 5",
+    weeks: "Semana 8",
+    title: "Go-Live & Enablement",
+    subtitle: "Transición operativa y empoderamiento del equipo",
+    color: "text-amber-600",
+    bg: "bg-amber-50 border-amber-100",
+    accent: "#D97706",
+    desc: "Paso a producción con handover exhaustivo y sesiones de transferencia de conocimiento. El equipo IT queda autónomo para gestionar y evolucionar la plataforma en el Día 2.",
+    deliverable: "Plataforma AVD en producción y equipo IT capacitado.",
+    icon: Rocket,
+  },
+];
+
+const AVD_STACK = [
+  { icon: Key, label: "Identidad y Acceso", value: "Microsoft Entra ID" },
+  { icon: Monitor, label: "Cómputo y Virtualización", value: "Azure Virtual Desktop · Azure VMs" },
+  { icon: Network, label: "Networking", value: "Azure Virtual Network" },
+  { icon: HardDrive, label: "Almacenamiento y Perfiles", value: "Azure Files + FSLogix" },
+  { icon: Shield, label: "Seguridad y Gobernanza", value: "Azure Key Vault" },
+  { icon: Eye, label: "Observabilidad", value: "Azure Monitor + Log Analytics" },
+];
+
+const AVD_VALUE_PROPS = [
+  { icon: Zap, title: "Time-to-Value 8 semanas", desc: "Metodología estructurada con camino claro, sin fricciones y con resultados productivos en solo 8 semanas." },
+  { icon: Target, title: "Business-Driven", desc: "Foco en resolver desafíos de negocio y mejorar productividad, no solo en implementar tecnología." },
+  { icon: Shield, title: "Security by Design", desc: "Gobernanza y seguridad integradas desde la fase cero bajo modelo Zero Trust, minimizando superficies de ataque." },
+  { icon: TrendingDown, title: "Cultura FinOps", desc: "Arquitecturas diseñadas y automatizadas para consumir solo lo necesario, maximizando el ROI." },
+  { icon: Star, title: "Ecosistema Nativo", desc: "Alineación absoluta con el Cloud Adoption Framework de Microsoft y el Well-Architected Framework." },
+];
+
 export default function OfferingDetail() {
   const params = useParams<{ id: string }>();
   const id = params?.id ? parseInt(params.id) : 0;
@@ -169,6 +251,7 @@ export default function OfferingDetail() {
 
   const isACIM = offering?.techPillar === "ACIM";
   const isFinOps = offering?.techPillar === "IaC + Serverless";
+  const isAVD = offering?.techPillar === "VDI Escalable";
   const totalCases = useCasesData?.useCases.length ?? 0;
 
   if (offeringLoading) {
@@ -435,6 +518,122 @@ export default function OfferingDetail() {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ══════════════════════════════════════════════════
+            AVD — 5-Phase Journey
+        ══════════════════════════════════════════════════ */}
+        {isAVD && (
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="mb-16">
+
+            {/* Header */}
+            <div className="text-center mb-10">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#605E5C] mb-2">Accelerator AVD</p>
+              <h2 className="text-3xl font-bold text-[#1A1A1A] tracking-tight">Journey de 5 Fases · 8 Semanas</h2>
+              <p className="text-[#605E5C] mt-2 max-w-xl mx-auto text-sm">
+                De la estrategia al Go-Live en 8 semanas. Metodología end-to-end que fusiona visión de negocio, arquitectura empresarial y las mejores prácticas de Microsoft.
+              </p>
+            </div>
+
+            {/* Phase cards */}
+            <div className="space-y-4 mb-12">
+              {AVD_PHASES.map((ph, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.07 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md hover:border-[#0078D4]/20 transition-all"
+                >
+                  <div className="flex items-stretch">
+                    {/* Phase number sidebar */}
+                    <div className="w-2 shrink-0" style={{ background: ph.accent }} />
+                    <div className="flex-1 p-5">
+                      <div className="flex flex-col md:flex-row md:items-start gap-4">
+                        {/* Icon + header */}
+                        <div className="flex items-center gap-4 md:w-64 shrink-0">
+                          <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${ph.bg}`}>
+                            <ph.icon className={`w-5 h-5 ${ph.color}`} />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className={`text-[10px] font-bold uppercase tracking-widest ${ph.color}`}>{ph.phase}</span>
+                              <span className="text-[10px] text-[#605E5C] bg-gray-100 px-1.5 py-0.5 rounded-full">{ph.weeks}</span>
+                            </div>
+                            <p className="font-bold text-[#1A1A1A] text-sm leading-tight">{ph.title}</p>
+                            <p className="text-[10px] text-[#605E5C] mt-0.5">{ph.subtitle}</p>
+                          </div>
+                        </div>
+                        {/* Description + deliverable */}
+                        <div className="flex-1 flex flex-col md:flex-row gap-4">
+                          <p className="text-sm text-[#605E5C] leading-relaxed flex-1">{ph.desc}</p>
+                          <div className={`shrink-0 md:w-56 rounded-xl border p-3 ${ph.bg}`}>
+                            <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
+                            <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Tech Stack + Value Props */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tech Stack */}
+              <div className="bg-[#1A1A2E] rounded-2xl p-7">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center border border-white/10">
+                    <Cpu className="w-4 h-4 text-blue-300" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">Stack Tecnológico</h3>
+                    <p className="text-[10px] text-blue-300">Ecosistema nativo Microsoft Azure</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {AVD_STACK.map((s, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                      <div className="w-7 h-7 bg-[#0078D4]/20 rounded-lg flex items-center justify-center shrink-0 border border-[#0078D4]/20">
+                        <s.icon className="w-3.5 h-3.5 text-blue-300" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-blue-300 font-semibold uppercase tracking-wider">{s.label}</p>
+                        <p className="text-xs text-white font-medium truncate">{s.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Value Props */}
+              <div className="bg-gradient-to-br from-[#0078D4] to-[#005A9E] rounded-2xl p-7 text-white">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+                    <Star className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold">Valor Diferencial</h3>
+                    <p className="text-[10px] text-blue-200">¿Por qué Readymind AVD?</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {AVD_VALUE_PROPS.map((vp, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center shrink-0 border border-white/20 mt-0.5">
+                        <vp.icon className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-white">{vp.title}</p>
+                        <p className="text-[10px] text-blue-100 leading-relaxed mt-0.5">{vp.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>

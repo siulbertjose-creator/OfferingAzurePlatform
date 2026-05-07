@@ -1,0 +1,66 @@
+Aquí tienes la propuesta actualizada con el nombre exacto y con el proceso de construcción en la Fase 3 optimizado para reflejar un enfoque de Infraestructura como Código y automatización, elevando el nivel técnico del despliegue.
+
+🚀 Accelerator Azure Virtual Desktop (AVD)
+Transforme y centralice su espacio de trabajo digital.
+Azure Virtual Desktop (AVD) permite a las organizaciones desplegar escritorios y aplicaciones corporativas en la nube de forma ágil y segura. Nuestra oferta Accelerator Azure Virtual Desktop (AVD) proporciona a sus usuarios una experiencia fluida y de alto rendimiento desde cualquier dispositivo, garantizando al mismo tiempo que la organización mantenga un gobierno estricto, seguridad bajo el modelo Zero Trust y total previsibilidad financiera.
+
+Esta propuesta plantea un Journey estructurado de 8 semanas. Diseñado para guiar a su organización desde la definición estratégica hasta el despliegue de una plataforma productiva, resiliente y lista para escalar, estrictamente alineada a los lineamientos del Azure Well-Architected Framework.
+
+🧩 METODOLOGÍA – EL JOURNEY EN 5 FASES
+Nuestro enfoque end-to-end fusiona visión de negocio, arquitectura de nube a escala empresarial y las mejores prácticas de Microsoft.
+
+🔹 FASE 1 | Strategy & Discovery (Semana 1)
+Alineación de negocio y evaluación de viabilidad.
+Antes de aprovisionar infraestructura, definimos el norte. Analizamos el ecosistema tecnológico actual, categorizamos los perfiles de usuario (casos de uso) y mapeamos las dependencias operativas para diseñar una estrategia de adopción de AVD que responda a sus objetivos críticos de negocio.
+
+Entregable: Matriz de casos de uso, alcance del entorno y estrategia de adopción recomendada.
+
+🔹 FASE 2 | Architecture & Design (Semanas 2 y 3)
+Diseño de plataforma escalable y resiliente.
+Arquitectamos una solución AVD Enterprise-Ready. Contemplamos topologías de red, esquemas de identidad, gestión dinámica de perfiles, políticas de seguridad y proyecciones de consumo (FinOps).
+
+Entregable: Documento de Diseño de Arquitectura (HLD/LLD), modelo estimado de costos y lineamientos de gobierno.
+
+🔹 FASE 3 | Platform Build & Configuration (Semanas 4 y 5)
+Despliegue ágil, estandarizado y automatizado.
+Materializamos el diseño en una plataforma tangible apoyándonos en prácticas de Infraestructura como Código (IaC) mediante Terraform y scripts de automatización con PowerShell. Desplegamos la infraestructura base de forma modular, configuramos los Host Pools, preparamos las Golden Images y establecemos los mecanismos de entrega de aplicaciones, validando el acceso integral de los usuarios.
+
+Entregable: Entorno de Azure Virtual Desktop aprovisionado, operativo y listo para la fase de pruebas controladas (UAT).
+
+🔹 FASE 4 | Optimization, Security & Governance (Semanas 6 y 7)
+Aseguramiento y eficiencia operativa.
+Elevamos la plataforma a estándares corporativos. Implementamos auto-escalado para optimización de costos, políticas de acceso condicional (MFA/Zero Trust), y habilitamos la telemetría centralizada para garantizar la observabilidad y el cumplimiento normativo.
+
+Entregable: Plataforma optimizada, asegurada bajo normativas de cumplimiento y financieramente eficiente.
+
+🔹 FASE 5 | Go-Live & Enablement (Semana 8)
+Transición operativa y empoderamiento del equipo.
+Lideramos el paso a producción (Go-Live). Realizamos un handover exhaustivo y sesiones de transferencia de conocimiento para garantizar que su equipo técnico tenga la autonomía y las herramientas necesarias para gestionar, operar y evolucionar la plataforma en el Día 2.
+
+Entregable: Plataforma AVD en producción y equipo IT capacitado.
+
+🛠️ STACK TECNOLÓGICO Y SERVICIOS ASOCIADOS
+El acelerador integra de manera nativa los componentes críticos del ecosistema Microsoft para garantizar una sinergia perfecta:
+
+Identidad y Acceso: Microsoft Entra ID
+
+Cómputo y Virtualización: Azure Virtual Desktop, Azure Virtual Machines
+
+Networking: Azure Virtual Network
+
+Almacenamiento y Perfiles: Azure Files + FSLogix
+
+Seguridad y Gobernanza: Azure Key Vault
+
+Observabilidad: Azure Monitor + Log Analytics
+
+💎 NUESTRO VALOR DIFERENCIAL
+✔️ Metodología Estructurada: Un camino claro, sin fricciones y con un Time-to-Value acelerado de solo 8 semanas.
+
+✔️ Business-Driven: Foco en resolver desafíos de negocio y mejorar la productividad, no solo en implementar tecnología.
+
+✔️ Security by Design: Gobernanza y seguridad integradas desde la fase cero, minimizando superficies de ataque.
+
+✔️ Cultura FinOps: Arquitecturas diseñadas y automatizadas para consumir solo lo necesario, maximizando el ROI.
+
+✔️ Ecosistema Nativo: Alineación absoluta con el Cloud Adoption Framework de Microsoft.
