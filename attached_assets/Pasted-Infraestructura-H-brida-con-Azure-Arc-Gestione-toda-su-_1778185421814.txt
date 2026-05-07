@@ -1,0 +1,48 @@
+Infraestructura Híbrida con Azure Arc
+Gestione toda su infraestructura on-premises y multicloud desde un único panel de control en Azure, sin mover una sola carga de trabajo.
+Azure Arc permite extender el portal de Azure a servidores on-premises, máquinas virtuales en otras nubes y clusters Kubernetes — tratándolos como recursos nativos de Azure. Con nuestra oferta Accelerator Infraestructura Híbrida con Azure Arc, su organización obtiene visibilidad centralizada, gobierno por políticas, gestión de actualizaciones y monitoreo unificado sobre toda su infraestructura heterogénea, en un journey estructurado de 6 semanas.
+🧩 Metodología – el journey en 4 fases
+🔹 FASE 1 · Semana 1
+Discovery & Assessment
+Relevamos el entorno actual del cliente: servidores on-premises, sistemas operativos, topología de red y restricciones de conectividad (firewalls, proxies). Identificamos los activos candidatos a incorporar a Azure Arc, definimos el orden de onboarding por criticidad y validamos los prerrequisitos técnicos necesarios para el despliegue del agente.
+Entregable
+Inventario de activos, checklist de prerrequisitos y plan de onboarding priorizado.
+🔹 FASE 2 · Semanas 2 y 3
+Onboarding & Conectividad
+Desplegamos el agente de Azure Arc Connected Machine en los servidores objetivo mediante scripts PowerShell automatizados y, donde aplique, mediante GPO para el descubrimiento automático de nuevos equipos. Validamos la conectividad hacia los endpoints de Azure, configuramos la estructura de Resource Groups y aplicamos el esquema de tagging definido. Al finalizar esta fase, todos los servidores del alcance son recursos visibles y gestionables desde el portal de Azure.
+Entregable
+Infraestructura incorporada a Azure Arc, scripts de onboarding reutilizables e inventario centralizado validado en el portal.
+🔹 FASE 3 · Semanas 4 y 5
+Gobierno, Seguridad y Update Management
+Habilitamos las capacidades core de gestión sobre la infraestructura incorporada. Configuramos Azure Update Manager para gestionar actualizaciones del sistema operativo con ventanas de mantenimiento definidas. Aplicamos Azure Policy para enforced compliance en configuraciones críticas. Activamos Azure Monitor con Log Analytics para visibilidad de estado y alertas operativas. Para servidores con sistemas operativos fuera de soporte, habilitamos Extended Security Updates (ESU) a través de Arc.
+Entregable
+Update Manager operativo con schedules configurados, políticas activas, monitoreo centralizado y ESU habilitado donde corresponda.
+🔹 FASE 4 · Semana 6
+Go-Live & Enablement
+Validamos la cobertura completa, cerramos excepciones pendientes y estabilizamos la plataforma. Realizamos el handover con documentación operativa y sesiones de transferencia de conocimiento para que el equipo del cliente pueda gestionar, operar y expandir la cobertura de Azure Arc de forma autónoma en el Día 2.
+Entregable
+Plataforma en producción, documentación operativa y equipo IT habilitado para el Día 2.
+🛠️ Stack tecnológico y servicios asociados
+Gestión híbrida
+Azure Arc Connected Machine
+Identidad y acceso
+Microsoft Entra ID, Azure RBAC
+Patching y actualizaciones
+Azure Update Manager, ESU
+Gobierno
+Azure Policy
+Observabilidad
+Azure Monitor, Log Analytics
+Automatización
+PowerShell, Azure CLI, GPO
+💎 Nuestro valor diferencial
+✔️
+Visibilidad inmediata: Desde el primer día de onboarding, todos los servidores son visibles en el portal de Azure con inventario, estado de salud y métricas centralizadas.
+✔️
+Sin migración, sin impacto: Azure Arc no requiere mover cargas de trabajo a la nube. La infraestructura permanece donde está y se gestiona desde Azure de forma no intrusiva.
+✔️
+Automatización desde el día uno: Onboarding masivo con scripts reutilizables y GPO. Patching automatizado con ventanas de mantenimiento. Sin operaciones manuales servidor a servidor.
+✔️
+Time-to-Value en 6 semanas: Journey corto, enfocado y con entregables concretos en cada fase. Sin sobreingeniería — solo lo que el cliente necesita para operar.
+✔️
+Stepping stone a la modernización: Arc es la base para futuras iniciativas — migración con Azure Migrate, SQL modernization o adopción de Kubernetes — sin necesidad de rehacer el trabajo.

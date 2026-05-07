@@ -255,6 +255,75 @@ const AVD_VALUE_PROPS = [
   { icon: Star, title: "Ecosistema Nativo", desc: "Alineación absoluta con el Cloud Adoption Framework de Microsoft y el Well-Architected Framework." },
 ];
 
+/* ─── Azure Arc Journey ─── */
+const ARC_PHASES = [
+  {
+    phase: "Fase 1",
+    weeks: "Semana 1",
+    title: "Discovery & Assessment",
+    subtitle: "Relevamiento del entorno y planificación",
+    color: "text-[#0078D4]",
+    bg: "bg-blue-50 border-blue-100",
+    accent: "#0078D4",
+    desc: "Relevamos el entorno actual: servidores on-premises, sistemas operativos, topología de red y restricciones de conectividad (firewalls, proxies). Identificamos activos candidatos, definimos el orden de onboarding por criticidad y validamos prerrequisitos técnicos para el agente.",
+    deliverable: "Inventario de activos, checklist de prerrequisitos y plan de onboarding priorizado.",
+    icon: ScanSearch,
+  },
+  {
+    phase: "Fase 2",
+    weeks: "Semanas 2–3",
+    title: "Onboarding & Conectividad",
+    subtitle: "Incorporación masiva al portal de Azure",
+    color: "text-indigo-600",
+    bg: "bg-indigo-50 border-indigo-100",
+    accent: "#4F46E5",
+    desc: "Desplegamos el agente Arc Connected Machine mediante scripts PowerShell automatizados y GPO para descubrimiento automático. Validamos conectividad hacia endpoints Azure, configuramos Resource Groups y aplicamos el esquema de tagging. Todos los servidores quedan visibles y gestionables desde el portal.",
+    deliverable: "Infraestructura en Azure Arc, scripts reutilizables e inventario centralizado validado.",
+    icon: Network,
+  },
+  {
+    phase: "Fase 3",
+    weeks: "Semanas 4–5",
+    title: "Gobierno, Seguridad y Update Management",
+    subtitle: "Compliance enforced y operaciones automatizadas",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50 border-emerald-100",
+    accent: "#059669",
+    desc: "Azure Update Manager con ventanas de mantenimiento, Azure Policy para enforced compliance en configuraciones críticas, Azure Monitor + Log Analytics para visibilidad y alertas. ESU habilitado para sistemas operativos fuera de soporte mediante Arc.",
+    deliverable: "Update Manager operativo, políticas activas, monitoreo centralizado y ESU habilitado.",
+    icon: Shield,
+  },
+  {
+    phase: "Fase 4",
+    weeks: "Semana 6",
+    title: "Go-Live & Enablement",
+    subtitle: "Transición operativa y autonomía del equipo",
+    color: "text-amber-600",
+    bg: "bg-amber-50 border-amber-100",
+    accent: "#D97706",
+    desc: "Validamos cobertura completa, cerramos excepciones pendientes y estabilizamos la plataforma. Handover con documentación operativa y sesiones de transferencia de conocimiento para que el equipo gestione, opere y expanda Azure Arc de forma autónoma en el Día 2.",
+    deliverable: "Plataforma en producción, documentación operativa y equipo IT habilitado para el Día 2.",
+    icon: Rocket,
+  },
+];
+
+const ARC_STACK = [
+  { icon: Globe, label: "Gestión Híbrida", value: "Azure Arc Connected Machine" },
+  { icon: Key, label: "Identidad y Acceso", value: "Microsoft Entra ID · Azure RBAC" },
+  { icon: Bell, label: "Patching y Actualizaciones", value: "Azure Update Manager · ESU" },
+  { icon: Shield, label: "Gobierno", value: "Azure Policy" },
+  { icon: Eye, label: "Observabilidad", value: "Azure Monitor · Log Analytics" },
+  { icon: Zap, label: "Automatización", value: "PowerShell · Azure CLI · GPO" },
+];
+
+const ARC_VALUE_PROPS = [
+  { icon: BarChart3, title: "Visibilidad inmediata", desc: "Desde el primer día de onboarding, todos los servidores son visibles en Azure con inventario, estado de salud y métricas centralizadas." },
+  { icon: ArrowRight, title: "Sin migración, sin impacto", desc: "Arc no requiere mover cargas de trabajo a la nube. La infraestructura permanece donde está y se gestiona de forma no intrusiva." },
+  { icon: Zap, title: "Automatización desde el día uno", desc: "Onboarding masivo con scripts reutilizables y GPO. Patching automatizado con ventanas de mantenimiento. Sin operaciones manuales servidor a servidor." },
+  { icon: Target, title: "Time-to-Value en 6 semanas", desc: "Journey corto, enfocado y con entregables concretos en cada fase. Sin sobreingeniería — solo lo que el cliente necesita para operar." },
+  { icon: Layers, title: "Stepping stone a la modernización", desc: "Arc es la base para futuras iniciativas: Azure Migrate, SQL modernization o adopción de Kubernetes — sin rehacer el trabajo." },
+];
+
 export default function OfferingDetail() {
   const params = useParams<{ id: string }>();
   const id = params?.id ? parseInt(params.id) : 0;
@@ -289,6 +358,7 @@ export default function OfferingDetail() {
   const isACIM = offering?.techPillar === "ACIM";
   const isFinOps = offering?.techPillar === "IaC + Serverless";
   const isAVD = offering?.techPillar === "VDI Escalable";
+  const isArc = offering?.techPillar === "Gobernanza Híbrida";
   const totalCases = useCasesData?.useCases.length ?? 0;
 
   if (offeringLoading) {
@@ -725,6 +795,119 @@ export default function OfferingDetail() {
                 </div>
                 <div className="space-y-3">
                   {AVD_VALUE_PROPS.map((vp, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center shrink-0 border border-white/20 mt-0.5">
+                        <vp.icon className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-white">{vp.title}</p>
+                        <p className="text-[10px] text-blue-100 leading-relaxed mt-0.5">{vp.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* ══════════════════════════════════════════════════
+            Azure Arc — 4-Phase Journey
+        ══════════════════════════════════════════════════ */}
+        {isArc && (
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="mb-16">
+
+            {/* Header */}
+            <div className="text-center mb-10">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#605E5C] mb-2">Infraestructura Híbrida con Azure Arc</p>
+              <h2 className="text-3xl font-bold text-[#1A1A1A] tracking-tight">Journey de 4 Fases · 6 Semanas</h2>
+              <p className="text-[#605E5C] mt-2 max-w-xl mx-auto text-sm">
+                Un único panel de control para toda su infraestructura — on-premises, multicloud y Kubernetes — sin mover una sola carga de trabajo.
+              </p>
+            </div>
+
+            {/* Phase cards */}
+            <div className="space-y-4 mb-10">
+              {ARC_PHASES.map((ph, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 + i * 0.07 }}
+                  className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md hover:border-[#0078D4]/20 transition-all"
+                >
+                  <div className="flex items-stretch">
+                    <div className="w-2 shrink-0" style={{ background: ph.accent }} />
+                    <div className="flex-1 p-5">
+                      <div className="flex flex-col md:flex-row md:items-start gap-4">
+                        <div className="flex items-center gap-4 md:w-64 shrink-0">
+                          <div className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 ${ph.bg}`}>
+                            <ph.icon className={`w-5 h-5 ${ph.color}`} />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 mb-0.5">
+                              <span className={`text-[10px] font-bold uppercase tracking-widest ${ph.color}`}>{ph.phase}</span>
+                              <span className="text-[10px] text-[#605E5C] bg-gray-100 px-1.5 py-0.5 rounded-full">{ph.weeks}</span>
+                            </div>
+                            <p className="font-bold text-[#1A1A1A] text-sm leading-tight">{ph.title}</p>
+                            <p className="text-[10px] text-[#605E5C] mt-0.5">{ph.subtitle}</p>
+                          </div>
+                        </div>
+                        <div className="flex-1 flex flex-col md:flex-row gap-4">
+                          <p className="text-sm text-[#605E5C] leading-relaxed flex-1">{ph.desc}</p>
+                          <div className={`shrink-0 md:w-56 rounded-xl border p-3 ${ph.bg}`}>
+                            <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
+                            <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Stack + Value Props */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tech Stack */}
+              <div className="bg-[#1A1A2E] rounded-2xl p-7">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/10 rounded-xl flex items-center justify-center border border-white/10">
+                    <Layers className="w-4 h-4 text-blue-300" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">Stack Tecnológico</h3>
+                    <p className="text-[10px] text-blue-300">Servicios nativos Azure para gestión híbrida</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {ARC_STACK.map((s, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                      <div className="w-7 h-7 bg-[#0078D4]/20 rounded-lg flex items-center justify-center shrink-0 border border-[#0078D4]/20">
+                        <s.icon className="w-3.5 h-3.5 text-blue-300" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] text-blue-300 font-semibold uppercase tracking-wider">{s.label}</p>
+                        <p className="text-xs text-white font-medium truncate">{s.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Value Props */}
+              <div className="bg-gradient-to-br from-[#0078D4] to-[#005A9E] rounded-2xl p-7 text-white">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+                    <Star className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold">Valor Diferencial</h3>
+                    <p className="text-[10px] text-blue-200">¿Por qué Readymind Arc?</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  {ARC_VALUE_PROPS.map((vp, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center shrink-0 border border-white/20 mt-0.5">
                         <vp.icon className="w-3.5 h-3.5 text-white" />
