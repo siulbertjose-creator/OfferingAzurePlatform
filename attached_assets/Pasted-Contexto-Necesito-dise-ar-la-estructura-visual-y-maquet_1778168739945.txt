@@ -1,0 +1,57 @@
+Contexto: Necesito diseñar la estructura visual y maquetación de una página web (Landing Page / Dashboard) para un equipo de ingeniería cloud llamado "Azure Platform". El sitio debe tener un estilo moderno, responsivo y corporativo (estilo SaaS tecnológico).
+
+Estilo Visual (Design System):
+
+Paleta de colores: Basada en Microsoft Azure (Fondos limpios en blanco o gris muy claro #F8F9FA, acentos principales en azul Azure #0078D4, y textos en gris pizarra oscuro #323130).
+
+Tipografía: Fuentes web modernas y sin serifas (ej. Inter, Roboto o Segoe UI).
+
+Componentes: Uso de tarjetas (cards) con sombras suaves (soft shadows), bordes ligeramente redondeados y animaciones sutiles al pasar el cursor (hover effects).
+
+Estructura del Layout (Secciones de la Web):
+
+1. Sección Hero (Cabecera):
+
+Título Principal: "Azure Platform" (Tipografía grande y audaz).
+
+Subtítulo: "Ingeniería, Automatización y Gobierno para una nube escalable, segura y financieramente eficiente."
+
+2. Sección de Pilares (Los Cimientos - Layout horizontal):
+
+Diseñar una franja o fila inferior/central con 4 bloques minimalistas (ícono + título corto) que representen las bases tecnológicas:
+
+IaC y Automatización
+
+Gobernanza y Arquitectura
+
+Observabilidad y Salud
+
+Eficiencia Financiera
+
+3. Sección de Productos (Grid de Offerings):
+
+Un Grid o cuadrícula (ej. 3 columnas x 2 filas) con 6 Tarjetas de Producto. Cada tarjeta debe tener un ícono distintivo, el título del offering y un botón de "Saber más":
+
+Journey to FinOps
+
+ACIM (SCA & Discovery)
+
+Landing Zone Hub & Spoke
+
+AVD Accelerator
+
+Road to Cloud (CAF)
+
+Azure Arc Híbrido
+
+4. Sección de Impacto (Casos de Uso / Success Stories):
+
+¡IMPORTANTE! MAQUETACIÓN SOLAMENTE: Esta sección debe diseñarse como un carrusel (slider) o un grid de tarjetas dinámicas. Los textos a continuación son solo ejemplos de relleno (placeholders) para visualizar el peso de la fuente y la distribución del espacio, ya que los datos reales se inyectan dinámicamente en el sistema:
+
+Ejemplo de Layout 1: Título: "Spinoff Corporativo". Texto de relleno: "Migración de tenants y arquitectura Hub & Spoke...".
+
+Ejemplo de Layout 2: Título: "Assessment Industrial". Texto de relleno: "Mapeo automático y pilotos a gran escala...".
+
+Ejemplo de Layout 3: Título: "Control FinOps". Texto de relleno: "Recolección de costos vía Azure Functions...".
+
+Cada tarjeta de caso de uso debe tener una etiqueta visual (Tag/Badge) que indique qué Offering de la sección 3 está utilizando.
