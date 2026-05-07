@@ -78,7 +78,6 @@ const IMPACT_CASES = [
 const pillarIcons: Record<string, React.ElementType> = {
   "IaC + Serverless": Cpu,
   "ACIM / Smart Cloud Audit": Shield,
-  "Azure Auditor / SCA": Shield,
   "VDI Escalable": Layers,
   "Hub & Spoke": Network,
   "Metodología CAF": BarChart3,
@@ -88,7 +87,6 @@ const pillarIcons: Record<string, React.ElementType> = {
 const pillarColors: Record<string, string> = {
   "IaC + Serverless": "text-[#0078D4] bg-blue-50 border-blue-100",
   "ACIM / Smart Cloud Audit": "text-indigo-600 bg-indigo-50 border-indigo-100",
-  "Azure Auditor / SCA": "text-indigo-600 bg-indigo-50 border-indigo-100",
   "VDI Escalable": "text-cyan-600 bg-cyan-50 border-cyan-100",
   "Hub & Spoke": "text-purple-600 bg-purple-50 border-purple-100",
   "Metodología CAF": "text-amber-600 bg-amber-50 border-amber-100",
