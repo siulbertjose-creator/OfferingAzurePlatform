@@ -68,11 +68,66 @@ const VALUE_PROPS = [
 
 /* ─── Impact cases ─── */
 const IMPACT_CASES = [
-  { title: "Spinoff Corporativo", description: "Migración de tenants y arquitectura Hub & Spoke para empresa multinacional con operaciones en 12 países. Reducción del 40% en costos de conectividad.", offering: "Landing Zone Hub & Spoke", industry: "Manufactura", metric: "40% ahorro" },
-  { title: "Assessment Industrial", description: "Mapeo automático con los 3 módulos ACIM: Azure Export Analyzer, Smart Cloud Audit y Discovery Maps. Inventario de 2.400 recursos catalogados en 72 horas.", offering: "ACIM", industry: "Industria", metric: "2.400 recursos" },
-  { title: "Control FinOps", description: "Recolección de costos vía Azure Functions y dashboard de Power BI autogestionado. Visibilidad del 100% del gasto cloud en tiempo real.", offering: "Journey to FinOps", industry: "Retail", metric: "100% visibilidad" },
-  { title: "Modernización VDI", description: "Despliegue de Azure Virtual Desktop para 800 usuarios remotos con golden image automatizada y autoscaling por horario laboral.", offering: "AVD Accelerator", industry: "Servicios Financieros", metric: "800 usuarios" },
-  { title: "Adopción Cloud CAF", description: "Hoja de ruta de migración cloud-first con metodología CAF para empresa con más de 150 aplicaciones legacy on-premise.", offering: "Road to Cloud (CAF)", industry: "Telecomunicaciones", metric: "150 apps" },
+  {
+    title: "Spinoff Corporativo Multinacional",
+    description: "Diseño e implementación de arquitectura Hub & Spoke para empresa fabricante con operaciones en 12 países. Landing Zone desplegada como IaC en 6 semanas.",
+    offering: "Landing Zone Hub & Spoke",
+    industry: "Manufactura · Multinacional",
+    metric: "40%",
+    metricLabel: "reducción en costos de conectividad",
+    before: "Recursos Azure en suscripción legacy con deuda de arquitectura, sin gobernanza ni segmentación.",
+    after: "Hub & Spoke con Spokes por ambiente y país. RBAC unificado, Azure Firewall y tráfico centralizado.",
+  },
+  {
+    title: "Assessment de Entorno Industrial",
+    description: "Auditoría automática con los 3 módulos ACIM: Azure Export Analyzer, Smart Cloud Auditor y Discovery Maps. 2.400 recursos catalogados con riesgos y gaps de gobernanza.",
+    offering: "ACIM — Assessment",
+    industry: "Industria · Manufactura",
+    metric: "72 hs",
+    metricLabel: "para catalogar 2.400 recursos",
+    before: "Sin inventario estructurado. Auditorías manuales lentas y con brechas. Incumplimiento de políticas WAF.",
+    after: "Inventario completo con metadata, hallazgos priorizados y hoja de ruta de remediación.",
+  },
+  {
+    title: "Control FinOps para Retail Cloud",
+    description: "Pipeline IaC con Azure Functions y Cost Exports. Dashboard Power BI con visibilidad del 100% del gasto por equipo, ambiente y tipo de recurso en tiempo real.",
+    offering: "Journey to FinOps",
+    industry: "Retail · eCommerce",
+    metric: "30%",
+    metricLabel: "reducción de desperdicio en 30 días",
+    before: "Facturas sorpresa sin desglose. Recursos huérfanos activos sin responsable. Sin alertas de presupuesto.",
+    after: "Chargeback automático por departamento. Alertas Advisor activas. 65% ahorro en entornos no-prod.",
+  },
+  {
+    title: "Modernización de Escritorios VDI",
+    description: "Despliegue de Azure Virtual Desktop para 800 usuarios remotos con golden image automatizada, FSLogix para perfiles y autoscaling por horario laboral.",
+    offering: "Accelerator AVD",
+    industry: "Servicios Financieros",
+    metric: "800",
+    metricLabel: "usuarios productivos en 8 semanas",
+    before: "VPN corporativa saturada. Laptops locales con soporte costoso. Sin acceso seguro desde múltiples dispositivos.",
+    after: "Escritorios virtuales con MFA/Zero Trust. Perfiles persistentes. Costo por hora según demanda real.",
+  },
+  {
+    title: "Gobierno Híbrido con Azure Arc",
+    description: "Onboarding de 200+ servidores on-premises a Azure Arc con scripts PowerShell automatizados y GPO. Update Manager y Azure Policy activados desde el día uno.",
+    offering: "Infraestructura Híbrida con Azure Arc",
+    industry: "Farmacéutica · GxP",
+    metric: "200+",
+    metricLabel: "servidores gestionados sin migración",
+    before: "Servidores on-premises invisibles desde Azure. Patching manual servidor a servidor sin trazabilidad.",
+    after: "Inventario centralizado en Azure Portal. Update Manager operativo. Políticas de compliance enforced.",
+  },
+  {
+    title: "Road to Cloud con Azure Migrate",
+    description: "Clasificación de 150 apps legacy según las 6R, Landing Zone CAF desplegada y migración modular IaaS + PaaS con business case aprobado por el directorio.",
+    offering: "Road to Cloud CAF",
+    industry: "Telecomunicaciones",
+    metric: "150",
+    metricLabel: "aplicaciones clasificadas con 6R",
+    before: "Infraestructura on-premises envejecida. Sin roadmap cloud ni business case. Migraciones improvisadas.",
+    after: "Landing Zone productiva. 60% apps migradas en Fase 3. ROI aprobado. Equipo IT habilitado para Día 2.",
+  },
 ];
 
 const pillarIcons: Record<string, React.ElementType> = {
@@ -161,7 +216,7 @@ export default function Home() {
               </a>
               <a href="#impacto">
                 <button className="inline-flex items-center gap-2 border border-gray-200 bg-white hover:bg-gray-50 text-[#323130] font-semibold px-6 py-3 rounded-xl transition-colors">
-                  Ver casos de éxito
+                  Ver casos de uso reales
                 </button>
               </a>
             </div>
@@ -314,21 +369,24 @@ export default function Home() {
         )}
       </section>
 
-      {/* ─── Impact Carousel ─── */}
-      <section id="impacto" className="bg-[#0078D4] py-20 overflow-hidden">
+      {/* ─── Casos de Uso Carousel ─── */}
+      <section id="impacto" className="bg-[#0F172A] py-20 overflow-hidden">
         <div className="container mx-auto px-6">
+          {/* Header row */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
             <div>
-              <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-2">Impacto demostrado</p>
-              <h2 className="text-3xl font-bold text-white tracking-tight">Success Stories</h2>
+              <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-2">Proyectos finalizados · Resultados reales</p>
+              <h2 className="text-3xl font-bold text-white tracking-tight">Casos de Uso en Producción</h2>
+              <p className="text-slate-400 text-sm mt-1">Implementaciones entregadas con impacto medido — antes y después.</p>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => goTo((activeSlide - 1 + IMPACT_CASES.length) % IMPACT_CASES.length)}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors">
+                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors">
                 <ChevronLeft className="w-5 h-5" />
               </button>
+              <span className="text-slate-500 text-xs tabular-nums px-1">{activeSlide + 1} / {IMPACT_CASES.length}</span>
               <button onClick={() => goTo((activeSlide + 1) % IMPACT_CASES.length)}
-                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-colors">
+                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors">
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -337,37 +395,71 @@ export default function Home() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSlide}
-              initial={{ opacity: 0, x: 40 }}
+              initial={{ opacity: 0, x: 48 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.35 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4"
+              exit={{ opacity: 0, x: -48 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start"
             >
               {[0, 1, 2].map(offset => {
                 const idx = (activeSlide + offset) % IMPACT_CASES.length;
                 const item = IMPACT_CASES[idx];
                 const isMain = offset === 0;
                 return (
-                  <div key={idx} className={`bg-white/10 border border-white/20 rounded-2xl p-6 backdrop-blur-sm transition-all ${isMain ? "md:scale-[1.03] bg-white/15 shadow-lg" : "opacity-70"}`}>
-                    <div className="flex items-start justify-between mb-4">
-                      <span className="text-xs font-semibold text-blue-200 bg-white/10 px-2.5 py-1 rounded-full border border-white/15">
-                        {item.offering}
-                      </span>
-                      <span className="text-xl font-extrabold text-white">{item.metric}</span>
+                  <div
+                    key={idx}
+                    className={`rounded-2xl border transition-all flex flex-col ${
+                      isMain
+                        ? "bg-white/10 border-white/20 shadow-xl shadow-black/30 md:scale-[1.02]"
+                        : "bg-white/4 border-white/8 opacity-60"
+                    }`}
+                  >
+                    {/* Top: offering + metric */}
+                    <div className="p-5 pb-4 border-b border-white/10">
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full">
+                          {item.offering}
+                        </span>
+                      </div>
+                      <div className="flex items-end gap-2">
+                        <span className="text-4xl font-extrabold text-white leading-none">{item.metric}</span>
+                        <span className="text-xs text-slate-400 mb-1 leading-snug max-w-[120px]">{item.metricLabel}</span>
+                      </div>
                     </div>
-                    <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
-                    <p className="text-sm text-blue-100 leading-relaxed mb-4">{item.description}</p>
-                    <div className="text-xs text-blue-300 font-semibold uppercase tracking-wider">{item.industry}</div>
+
+                    {/* Middle: title + description */}
+                    <div className="p-5 pb-4 flex-1">
+                      <h3 className="text-base font-bold text-white mb-2 leading-snug">{item.title}</h3>
+                      <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
+                    </div>
+
+                    {/* Bottom: before → after */}
+                    <div className="mx-5 mb-5 rounded-xl border border-white/8 overflow-hidden">
+                      <div className="bg-red-500/8 border-b border-white/8 px-3 py-2.5">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-red-400 mb-1">Antes</p>
+                        <p className="text-[11px] text-slate-400 leading-relaxed">{item.before}</p>
+                      </div>
+                      <div className="bg-emerald-500/8 px-3 py-2.5">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-400 mb-1">Después</p>
+                        <p className="text-[11px] text-slate-300 leading-relaxed">{item.after}</p>
+                      </div>
+                    </div>
+
+                    {/* Industry tag */}
+                    <div className="px-5 pb-4">
+                      <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{item.industry}</span>
+                    </div>
                   </div>
                 );
               })}
             </motion.div>
           </AnimatePresence>
 
+          {/* Dot indicators */}
           <div className="flex items-center justify-center gap-2 mt-8">
             {IMPACT_CASES.map((_, i) => (
               <button key={i} onClick={() => goTo(i)}
-                className={`h-2 rounded-full transition-all ${i === activeSlide ? "bg-white w-6" : "bg-white/30 w-2 hover:bg-white/50"}`} />
+                className={`h-1.5 rounded-full transition-all ${i === activeSlide ? "bg-white w-8" : "bg-white/20 w-2 hover:bg-white/40"}`} />
             ))}
           </div>
         </div>

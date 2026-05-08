@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useParams } from "wouter";
 import { motion } from "framer-motion";
 import {
@@ -477,6 +477,10 @@ export default function OfferingDetail() {
 
   const [search, setSearch] = useState("");
   const [industry, setIndustry] = useState("Todos");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [id]);
 
   const { data: offering, isLoading: offeringLoading } = useGetOffering(id, {
     query: { enabled: !!id, queryKey: getGetOfferingQueryKey(id) },

@@ -8,6 +8,7 @@
     "seed-offerings": "tsx ./src/seed-offerings.ts",
     "seed-use-cases": "tsx ./src/seed-use-cases.ts",
     "seed-real-use-cases": "tsx ./src/seed-real-use-cases.ts",
+    "update-offerings-api": "tsx ./src/update-offerings-api.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
