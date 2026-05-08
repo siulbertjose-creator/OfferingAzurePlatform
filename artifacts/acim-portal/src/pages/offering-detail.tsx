@@ -184,7 +184,12 @@ const AVD_PHASES = [
     color: "text-[#0078D4]",
     bg: "bg-blue-50 border-blue-100",
     accent: "#0078D4",
-    desc: "Analizamos el ecosistema actual, categorizamos perfiles de usuario y mapeamos dependencias operativas para diseñar una estrategia de adopción que responda a los objetivos críticos.",
+    items: [
+      "Análisis de perfiles de usuario y mapeo de workloads",
+      "Evaluación de conectividad y requerimientos de red",
+      "Dependencias entre aplicaciones e identidad corporativa",
+      "Definición de alcance y estrategia de adopción",
+    ],
     deliverable: "Matriz de casos de uso, alcance del entorno y estrategia de adopción recomendada.",
     icon: Target,
   },
@@ -196,7 +201,12 @@ const AVD_PHASES = [
     color: "text-indigo-600",
     bg: "bg-indigo-50 border-indigo-100",
     accent: "#4F46E5",
-    desc: "Arquitectamos la solución AVD Enterprise-Ready: topologías de red, esquemas de identidad, gestión dinámica de perfiles, políticas de seguridad y proyecciones de consumo (FinOps).",
+    items: [
+      "Diseño de topología de red y esquema de identidad",
+      "Arquitectura de Host Pools y tipos de sesión AVD",
+      "Planificación de Golden Images y gestión de perfiles FSLogix",
+      "Proyecciones de consumo y dimensionamiento FinOps",
+    ],
     deliverable: "Documento HLD/LLD, modelo estimado de costos y lineamientos de gobierno.",
     icon: Layers,
   },
@@ -208,7 +218,12 @@ const AVD_PHASES = [
     color: "text-cyan-600",
     bg: "bg-cyan-50 border-cyan-100",
     accent: "#0891B2",
-    desc: "IaC con Terraform y PowerShell: infraestructura base modular, Host Pools, Golden Images automatizadas, FSLogix para perfiles y mecanismos de entrega de aplicaciones.",
+    items: [
+      "IaC con Terraform y PowerShell para infraestructura base",
+      "Host Pools y Session Hosts con Golden Image automatizada",
+      "FSLogix para perfiles persistentes y redirección de carpetas",
+      "Entrega de aplicaciones via MSIX App Attach o Intune",
+    ],
     deliverable: "Entorno AVD aprovisionado, operativo y listo para pruebas controladas (UAT).",
     icon: Cpu,
   },
@@ -220,7 +235,12 @@ const AVD_PHASES = [
     color: "text-emerald-600",
     bg: "bg-emerald-50 border-emerald-100",
     accent: "#059669",
-    desc: "Auto-escalado para optimización de costos, acceso condicional MFA/Zero Trust y telemetría centralizada para observabilidad y cumplimiento normativo continuo.",
+    items: [
+      "Auto-escalado por franja horaria para optimización de costos",
+      "Acceso Condicional MFA y Zero Trust con Microsoft Entra ID",
+      "Azure Monitor y Log Analytics para observabilidad centralizada",
+      "Baseline de compliance y políticas de seguridad enforced",
+    ],
     deliverable: "Plataforma optimizada, asegurada y financieramente eficiente.",
     icon: Shield,
   },
@@ -232,7 +252,12 @@ const AVD_PHASES = [
     color: "text-amber-600",
     bg: "bg-amber-50 border-amber-100",
     accent: "#D97706",
-    desc: "Paso a producción con handover exhaustivo y sesiones de transferencia de conocimiento. El equipo IT queda autónomo para gestionar y evolucionar la plataforma en el Día 2.",
+    items: [
+      "Pruebas UAT con usuarios piloto representativos",
+      "Paso a producción y migración del universo de usuarios",
+      "Handover con runbooks operativos y documentación técnica",
+      "Sesiones de Skill Transfer para autonomía del equipo IT",
+    ],
     deliverable: "Plataforma AVD en producción y equipo IT capacitado.",
     icon: Rocket,
   },
@@ -265,7 +290,12 @@ const ARC_PHASES = [
     color: "text-[#0078D4]",
     bg: "bg-blue-50 border-blue-100",
     accent: "#0078D4",
-    desc: "Relevamos el entorno actual: servidores on-premises, sistemas operativos, topología de red y restricciones de conectividad (firewalls, proxies). Identificamos activos candidatos, definimos el orden de onboarding por criticidad y validamos prerrequisitos técnicos para el agente.",
+    items: [
+      "Relevamiento de servidores on-premises y sistemas operativos",
+      "Análisis de topología de red: firewalls, proxies y conectividad",
+      "Priorización de candidatos por criticidad y dependencias",
+      "Validación de prerrequisitos técnicos para el agente Arc",
+    ],
     deliverable: "Inventario de activos, checklist de prerrequisitos y plan de onboarding priorizado.",
     icon: ScanSearch,
   },
@@ -277,7 +307,12 @@ const ARC_PHASES = [
     color: "text-indigo-600",
     bg: "bg-indigo-50 border-indigo-100",
     accent: "#4F46E5",
-    desc: "Desplegamos el agente Arc Connected Machine mediante scripts PowerShell automatizados y GPO para descubrimiento automático. Validamos conectividad hacia endpoints Azure, configuramos Resource Groups y aplicamos el esquema de tagging. Todos los servidores quedan visibles y gestionables desde el portal.",
+    items: [
+      "Despliegue del agente Arc con scripts PowerShell y GPO",
+      "Validación de conectividad hacia endpoints Azure Arc",
+      "Configuración de Resource Groups, tagging y esquema de gobierno",
+      "Verificación de visibilidad completa en el portal Azure",
+    ],
     deliverable: "Infraestructura en Azure Arc, scripts reutilizables e inventario centralizado validado.",
     icon: Network,
   },
@@ -289,7 +324,12 @@ const ARC_PHASES = [
     color: "text-emerald-600",
     bg: "bg-emerald-50 border-emerald-100",
     accent: "#059669",
-    desc: "Azure Update Manager con ventanas de mantenimiento, Azure Policy para enforced compliance en configuraciones críticas, Azure Monitor + Log Analytics para visibilidad y alertas. ESU habilitado para sistemas operativos fuera de soporte mediante Arc.",
+    items: [
+      "Azure Update Manager con ventanas de mantenimiento definidas",
+      "Azure Policy para compliance enforced en configuraciones críticas",
+      "Azure Monitor y Log Analytics para alertas y visibilidad centralizada",
+      "ESU habilitado para sistemas operativos fuera de soporte",
+    ],
     deliverable: "Update Manager operativo, políticas activas, monitoreo centralizado y ESU habilitado.",
     icon: Shield,
   },
@@ -301,7 +341,12 @@ const ARC_PHASES = [
     color: "text-amber-600",
     bg: "bg-amber-50 border-amber-100",
     accent: "#D97706",
-    desc: "Validamos cobertura completa, cerramos excepciones pendientes y estabilizamos la plataforma. Handover con documentación operativa y sesiones de transferencia de conocimiento para que el equipo gestione, opere y expanda Azure Arc de forma autónoma en el Día 2.",
+    items: [
+      "Validación de cobertura completa y cierre de excepciones pendientes",
+      "Estabilización de la plataforma en producción",
+      "Documentación operativa con runbooks de gestión diaria",
+      "Sesiones de Skill Transfer para autonomía del equipo IT",
+    ],
     deliverable: "Plataforma en producción, documentación operativa y equipo IT habilitado para el Día 2.",
     icon: Rocket,
   },
@@ -334,7 +379,12 @@ const CAF_PHASES = [
     color: "text-[#0078D4]",
     bg: "bg-blue-50 border-blue-100",
     accent: "#0078D4",
-    desc: "Descubrimos y analizamos el entorno actual con Azure Migrate: servidores, bases de datos, aplicaciones y dependencias. Clasificamos los workloads según las 6R (Rehost, Replatform, Refactor, Rearchitect, Retire, Retain) y definimos junto al cliente qué se mueve, en qué orden y con qué estrategia.",
+    items: [
+      "Discovery con Azure Migrate: servidores, DBs y aplicaciones",
+      "Análisis de dependencias entre workloads y servicios",
+      "Clasificación 6R: Rehost, Replatform, Refactor, Rearchitect, Retire, Retain",
+      "Business case con proyección de costos y roadmap priorizado",
+    ],
     deliverable: "Inventario de workloads, clasificación 6R, business case con proyección de costos y roadmap priorizado.",
     icon: ScanSearch,
     tracks: [],
@@ -347,7 +397,12 @@ const CAF_PHASES = [
     color: "text-indigo-600",
     bg: "bg-indigo-50 border-indigo-100",
     accent: "#4F46E5",
-    desc: "Diseñamos y desplegamos la Landing Zone siguiendo el CAF: jerarquía de Management Groups, suscripciones, Resource Groups, modelo de red (hub & spoke o flat), identidad con Microsoft Entra ID, RBAC y políticas de gobierno base con Azure Policy. El destino está preparado antes de mover el primer workload.",
+    items: [
+      "Jerarquía de Management Groups y suscripciones (CAF)",
+      "Modelo de red Hub & Spoke o flat según necesidades del cliente",
+      "Identidad con Microsoft Entra ID y RBAC granular",
+      "Azure Policy base y governance enforced antes del primer workload",
+    ],
     deliverable: "Landing Zone desplegada, modelo de red configurado, RBAC y políticas base activas.",
     icon: Layers,
     tracks: [],
@@ -360,7 +415,12 @@ const CAF_PHASES = [
     color: "text-cyan-600",
     bg: "bg-cyan-50 border-cyan-100",
     accent: "#0891B2",
-    desc: "Ejecutamos la migración de workloads seleccionados en el Assessment. El alcance es modular — el cliente elige el track según sus prioridades:",
+    items: [
+      "IaaS: Lift & shift de VMs a Azure Virtual Machines con Azure Migrate",
+      "AKS: Containerización y despliegue en Azure Kubernetes Service",
+      "PaaS: Migración a Azure SQL, App Service y Azure Functions",
+      "Analítica e IA: Azure Synapse, Azure OpenAI y Azure Machine Learning",
+    ],
     deliverable: "Workloads seleccionados migrados y operativos en Azure, validados con pruebas UAT.",
     icon: Rocket,
     tracks: [
@@ -378,7 +438,12 @@ const CAF_PHASES = [
     color: "text-amber-600",
     bg: "bg-amber-50 border-amber-100",
     accent: "#D97706",
-    desc: "Validamos el entorno migrado en producción, cerramos dependencias on-premises y estabilizamos la operación. Habilitamos Azure Monitor para visibilidad continua y entregamos documentación operativa con runbooks. El handover garantiza que el equipo opere, escale y evolucione el entorno de forma autónoma en el Día 2.",
+    items: [
+      "Validación del entorno migrado y pruebas UAT en producción",
+      "Cierre de dependencias on-premises y estabilización",
+      "Azure Monitor activado para visibilidad y alertas continuas",
+      "Handover con documentación operativa y runbooks de Día 2",
+    ],
     deliverable: "Entorno en producción, monitoreo activo, documentación operativa y equipo IT habilitado para el Día 2.",
     icon: Star,
     tracks: [],
@@ -412,7 +477,12 @@ const HUB_PHASES = [
     color: "text-[#0078D4]",
     bg: "bg-blue-50 border-blue-100",
     accent: "#0078D4",
-    desc: "Relevamos el entorno actual y los requisitos de negocio: conectividad híbrida existente o requerida (ExpressRoute, VPN), rangos de IP disponibles, requisitos de segmentación por entorno (producción, dev, testing), modelo de identidad con Microsoft Entra ID y restricciones de cumplimiento normativo. Esta fase define las decisiones de diseño que condicionan todo lo que viene.",
+    items: [
+      "Relevamiento de conectividad híbrida existente: ExpressRoute y VPN",
+      "Mapeo de rangos IP, segmentación y requisitos por entorno",
+      "Modelo de identidad con Entra ID y restricciones normativas",
+      "Documentación de decisiones de diseño que condicionan todo lo siguiente",
+    ],
     deliverable: "Matriz de requisitos técnicos y de negocio, decisiones de diseño documentadas y plan de trabajo validado.",
     icon: ScanSearch,
   },
@@ -424,7 +494,12 @@ const HUB_PHASES = [
     color: "text-indigo-600",
     bg: "bg-indigo-50 border-indigo-100",
     accent: "#4F46E5",
-    desc: "Diseñamos la arquitectura completa: jerarquía de Management Groups y suscripciones (CAF), modelo Hub & Spoke con VNets — Hub central con servicios compartidos y Spokes por entorno o unidad de negocio —, esquema de direccionamiento IP, peering, estrategia de conectividad híbrida, modelo de identidad con Entra ID, RBAC, tagging y plan de Azure Policy.",
+    items: [
+      "Diseño HLD/LLD: Management Groups, suscripciones y Spokes por entorno",
+      "Esquema de direccionamiento IP y estrategia de peering entre VNets",
+      "Hub central con Azure Firewall o NVA para inspección de tráfico",
+      "RBAC granular, tagging obligatorio y plan de Azure Policy",
+    ],
     deliverable: "Documento HLD/LLD, diagrama Hub & Spoke, modelo de identidad y gobierno, esquema de direccionamiento IP.",
     icon: Network,
   },
@@ -436,7 +511,12 @@ const HUB_PHASES = [
     color: "text-emerald-600",
     bg: "bg-emerald-50 border-emerald-100",
     accent: "#059669",
-    desc: "Desplegamos la Landing Zone con Terraform: Management Groups, suscripciones, VNets Hub y Spoke con peerings, Azure Firewall o NVA en el Hub para inspección centralizada de tráfico, subnets segmentadas por función, NSG, UDR y conectividad híbrida si aplica. Configuramos Entra ID, grupos de RBAC y políticas de Azure Policy enforcement.",
+    items: [
+      "Terraform: Management Groups, VNets Hub y Spoke con peerings",
+      "Azure Firewall / NVA en el Hub para inspección de tráfico centralizada",
+      "NSG, UDR y conectividad híbrida si aplica (VPN / ExpressRoute)",
+      "Entra ID, grupos de RBAC y políticas Azure Policy enforced",
+    ],
     deliverable: "Landing Zone desplegada como IaC, red Hub & Spoke operativa, identidad y RBAC configurados, políticas de gobierno activas.",
     icon: Layers,
   },
@@ -448,7 +528,12 @@ const HUB_PHASES = [
     color: "text-amber-600",
     bg: "bg-amber-50 border-amber-100",
     accent: "#D97706",
-    desc: "Validamos la conectividad end-to-end, el flujo de tráfico entre Spokes a través del Hub, las reglas de firewall y las políticas de gobierno. Incorporamos el primer workload real para verificar que la Landing Zone está lista. Handover con runbooks operativos, guía de incorporación de nuevos Spokes y sesiones de capacitación.",
+    items: [
+      "Validación end-to-end del flujo de tráfico Hub ↔ Spokes y Firewall",
+      "Incorporación del primer workload real como prueba de producción",
+      "Handover con runbooks y guía de incorporación de nuevos Spokes",
+      "Sesiones de capacitación para equipo IT autónomo en el Día 2",
+    ],
     deliverable: "Landing Zone validada en producción, documentación operativa completa y equipo IT habilitado para incorporar nuevos workloads.",
     icon: Rocket,
   },
@@ -892,9 +977,16 @@ export default function OfferingDetail() {
                             <p className="text-[10px] text-[#605E5C] mt-0.5">{ph.subtitle}</p>
                           </div>
                         </div>
-                        {/* Description + deliverable */}
+                        {/* Items + deliverable */}
                         <div className="flex-1 flex flex-col md:flex-row gap-4">
-                          <p className="text-sm text-[#605E5C] leading-relaxed flex-1">{ph.desc}</p>
+                          <ul className="flex-1 space-y-1.5">
+                            {ph.items.map((item, j) => (
+                              <li key={j} className="flex items-start gap-2 text-xs text-[#605E5C]">
+                                <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${ph.color}`} />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
                           <div className={`shrink-0 md:w-56 rounded-xl border p-3 ${ph.bg}`}>
                             <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
                             <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
@@ -1007,7 +1099,14 @@ export default function OfferingDetail() {
                           </div>
                         </div>
                         <div className="flex-1 flex flex-col md:flex-row gap-4">
-                          <p className="text-sm text-[#605E5C] leading-relaxed flex-1">{ph.desc}</p>
+                          <ul className="flex-1 space-y-1.5">
+                            {ph.items.map((item, j) => (
+                              <li key={j} className="flex items-start gap-2 text-xs text-[#605E5C]">
+                                <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${ph.color}`} />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
                           <div className={`shrink-0 md:w-56 rounded-xl border p-3 ${ph.bg}`}>
                             <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
                             <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
@@ -1121,20 +1220,29 @@ export default function OfferingDetail() {
                           </div>
                         </div>
                         {/* Content */}
-                        <div className="flex-1 flex flex-col gap-3">
-                          <p className="text-sm text-[#605E5C] leading-relaxed">{ph.desc}</p>
-                          {/* Migration tracks for phase 3 */}
-                          {ph.tracks.length > 0 && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                              {ph.tracks.map((t, j) => (
-                                <div key={j} className={`rounded-xl border px-3 py-2.5 ${ph.bg}`}>
-                                  <p className={`text-[10px] font-bold uppercase tracking-widest mb-0.5 ${ph.color}`}>{t.label}</p>
-                                  <p className="text-[11px] text-[#605E5C] leading-relaxed">{t.detail}</p>
-                                </div>
+                        <div className="flex-1 flex flex-col md:flex-row gap-4">
+                          <div className="flex-1 flex flex-col gap-3">
+                            <ul className="space-y-1.5">
+                              {ph.items.map((item, j) => (
+                                <li key={j} className="flex items-start gap-2 text-xs text-[#605E5C]">
+                                  <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${ph.color}`} />
+                                  {item}
+                                </li>
                               ))}
-                            </div>
-                          )}
-                          <div className={`rounded-xl border p-3 ${ph.bg}`}>
+                            </ul>
+                            {/* Migration tracks for phase 3 */}
+                            {ph.tracks.length > 0 && (
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                {ph.tracks.map((t, j) => (
+                                  <div key={j} className={`rounded-xl border px-3 py-2.5 ${ph.bg}`}>
+                                    <p className={`text-[10px] font-bold uppercase tracking-widest mb-0.5 ${ph.color}`}>{t.label}</p>
+                                    <p className="text-[11px] text-[#605E5C] leading-relaxed">{t.detail}</p>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          <div className={`shrink-0 md:w-56 rounded-xl border p-3 ${ph.bg}`}>
                             <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
                             <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
                           </div>
@@ -1246,7 +1354,14 @@ export default function OfferingDetail() {
                           </div>
                         </div>
                         <div className="flex-1 flex flex-col md:flex-row gap-4">
-                          <p className="text-sm text-[#605E5C] leading-relaxed flex-1">{ph.desc}</p>
+                          <ul className="flex-1 space-y-1.5">
+                            {ph.items.map((item, j) => (
+                              <li key={j} className="flex items-start gap-2 text-xs text-[#605E5C]">
+                                <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${ph.color}`} />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
                           <div className={`shrink-0 md:w-56 rounded-xl border p-3 ${ph.bg}`}>
                             <p className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${ph.color}`}>Entregable</p>
                             <p className="text-xs text-[#323130] leading-relaxed">{ph.deliverable}</p>
