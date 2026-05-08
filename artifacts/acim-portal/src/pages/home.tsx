@@ -69,6 +69,7 @@ const VALUE_PROPS = [
 /* ─── Impact cases ─── */
 const IMPACT_CASES = [
   {
+    offeringId: 4,
     title: "Spinoff Corporativo Multinacional",
     description: "Diseño e implementación de arquitectura Hub & Spoke para empresa fabricante con operaciones en 12 países. Landing Zone desplegada como IaC en 6 semanas.",
     offering: "Landing Zone Hub & Spoke",
@@ -79,6 +80,7 @@ const IMPACT_CASES = [
     after: "Hub & Spoke con Spokes por ambiente y país. RBAC unificado, Azure Firewall y tráfico centralizado.",
   },
   {
+    offeringId: 2,
     title: "Assessment de Entorno Industrial",
     description: "Auditoría automática con los 3 módulos ACIM: Azure Export Analyzer, Smart Cloud Auditor y Discovery Maps. 2.400 recursos catalogados con riesgos y gaps de gobernanza.",
     offering: "ACIM — Assessment",
@@ -89,6 +91,7 @@ const IMPACT_CASES = [
     after: "Inventario completo con metadata, hallazgos priorizados y hoja de ruta de remediación.",
   },
   {
+    offeringId: 1,
     title: "Control FinOps para Retail Cloud",
     description: "Pipeline IaC con Azure Functions y Cost Exports. Dashboard Power BI con visibilidad del 100% del gasto por equipo, ambiente y tipo de recurso en tiempo real.",
     offering: "Journey to FinOps",
@@ -99,6 +102,7 @@ const IMPACT_CASES = [
     after: "Chargeback automático por departamento. Alertas Advisor activas. 65% ahorro en entornos no-prod.",
   },
   {
+    offeringId: 3,
     title: "Modernización de Escritorios VDI",
     description: "Despliegue de Azure Virtual Desktop para 800 usuarios remotos con golden image automatizada, FSLogix para perfiles y autoscaling por horario laboral.",
     offering: "Accelerator AVD",
@@ -109,6 +113,7 @@ const IMPACT_CASES = [
     after: "Escritorios virtuales con MFA/Zero Trust. Perfiles persistentes. Costo por hora según demanda real.",
   },
   {
+    offeringId: 6,
     title: "Gobierno Híbrido con Azure Arc",
     description: "Onboarding de 200+ servidores on-premises a Azure Arc con scripts PowerShell automatizados y GPO. Update Manager y Azure Policy activados desde el día uno.",
     offering: "Infraestructura Híbrida con Azure Arc",
@@ -119,6 +124,7 @@ const IMPACT_CASES = [
     after: "Inventario centralizado en Azure Portal. Update Manager operativo. Políticas de compliance enforced.",
   },
   {
+    offeringId: 5,
     title: "Road to Cloud con Azure Migrate",
     description: "Clasificación de 150 apps legacy según las 6R, Landing Zone CAF desplegada y migración modular IaaS + PaaS con business case aprobado por el directorio.",
     offering: "Road to Cloud CAF",
@@ -370,23 +376,23 @@ export default function Home() {
       </section>
 
       {/* ─── Casos de Uso Carousel ─── */}
-      <section id="impacto" className="bg-[#0F172A] py-20 overflow-hidden">
+      <section id="impacto" className="py-20 overflow-hidden" style={{ background: "linear-gradient(135deg, #0078D4 0%, #005A9E 60%, #003F6E 100%)" }}>
         <div className="container mx-auto px-6">
           {/* Header row */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
             <div>
-              <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-2">Proyectos finalizados · Resultados reales</p>
+              <p className="text-blue-200 text-xs font-bold uppercase tracking-widest mb-2">Proyectos finalizados · Resultados reales</p>
               <h2 className="text-3xl font-bold text-white tracking-tight">Casos de Uso en Producción</h2>
-              <p className="text-slate-400 text-sm mt-1">Implementaciones entregadas con impacto medido — antes y después.</p>
+              <p className="text-blue-100/70 text-sm mt-1">Implementaciones entregadas con impacto medido — antes y después.</p>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => goTo((activeSlide - 1 + IMPACT_CASES.length) % IMPACT_CASES.length)}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors">
+                className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all">
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <span className="text-slate-500 text-xs tabular-nums px-1">{activeSlide + 1} / {IMPACT_CASES.length}</span>
+              <span className="text-blue-200 text-xs tabular-nums px-2 font-semibold">{activeSlide + 1} / {IMPACT_CASES.length}</span>
               <button onClick={() => goTo((activeSlide + 1) % IMPACT_CASES.length)}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-colors">
+                className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all">
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -399,57 +405,61 @@ export default function Home() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -48 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-4 items-start"
+              className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start"
             >
               {[0, 1, 2].map(offset => {
                 const idx = (activeSlide + offset) % IMPACT_CASES.length;
                 const item = IMPACT_CASES[idx];
                 const isMain = offset === 0;
                 return (
-                  <div
-                    key={idx}
-                    className={`rounded-2xl border transition-all flex flex-col ${
-                      isMain
-                        ? "bg-white/10 border-white/20 shadow-xl shadow-black/30 md:scale-[1.02]"
-                        : "bg-white/4 border-white/8 opacity-60"
-                    }`}
-                  >
-                    {/* Top: offering + metric */}
-                    <div className="p-5 pb-4 border-b border-white/10">
-                      <div className="flex items-start justify-between gap-3 mb-3">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded-full">
-                          {item.offering}
+                  <Link key={idx} href={`/offerings/${item.offeringId}`}>
+                    <div
+                      className={`group rounded-2xl bg-white border flex flex-col cursor-pointer transition-all duration-200 ${
+                        isMain
+                          ? "border-white shadow-2xl shadow-black/25 md:scale-[1.03] hover:shadow-2xl hover:shadow-black/30 hover:border-[#0078D4]/40 hover:-translate-y-1"
+                          : "border-white/90 shadow-lg shadow-black/15 opacity-75 hover:opacity-100 hover:shadow-xl hover:shadow-black/20 hover:border-[#0078D4]/30 hover:-translate-y-0.5"
+                      }`}
+                    >
+                      {/* Top: offering badge + metric */}
+                      <div className="p-5 pb-4 border-b border-gray-100">
+                        <div className="mb-3">
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-[#0078D4] bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-full">
+                            {item.offering}
+                          </span>
+                        </div>
+                        <div className="flex items-end gap-2">
+                          <span className="text-4xl font-extrabold text-[#0078D4] leading-none">{item.metric}</span>
+                          <span className="text-xs text-[#605E5C] mb-1 leading-snug max-w-[130px]">{item.metricLabel}</span>
+                        </div>
+                      </div>
+
+                      {/* Middle: title + description */}
+                      <div className="p-5 pb-4 flex-1">
+                        <h3 className="text-sm font-bold text-[#1A1A1A] mb-2 leading-snug group-hover:text-[#0078D4] transition-colors">{item.title}</h3>
+                        <p className="text-xs text-[#605E5C] leading-relaxed">{item.description}</p>
+                      </div>
+
+                      {/* Before → After */}
+                      <div className="mx-5 mb-5 rounded-xl overflow-hidden border border-gray-100">
+                        <div className="bg-red-50 border-b border-gray-100 px-3 py-2.5">
+                          <p className="text-[9px] font-bold uppercase tracking-widest text-red-500 mb-1">Antes</p>
+                          <p className="text-[11px] text-[#605E5C] leading-relaxed">{item.before}</p>
+                        </div>
+                        <div className="bg-emerald-50 px-3 py-2.5">
+                          <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-600 mb-1">Después</p>
+                          <p className="text-[11px] text-[#323130] leading-relaxed">{item.after}</p>
+                        </div>
+                      </div>
+
+                      {/* Footer: industry + CTA */}
+                      <div className="px-5 pb-4 flex items-center justify-between">
+                        <span className="text-[10px] text-[#605E5C] font-semibold uppercase tracking-wider">{item.industry}</span>
+                        <span className="text-[10px] font-bold text-[#0078D4] flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          Ver offering <ArrowRight className="w-3 h-3" />
                         </span>
                       </div>
-                      <div className="flex items-end gap-2">
-                        <span className="text-4xl font-extrabold text-white leading-none">{item.metric}</span>
-                        <span className="text-xs text-slate-400 mb-1 leading-snug max-w-[120px]">{item.metricLabel}</span>
-                      </div>
                     </div>
-
-                    {/* Middle: title + description */}
-                    <div className="p-5 pb-4 flex-1">
-                      <h3 className="text-base font-bold text-white mb-2 leading-snug">{item.title}</h3>
-                      <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
-                    </div>
-
-                    {/* Bottom: before → after */}
-                    <div className="mx-5 mb-5 rounded-xl border border-white/8 overflow-hidden">
-                      <div className="bg-red-500/8 border-b border-white/8 px-3 py-2.5">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-red-400 mb-1">Antes</p>
-                        <p className="text-[11px] text-slate-400 leading-relaxed">{item.before}</p>
-                      </div>
-                      <div className="bg-emerald-500/8 px-3 py-2.5">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-emerald-400 mb-1">Después</p>
-                        <p className="text-[11px] text-slate-300 leading-relaxed">{item.after}</p>
-                      </div>
-                    </div>
-
-                    {/* Industry tag */}
-                    <div className="px-5 pb-4">
-                      <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{item.industry}</span>
-                    </div>
-                  </div>
+                  </Link>
                 );
               })}
             </motion.div>
@@ -459,7 +469,7 @@ export default function Home() {
           <div className="flex items-center justify-center gap-2 mt-8">
             {IMPACT_CASES.map((_, i) => (
               <button key={i} onClick={() => goTo(i)}
-                className={`h-1.5 rounded-full transition-all ${i === activeSlide ? "bg-white w-8" : "bg-white/20 w-2 hover:bg-white/40"}`} />
+                className={`h-1.5 rounded-full transition-all ${i === activeSlide ? "bg-white w-8" : "bg-white/40 w-2 hover:bg-white/70"}`} />
             ))}
           </div>
         </div>
