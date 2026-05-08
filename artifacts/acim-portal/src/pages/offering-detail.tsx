@@ -1411,8 +1411,8 @@ export default function OfferingDetail() {
                         </span>
                       </div>
                     </div>
-                    <p className="text-sm text-[#605E5C] leading-relaxed mb-5">{uc.description}</p>
-                    <div className="mt-auto grid grid-cols-2 gap-3">
+                    <p className="text-sm text-[#605E5C] leading-relaxed mb-4">{uc.description}</p>
+                    <div className="grid grid-cols-2 gap-3">
                       <div className="bg-red-50 border border-red-100 rounded-xl p-3">
                         <div className="flex items-center gap-1.5 mb-2">
                           <XCircle className="w-3.5 h-3.5 text-red-500 shrink-0" />
