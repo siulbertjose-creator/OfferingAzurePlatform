@@ -410,16 +410,10 @@ export default function Home() {
               {[0, 1, 2].map(offset => {
                 const idx = (activeSlide + offset) % IMPACT_CASES.length;
                 const item = IMPACT_CASES[idx];
-                const isMain = offset === 0;
                 return (
                   <Link key={idx} href={`/offerings/${item.offeringId}`}>
-                    <div
-                      className={`group rounded-2xl bg-white border flex flex-col cursor-pointer transition-all duration-200 ${
-                        isMain
-                          ? "border-white shadow-2xl shadow-black/25 md:scale-[1.03] hover:shadow-2xl hover:shadow-black/30 hover:border-[#0078D4]/40 hover:-translate-y-1"
-                          : "border-white/90 shadow-lg shadow-black/15 opacity-75 hover:opacity-100 hover:shadow-xl hover:shadow-black/20 hover:border-[#0078D4]/30 hover:-translate-y-0.5"
-                      }`}
-                    >
+                    <div className="group rounded-2xl bg-white border border-white/90 shadow-lg shadow-black/15 flex flex-col cursor-pointer transition-all duration-200 hover:shadow-xl hover:shadow-black/25 hover:border-[#0078D4]/40 hover:-translate-y-1">
+
                       {/* Top: offering badge + metric */}
                       <div className="p-5 pb-4 border-b border-gray-100">
                         <div className="mb-3">
